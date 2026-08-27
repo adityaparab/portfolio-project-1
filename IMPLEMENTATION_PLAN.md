@@ -69,7 +69,7 @@
 - [x] 1.5 Gateway client: thin `openai`-SDK wrapper over LiteLLM endpoint — virtual aliases, PII redaction, schema validation, token budgets, retries/backoff
 - [x] 1.6 Extraction agent: doc → typed `InvoiceExtraction` (Pydantic) with per-field confidence, via `extract-vision` alias
 - [x] 1.7 Validate node: schema checks, line-math, tax checks (deterministic)
-- [ ] 1.8 Download + preprocess Voxel51 subset (incl. quality-tier labeling A/B/C)
+- [x] 1.8 Download + preprocess Voxel51 subset (incl. quality-tier labeling A/B/C)
 - [ ] 1.9 Baseline extraction field F1 report (per-field, per-tier) — no targets yet
 
 ## Phase 2 — 3-Way Match + Policy Engine (Week 4)
