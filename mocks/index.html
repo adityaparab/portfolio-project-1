@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>InvoiceOps Agent — Interactive Mock</title>
+<style>
+  :root{
+    --bg:#0b0f14; --panel:#11161d; --panel2:#0e131a; --border:#1f2733; --border2:#2a3547;
+    --text:#d7dee8; --muted:#8b98a9; --faint:#5c6878;
+    --accent:#4da3ff; --green:#3fb950; --red:#f85149; --amber:#d29922; --violet:#a371f7; --cyan:#39c5cf;
+    --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.5}
+  a{color:var(--accent)}
+
+  /* ---------- top bar ---------- */
+  .topbar{display:flex;align-items:center;gap:18px;padding:10px 20px;border-bottom:1px solid var(--border);background:var(--panel2);position:sticky;top:0;z-index:50;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:15px;letter-spacing:.2px}
+  .brand .logo{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#1f6feb,#39c5cf);display:flex;align-items:center;justify-content:center;font-size:13px;color:#fff;font-family:var(--mono)}
+  .brand small{color:var(--faint);font-weight:500}
+  nav.tabs{display:flex;gap:4px;flex:1;flex-wrap:wrap}
+  nav.tabs button{background:none;border:1px solid transparent;color:var(--muted);padding:7px 13px;border-radius:8px;cursor:pointer;font-size:13.5px;font-family:var(--sans)}
+  nav.tabs button:hover{color:var(--text);background:#161d27}
+  nav.tabs button.active{color:#fff;background:#1b2534;border-color:var(--border2)}
+  nav.tabs button .badge{display:inline-block;min-width:18px;text-align:center;background:var(--red);color:#fff;border-radius:9px;font-size:11px;padding:0 5px;margin-left:6px;font-weight:700}
+  .env{font-family:var(--mono);font-size:11px;color:var(--amber);border:1px solid #3d3215;background:#241d0d;padding:3px 9px;border-radius:20px;white-space:nowrap}
+
+  main{max-width:1280px;margin:0 auto;padding:22px 20px 60px}
+  .panel{display:none}
+  .panel.active{display:block;animation:fade .18s ease}
+  @keyframes fade{from{opacity:.4;transform:translateY(3px)}to{opacity:1;transform:none}}
+
+  h1{font-size:20px;margin-bottom:4px}
+  h2{font-size:15px;margin-bottom:10px;color:var(--text)}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:18px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px}
+  .grid{display:grid;gap:14px}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+  .kpi{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:13px 15px}
+  .kpi .label{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+  .kpi .value{font-size:23px;font-weight:700;margin-top:3px;font-family:var(--mono)}
+  .kpi .delta{font-size:11.5px;margin-top:2px}
+  .up{color:var(--green)} .down{color:var(--red)} .flat{color:var(--faint)}
+
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{color:var(--muted);text-align:left;font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;padding:8px 10px;border-bottom:1px solid var(--border)}
+  td{padding:9px 10px;border-bottom:1px solid #161d27;vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  tr.clickable{cursor:pointer}
+  tr.clickable:hover td{background:#141b25}
+  .mono{font-family:var(--mono);font-size:12.5px}
+  .num{text-align:right}
+  #queueTable td:first-child,#decTable td.mono{white-space:nowrap}
+  #queueTable .chip{white-space:nowrap}
+
+  .chip{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:12px;font-family:var(--mono);white-space:nowrap}
+  .chip.auto{background:#0f2e18;color:var(--green);border:1px solid #1b5e2d}
+  .chip.exc{background:#3a1d0c;color:#e3a341;border:1px solid #6e4318}
+  .chip.high{background:#3b1214;color:#ff7b72;border:1px solid #7d2930}
+  .chip.paid{background:#0c2230;color:#58c7e3;border:1px solid #1c5068}
+  .chip.pending{background:#241d0d;color:#d8a63d;border:1px solid #4d3d14}
+  .chip.info{background:#111c2c;color:#6cb2ff;border:1px solid #234467}
+  .chip.gray{background:#191f28;color:#98a5b5;border:1px solid #2a3547}
+
+  .btn{background:#1b2534;border:1px solid var(--border2);color:var(--text);padding:7px 14px;border-radius:8px;cursor:pointer;font-size:13px;font-family:var(--sans)}
+  .btn:hover{background:#233048;border-color:#384864}
+  .btn.primary{background:#1f6feb;border-color:#2f81f7;color:#fff;font-weight:600}
+  .btn.primary:hover{background:#2f81f7}
+  .btn.success{background:#1a4d2b;border-color:#238636;color:#7ee29b;font-weight:600}
+  .btn.success:hover{background:#238636;color:#fff}
+  .btn.danger{background:#4a1d20;border-color:#8b2f26;color:#ffa7a0}
+  .btn.danger:hover{background:#6e2622}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn.small{padding:4px 10px;font-size:12px}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+
+  /* ---------- intake ---------- */
+  .dropzone{border:2px dashed var(--border2);border-radius:12px;padding:34px;text-align:center;color:var(--muted);margin-bottom:14px}
+  .dropzone:hover{border-color:var(--accent);color:var(--text)}
+  .feeditem{display:flex;align-items:center;gap:12px;padding:11px 12px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--panel)}
+  .feeditem .ico{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+  .feeditem .from{font-weight:600;font-size:13px}
+  .feeditem .meta{color:var(--muted);font-size:12px}
+  .feeditem .grow{flex:1;min-width:0}
+  .scenariopick{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:18px}
+  .scen{border:1px solid var(--border);border-radius:12px;padding:14px;cursor:pointer;background:var(--panel)}
+  .scen:hover{border-color:var(--border2)}
+  .scen.sel{border-color:var(--accent);background:#101b2b;box-shadow:0 0 0 1px var(--accent)}
+  .scen .t{font-weight:700;font-size:13.5px;margin-bottom:3px}
+  .scen .d{color:var(--muted);font-size:12px}
+
+  /* ---------- pipeline ---------- */
+  .pipeline{display:flex;align-items:stretch;gap:0;margin:6px 0 4px;flex-wrap:wrap}
+  .pnode{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 12px;min-width:118px;flex:1}
+  .pnode .nm{font-weight:700;font-size:12.5px;font-family:var(--mono);display:flex;align-items:center;gap:7px}
+  .pnode .rl{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.35}
+  .pnode .st{font-size:10.5px;font-family:var(--mono);margin-top:6px;color:var(--faint)}
+  .parrow{display:flex;align-items:center;color:var(--faint);padding:0 4px;font-size:15px;flex-shrink:0}
+  .pnode.idle{opacity:.55}
+  .pnode.running{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);opacity:1;animation:pulse 1.1s ease-in-out infinite}
+  @keyframes pulse{0%,100%{box-shadow:0 0 0 1px var(--accent)}50%{box-shadow:0 0 0 3px rgba(77,163,255,.35)}}
+  .pnode.done{border-color:#1b5e2d;opacity:1}
+  .pnode.done .st{color:var(--green)}
+  .pnode.flag{border-color:#7d2930;opacity:1}
+  .pnode.flag .st{color:#ff7b72}
+  .pnode.skipped{opacity:.28;filter:saturate(.3)}
+  .dot{width:8px;height:8px;border-radius:50%;background:#333c4a;flex-shrink:0}
+  .pnode.running .dot{background:var(--accent)} .pnode.done .dot{background:var(--green)} .pnode.flag .dot{background:var(--red)}
+
+  .branchzone{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:10px}
+  .branchrows{display:flex;flex-direction:column;gap:8px}
+  .branch{display:flex;align-items:center;gap:0;padding:6px 10px;border:1px dashed var(--border);border-radius:10px}
+  .branch.taken{border-style:solid;border-color:#23863666;background:#0d1a12}
+  .branch.taken.err{border-color:#7d293066;background:#1a0e0f}
+  .branch.skipped{opacity:.3;filter:saturate(.3)}
+  .branch .tag{font-size:10.5px;color:var(--muted);font-family:var(--mono);margin:0 10px;white-space:nowrap}
+
+  /* ---------- run screen ---------- */
+  .runhead{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+  .runhead .big{font-size:17px;font-weight:700;font-family:var(--mono)}
+  .runstats{display:flex;gap:10px;flex-wrap:wrap}
+  .pillstat{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:6px 12px;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+  .pillstat b{color:var(--text)}
+  .runlayout{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:1000px){.runlayout{grid-template-columns:1.55fr 1fr}}
+  .log{font-family:var(--mono);font-size:12px;background:#0a0e13;border:1px solid var(--border);border-radius:10px;padding:12px;height:380px;overflow-y:auto}
+  .logline{padding:2.5px 0;border-bottom:1px solid #121821;animation:fade .2s ease}
+  .logline .ts{color:var(--faint);margin-right:8px}
+  .ltag{display:inline-block;font-size:10px;font-weight:700;border-radius:4px;padding:1px 6px;margin-right:8px;min-width:52px;text-align:center}
+  .ltag.tool{background:#0c2b30;color:var(--cyan)} .ltag.check{background:#0f2e18;color:var(--green)}
+  .ltag.policy{background:#231540;color:#c49bff} .ltag.model{background:#33240c;color:#e3b341}
+  .ltag.route{background:#11244a;color:#79b8ff} .ltag.ledger{background:#1c2128;color:#98a5b5} .ltag.info{background:#1c2128;color:#8b98a9}
+  .logline.warn .msg{color:#e3b341} .logline.err .msg{color:#ff7b72} .logline.good .msg{color:#7ee29b}
+
+  /* ---------- review ---------- */
+  .revlayout{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:1000px){.revlayout{grid-template-columns:1.9fr 1fr}}
+  .confbarwrap{display:flex;align-items:center;gap:10px;margin:6px 0 2px}
+  .confbar{flex:1;height:8px;background:#1c2430;border-radius:5px;overflow:hidden}
+  .confbar>div{height:100%;border-radius:5px;background:linear-gradient(90deg,#2f81f7,#3fb950)}
+  .cellbad{background:#3b1214 !important;color:#ff9b94 !important;font-weight:700}
+  .deltabadge{display:inline-block;background:#3b1214;color:#ff9b94;border:1px solid #7d2930;font-family:var(--mono);font-size:10.5px;border-radius:5px;padding:1px 6px;margin-left:7px}
+  .finding{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid #161d27}
+  .finding:last-child{border-bottom:none}
+  .finding .fi{width:24px;height:24px;border-radius:7px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px}
+  .finding .ft{font-weight:600;font-size:13px}
+  .finding .fd{color:var(--muted);font-size:12.5px}
+  .cites{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+  .cite{background:#0c2230;border:1px solid #1c5068;color:#58c7e3;font-family:var(--mono);font-size:11px;border-radius:7px;padding:3px 9px;cursor:pointer}
+  .cite:hover{background:#123248}
+  .snippet{display:none;margin-top:10px;border-left:3px solid #1c5068;background:#0a1620;padding:10px 12px;border-radius:0 8px 8px 0;font-size:12.5px;color:#a9c5d3;font-family:var(--mono)}
+  .snippet.show{display:block;animation:fade .2s ease}
+  .trail{list-style:none}
+  .trail li{position:relative;padding:0 0 14px 22px;border-left:1px solid var(--border2);margin-left:8px}
+  .trail li:last-child{border-left-color:transparent}
+  .trail li::before{content:"";position:absolute;left:-5px;top:5px;width:9px;height:9px;border-radius:50%;background:#333c4a}
+  .trail li.sys::before{background:var(--accent)} .trail li.agent::before{background:var(--amber)} .trail li.human::before{background:var(--green)} .trail li.policyev::before{background:var(--violet)}
+  .trail .tt{font-size:12px;color:var(--faint);font-family:var(--mono)}
+  .trail .tx{font-size:12.5px}
+  .sla{font-family:var(--mono);font-size:12px;color:#d8a63d}
+
+  /* ---------- audit ---------- */
+  .spans{list-style:none;margin-top:4px}
+  .spans li{display:grid;grid-template-columns:170px 70px 1fr;gap:10px;align-items:center;padding:7px 8px;border-bottom:1px solid #161d27;font-family:var(--mono);font-size:12px}
+  .spans .bar{height:9px;background:#1c2430;border-radius:4px;position:relative;overflow:hidden}
+  .spans .bar>div{position:absolute;top:0;height:100%;background:linear-gradient(90deg,#1f6feb,#39c5cf);border-radius:4px}
+  .spans .m{color:var(--amber)}
+  details.exp{border:1px solid var(--border);border-radius:10px;margin-bottom:10px;background:var(--panel)}
+  details.exp summary{padding:11px 14px;cursor:pointer;list-style:none;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  details.exp summary::-webkit-details-marker{display:none}
+  details.exp[open] summary{border-bottom:1px solid var(--border)}
+  .expbody{padding:14px}
+  .provgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:12px}
+  .prov{border:1px solid var(--border);border-radius:9px;padding:10px 12px;background:var(--panel2)}
+  .prov .pl{font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+  .prov .pv{font-family:var(--mono);font-size:12.5px;margin-top:2px}
+
+  /* ---------- evals ---------- */
+  .better{color:var(--green);font-family:var(--mono);font-size:11px}
+  .worse{color:var(--red);font-family:var(--mono);font-size:11px}
+  .same{color:var(--faint);font-family:var(--mono);font-size:11px}
+  .cibar{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0}
+  .cistep{font-family:var(--mono);font-size:11px;border-radius:6px;padding:3px 9px;border:1px solid var(--border2);color:var(--muted)}
+  .cistep.pass{border-color:#1b5e2d;color:var(--green);background:#0d1a12}
+  .cistep.run{border-color:#234467;color:#6cb2ff;background:#0d1626}
+  .note{border-left:3px solid var(--amber);background:#191308;padding:9px 13px;border-radius:0 8px 8px 0;color:#cdb27a;font-size:12.5px;margin-top:14px}
+
+  /* ---------- toast & modal ---------- */
+  #toasts{position:fixed;right:18px;bottom:18px;display:flex;flex-direction:column;gap:9px;z-index:200;max-width:360px}
+  .toast{background:#161d27;border:1px solid var(--border2);border-left:3px solid var(--accent);border-radius:10px;padding:11px 14px;box-shadow:0 8px 24px rgba(0,0,0,.5);animation:fade .2s ease}
+  .toast.ok{border-left-color:var(--green)} .toast.warn{border-left-color:var(--amber)} .toast.err{border-left-color:var(--red)}
+  .toast .t1{font-weight:700;font-size:13px}
+  .toast .t2{color:var(--muted);font-size:12px;margin-top:2px}
+  #overlay{position:fixed;inset:0;background:rgba(5,8,12,.72);display:none;align-items:center;justify-content:center;z-index:300}
+  #overlay.show{display:flex}
+  .modal{background:var(--panel);border:1px solid var(--border2);border-radius:14px;width:min(520px,92vw);padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+  .modal h3{font-size:16px;margin-bottom:8px}
+  .modal .mb{color:var(--muted);font-size:13px;margin-bottom:6px}
+  .modal select{width:100%;margin-top:8px;background:#0d1319;border:1px solid var(--border2);color:var(--text);border-radius:8px;padding:8px 10px;font-size:13px}
+  .mfoot{display:flex;justify-content:flex-end;gap:10px;margin-top:18px}
+
+  .empty{border:1px dashed var(--border2);border-radius:12px;padding:40px 20px;text-align:center;color:var(--muted)}
+  .empty .big{font-size:15px;color:var(--text);margin-bottom:4px}
+  .twofer{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+  footer{color:var(--faint);font-size:12px;text-align:center;padding:18px;font-family:var(--mono)}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><div class="logo">IO</div><div>InvoiceOps Agent <small>· S2P platform</small></div></div>
+  <nav class="tabs" id="tabs">
+    <button data-tab="dashboard" class="active">Dashboard</button>
+    <button data-tab="intake">Intake</button>
+    <button data-tab="run">Agent Run</button>
+    <button data-tab="review">Exception Review <span class="badge" id="revBadge">2</span></button>
+    <button data-tab="audit">Audit &amp; Traces</button>
+    <button data-tab="evals">Evals</button>
+  </nav>
+  <span class="env">DEMO · synthetic data only</span>
+</header>
+
+<main>
+
+<!-- ================= DASHBOARD ================= -->
+<section class="panel active" id="panel-dashboard">
+  <h1>Operations Dashboard</h1>
+  <div class="sub">Today · entity DEMO-BANK-01 · all figures from synthetic workload</div>
+  <div class="kpis" id="kpis"></div>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(420px,1fr))">
+    <div class="card">
+      <h2>Invoice queue</h2>
+      <table id="queueTable"><thead><tr>
+        <th>Invoice</th><th>Vendor</th><th class="num">Amount</th><th>Status</th><th>Conf.</th><th>Assignee</th><th></th>
+      </tr></thead><tbody></tbody></table>
+    </div>
+    <div class="card">
+      <h2>Recent decisions</h2>
+      <table id="decTable"><thead><tr>
+        <th>Time</th><th>Invoice</th><th>Decision</th><th>Actor</th><th>Trace</th>
+      </tr></thead><tbody></tbody></table>
+      <div class="btnrow"><button class="btn small" onclick="switchTab('audit')">Open audit ledger →</button></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= INTAKE ================= -->
+<section class="panel" id="panel-intake">
+  <h1>Ingestion</h1>
+  <div class="sub">Channels: inbound email · web upload · partner API push. Every document is hashed on arrival (idempotency + duplicate detection) and stored immutably.</div>
+
+  <div class="card" style="margin-bottom:14px">
+    <h2>Choose a demo scenario</h2>
+    <div class="scenariopick" id="scenarioPick">
+      <div class="scen sel" data-s="clean">
+        <div class="t">✅ Clean invoice — straight-through</div>
+        <div class="d">INV-2088 · Meridian Office Supplies · matches PO-4417 · will auto-approve end-to-end</div>
+      </div>
+      <div class="scen" data-s="mismatch">
+        <div class="t">⚠️ Price mismatch — exception path</div>
+        <div class="d">INV-2094 · Kestrel Industrial Parts · line 2 prices 9.6% over PO · routes to HITL queue</div>
+      </div>
+      <div class="scen" data-s="dup">
+        <div class="t">🚨 Suspected duplicate — fraud path</div>
+        <div class="d">INV-2101 · Northwind Facility Services · re-issued paid invoice · HIGH severity, hard-blocked</div>
+      </div>
+    </div>
+    <div class="btnrow" style="margin-top:4px">
+      <button class="btn primary" id="btnProcess" onclick="startSelected()">▶ Process invoice</button>
+      <span style="color:var(--faint);font-size:12px;align-self:center">runs the animated pipeline in <b>Agent Run</b></span>
+    </div>
+  </div>
+
+  <div class="twofer">
+    <div class="card">
+      <h2>Inbound email channel</h2>
+      <div id="mailFeed"></div>
+    </div>
+    <div class="card">
+      <h2>Upload / API push</h2>
+      <div class="dropzone">⬆︎ &nbsp;Drop invoice PDFs here<br><span style="font-size:12px">(demo: use the scenario picker)</span></div>
+      <table>
+        <thead><tr><th>API</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">POST /v1/invoices</td><td>push channel, multipart</td></tr>
+          <tr><td class="mono">POST /v1/invoices/email-webhook</td><td>HMAC-signed inbound mail</td></tr>
+          <tr><td class="mono">GET&nbsp; /v1/runs/{id}/trace</td><td>node-by-node trace</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AGENT RUN ================= -->
+<section class="panel" id="panel-run">
+  <h1>Agent Run — LangGraph pipeline</h1>
+  <div class="sub">Durable execution: state checkpoints after every node · all model calls routed through the LLM Gateway · every event streamed to the audit ledger.</div>
+
+  <div class="runhead">
+    <div class="big" id="runInvoice">—</div>
+    <span class="chip info" id="runVendor">—</span>
+    <span class="chip gray mono" id="runAmount">—</span>
+    <div class="runstats">
+      <span class="pillstat">elapsed <b id="runElapsed">0.0s</b></span>
+      <span class="pillstat">token cost <b id="runCost">$0.0000</b></span>
+      <span class="pillstat">status <b id="runStatus">idle</b></span>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="pipeline" id="pipeline">
+      <div class="pnode idle" data-n="ingest"><div class="nm"><span class="dot"></span>Ingest</div><div class="rl">hash · dedupe · idempotency</div><div class="st">—</div></div>
+      <div class="parrow">→</div>
+      <div class="pnode idle" data-n="extract"><div class="nm"><span class="dot"></span>Extract</div><div class="rl">VLM tool → typed fields + conf</div><div class="st">—</div></div>
+      <div class="parrow">→</div>
+      <div class="pnode idle" data-n="validate"><div class="nm"><span class="dot"></span>Validate</div><div class="rl">schema · math · tax · IBAN</div><div class="st">—</div></div>
+      <div class="parrow">→</div>
+      <div class="pnode idle" data-n="match"><div class="nm"><span class="dot"></span>Match3Way</div><div class="rl">invoice ↔ PO ↔ GR (deterministic)</div><div class="st">—</div></div>
+      <div class="parrow">→</div>
+      <div class="pnode idle" data-n="policy"><div class="nm"><span class="dot"></span>Policy</div><div class="rl">rules · duplicate · bank-change</div><div class="st">—</div></div>
+      <div class="parrow">→</div>
+      <div class="pnode idle" data-n="gate"><div class="nm"><span class="dot"></span>Gate</div><div class="rl">composite confidence ≥ τ</div><div class="st">—</div></div>
+    </div>
+    <div class="branchzone">
+      <div class="branchrows">
+        <div class="branch" id="branchAuto">
+          <span class="tag">conf ≥ τ &amp; policy PASS</span>
+          <div class="pnode idle" data-n="auto" style="min-width:130px"><div class="nm"><span class="dot"></span>AutoApprove</div><div class="rl">ledger write · payment queue</div><div class="st">—</div></div>
+          <div class="parrow">→</div>
+          <div class="pnode idle" data-n="archive" style="min-width:110px"><div class="nm"><span class="dot"></span>Archive</div><div class="rl">close run · emit metrics</div><div class="st">—</div></div>
+        </div>
+        <div class="branch" id="branchExc">
+          <span class="tag">conf &lt; τ · mismatch · policy FAIL</span>
+          <div class="pnode idle" data-n="triage" style="min-width:150px"><div class="nm"><span class="dot"></span>ExceptionTriage</div><div class="rl">agent: evidence · classification · recommendation</div><div class="st">—</div></div>
+          <div class="parrow">→</div>
+          <div class="pnode idle" data-n="human" style="min-width:140px"><div class="nm"><span class="dot"></span>HumanReview</div><div class="rl">HITL queue · decision + rationale</div><div class="st">—</div></div>
+          <div class="parrow">→</div>
+          <div class="pnode idle" data-n="archive2" style="min-width:110px"><div class="nm"><span class="dot"></span>Archive</div><div class="rl">close run · emit metrics</div><div class="st">—</div></div>
+        </div>
+      </div>
+      <div class="card" style="align-self:center;padding:10px 14px;background:var(--panel2)">
+        <div style="font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px">τ operating point</div>
+        <div class="mono" style="font-size:15px">0.90</div>
+        <div style="font-size:10.5px;color:var(--faint)">swept via eval · see Evals</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="runlayout">
+    <div class="card">
+      <h2>Live run log <span style="color:var(--faint);font-weight:400;font-size:12px">(tool · check · policy · model · route · ledger events)</span></h2>
+      <div class="log" id="runLog"><div class="logline" style="color:var(--faint)">waiting for a run — pick a scenario in <b>Intake</b> and press “Process invoice”…</div></div>
+    </div>
+    <div class="card">
+      <h2>Why this design</h2>
+      <ul class="trail" style="margin-top:6px">
+        <li class="sys"><div class="tt">design</div><div class="tx"><b>Determinism at the edges.</b> Matching &amp; policy are pure code — auditors can recompute them. The LLM extracts &amp; explains; it never authorizes payment.</div></li>
+        <li class="policyev"><div class="tt">design</div><div class="tx"><b>Hard blocks.</b> A HIGH-severity policy rule (e.g., duplicate) forces human review regardless of model confidence.</div></li>
+        <li class="agent"><div class="tt">design</div><div class="tx"><b>Abstain, don't guess.</b> Below τ the gate escalates. τ was chosen from an eval sweep — a risk decision made with data.</div></li>
+        <li class="sys"><div class="tt">design</div><div class="tx"><b>Crash-safe.</b> Postgres checkpointer after every node; resume, never restart-and-double-pay.</div></li>
+        <li class="human"><div class="tt">design</div><div class="tx"><b>Everything recorded.</b> Model, prompt-template &amp; policy versions pinned per decision — point-in-time provenance.</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXCEPTION REVIEW ================= -->
+<section class="panel" id="panel-review">
+  <h1>Exception Review <span style="color:var(--faint);font-size:13px;font-weight:400">— human-in-the-loop</span></h1>
+  <div class="sub" id="revSub">Evidence package assembled by the triage agent. The agent recommends; a human decides.</div>
+  <div id="reviewBody"></div>
+</section>
+
+<!-- ================= AUDIT ================= -->
+<section class="panel" id="panel-audit">
+  <h1>Audit Ledger &amp; Traces</h1>
+  <div class="sub">Every run, node, model call, guardrail outcome, and human decision — with point-in-time version pins. Exportable as a self-contained audit package.</div>
+  <div id="auditBody"></div>
+  <div class="card" style="margin-top:14px">
+    <h2>Decision provenance (selected run)</h2>
+    <div class="provgrid" id="provGrid"></div>
+    <div class="btnrow"><button class="btn small" onclick="toast('Export queued','Audit package: document + extraction + comparisons + trail + decision (JSON + PDF)','ok')">⬇ Export audit package</button></div>
+  </div>
+</section>
+
+<!-- ================= EVALS ================= -->
+<section class="panel" id="panel-evals">
+  <h1>Evaluation &amp; CI Gate</h1>
+  <div class="sub">500-invoice golden dataset · 150 with injected anomalies · full pipeline runs headless in CI on every PR · regressions block merge.</div>
+
+  <div class="card" style="margin-bottom:14px">
+    <h2>Version-over-version (experiment log)</h2>
+    <table>
+      <thead><tr><th>Ver</th><th>Hypothesis → change</th><th class="num">Recall</th><th class="num">False-esc.</th><th class="num">Field F1</th><th class="num">STP</th><th class="num">$/inv</th><th class="num">p95</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">v0.1</td><td>baseline — single VLM pass, τ=0.90</td><td class="num mono">0.940</td><td class="num mono">0.110</td><td class="num mono">0.910</td><td class="num mono">58%</td><td class="num mono">$0.061</td><td class="num mono">52s</td><td><span class="chip gray">baseline</span></td></tr>
+        <tr><td class="mono">v0.2</td><td>structured output + few-shot lifts extraction</td><td class="num mono">0.950 <span class="better">▲</span></td><td class="num mono">0.080 <span class="better">▼</span></td><td class="num mono">0.945 <span class="better">▲</span></td><td class="num mono">63% <span class="better">▲</span></td><td class="num mono">$0.052 <span class="better">▼</span></td><td class="num mono">47s <span class="better">▼</span></td><td><span class="chip auto">ship</span></td></tr>
+        <tr><td class="mono">v0.3</td><td>composite confidence gate; τ swept → 0.88</td><td class="num mono">0.980 <span class="better">▲</span></td><td class="num mono">0.050 <span class="better">▼</span></td><td class="num mono">0.946 <span class="same">—</span></td><td class="num mono">71% <span class="better">▲</span></td><td class="num mono">$0.041 <span class="better">▼</span></td><td class="num mono">44s <span class="better">▼</span></td><td><span class="chip auto">ship</span></td></tr>
+      </tbody>
+    </table>
+    <div class="note">Figures are planning targets demonstrating the report format (see docs/EVALUATION.md §4); the committed experiment log fills in as builds complete.</div>
+  </div>
+
+  <div class="twofer">
+    <div class="card">
+      <h2>Anomaly detection by type (golden set)</h2>
+      <table>
+        <thead><tr><th>Code</th><th class="num">N</th><th class="num">Recall</th><th class="num">Precision</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">DUP_EXACT</td><td class="num mono">15</td><td class="num mono">1.00</td><td class="num mono">1.00</td></tr>
+          <tr><td class="mono">DUP_NEAR</td><td class="num mono">10</td><td class="num mono">0.90</td><td class="num mono">0.90</td></tr>
+          <tr><td class="mono">PRICE_MM</td><td class="num mono">25</td><td class="num mono">1.00</td><td class="num mono">0.96</td></tr>
+          <tr><td class="mono">QTY_MM</td><td class="num mono">15</td><td class="num mono">1.00</td><td class="num mono">0.94</td></tr>
+          <tr><td class="mono">MISSING_PO</td><td class="num mono">20</td><td class="num mono">1.00</td><td class="num mono">0.95</td></tr>
+          <tr><td class="mono">BANK_CHANGE</td><td class="num mono">10</td><td class="num mono">1.00</td><td class="num mono">1.00</td></tr>
+          <tr><td class="mono">CCY_MM · TAX_ERR · MATH_ERR · STALE_PO</td><td class="num mono">35</td><td class="num mono">0.97</td><td class="num mono">1.00</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <h2>CI gate — PR #142 “tweak extraction prompt (few-shot)”</h2>
+      <div class="cibar">
+        <span class="cistep pass">✓ lint</span>
+        <span class="cistep pass">✓ unit</span>
+        <span class="cistep pass">✓ integration</span>
+        <span class="cistep run">⟳ eval-gate (golden/v1.2.0 · 500 inv)</span>
+        <span class="cistep">build</span>
+      </div>
+      <table>
+        <thead><tr><th>Metric</th><th class="num">main</th><th class="num">this PR</th><th></th></tr></thead>
+        <tbody>
+          <tr><td>Exception recall</td><td class="num mono">0.980</td><td class="num mono">0.979</td><td class="same">Δ −0.001 ok</td></tr>
+          <tr><td>Extraction field F1</td><td class="num mono">0.946</td><td class="num mono">0.951</td><td class="better">▲ +0.005</td></tr>
+          <tr><td>False-escalation</td><td class="num mono">0.050</td><td class="num mono">0.050</td><td class="same">—</td></tr>
+          <tr><td>Cost / invoice</td><td class="num mono">$0.041</td><td class="num mono">$0.043</td><td class="worse">▲ +$0.002 ok (&lt; +5%)</td></tr>
+        </tbody>
+      </table>
+      <div class="note" style="border-left-color:var(--green);background:#0d1a12;color:#7ee29b">Gate policy: block if any primary metric regresses &gt; 0.5% absolute or falls below target floor.</div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>InvoiceOps Agent · interactive mock · portfolio project 1/3 · maps to docs/USER_JOURNEY.md journeys A–E</footer>
+
+<div id="toasts"></div>
+<div id="overlay"><div class="modal" id="modalBox"></div></div>
+
+<script>
+/* ============================================================
+   InvoiceOps Agent — interactive mock
+   Stateful simulation: process invoices, create exceptions,
+   approve/reject with ledger writes, dashboard updates.
+   ============================================================ */
+const $  = (s, el) => (el||document).querySelector(s);
+const $$ = (s, el) => Array.from((el||document).querySelectorAll(s));
+
+let clock = new Date('2026-08-27T10:42:00');
+
+/* ---------------- state ---------------- */
+const state = {
+  invoices: [
+    { id:'INV-2087', vendor:'Baltmore Logistics',        amount:'$6,320.00',  status:'AUTO',  conf:'0.96', assignee:'—',        age:'12m', route:'AUTO' },
+    { id:'INV-2090', vendor:'Harbor & Dean LLP (legal)', amount:'$9,850.00',  status:'EXC',   conf:'0.71', assignee:'Maria C.', age:'3h',  route:'MISSING_PO' },
+    { id:'INV-2092', vendor:'Atlas Print & Mail',        amount:'$2,145.00',  status:'EXC',   conf:'0.88', assignee:'Maria C.', age:'1d',  route:'QTY_MM' },
+    { id:'INV-2085', vendor:'Northwind Facility Svcs',   amount:'$8,940.00',  status:'PAID',  conf:'0.97', assignee:'—',        age:'3w',  route:'AUTO' },
+    { id:'INV-2083', vendor:'Cedarline Data Centers',    amount:'$41,300.00', status:'PAID',  conf:'0.95', assignee:'—',        age:'3w',  route:'AUTO' },
+  ],
+  exceptions: [
+    { id:'EXC-0190', invoice:'INV-2090', type:'MISSING_PO', severity:'MEDIUM', assignee:'Maria Chen', conf:0.71 },
+    { id:'EXC-0191', invoice:'INV-2092', type:'QTY_MM',     severity:'MEDIUM', assignee:'Maria Chen', conf:0.88 },
+  ],
+  decisions: [
+    { t:'10:12', inv:'INV-2087', dec:'AUTO-APPROVE', actor:'SYSTEM · conf 0.96' },
+    { t:'09:47', inv:'INV-2086', dec:'APPROVE & PAY', actor:'Maria Chen (HITL)' },
+    { t:'09:31', inv:'INV-2084', dec:'AUTO-APPROVE', actor:'SYSTEM · conf 0.94' },
+    { t:'08:58', inv:'INV-2081', dec:'REJECT — DUPLICATE', actor:'Dan Okafor (HITL)' },
+  ],
+  traces: [
+    { run:'run_6e21', inv:'INV-2087', route:'AUTO', dur:'38s', cost:'$0.031', actor:'SYSTEM', opened:false,
+      spans:[['ingest','0.4s',3],['extract · qwen2.5-vl-72b','11.8s',62],['validate','0.2s',2],['match3way','0.6s',4],['policy','0.3s',3],['gate','0.1s',1],['autoapprove','0.4s',3],['archive','0.2s',2]] },
+    { run:'run_6e1c', inv:'INV-2086', route:'EXCEPTION', dur:'31s + 22m human', cost:'$0.058', actor:'Maria Chen', opened:false,
+      spans:[['ingest','0.3s',2],['extract · qwen2.5-vl-72b','9.2s',55],['validate','0.2s',2],['match3way','0.7s',5],['policy','0.3s',3],['triage · llama-3.3-70b','6.1s',38],['humanreview','22m 04s',100],['archive','0.2s',1]] },
+    { run:'run_6e14', inv:'INV-2081', route:'EXCEPTION · DUP', dur:'29s + 41m human', cost:'$0.049', actor:'Dan Okafor', opened:false,
+      spans:[['ingest','0.3s',2],['extract · qwen2.5-vl-72b','8.8s',54],['validate','0.2s',2],['match3way','0.5s',4],['policy · DUP_EXACT','0.4s',4],['triage · llama-3.3-70b','5.9s',36],['humanreview','41m 17s',100],['archive','0.2s',1]] },
+  ],
+  stats: { today:24, auto:17, humanResolved:5, exceptionsPending:2, cost:0.038, p95:'42s', cycle:'3.2h' },
+  selectedScenario: 'clean',
+  running: false,
+};
+
+/* ---------------- tabs ---------------- */
+function switchTab(name){
+  $$('#tabs button').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  $$('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + name));
+  if (name === 'dashboard') renderDashboard();
+  if (name === 'review') renderReview();
+  if (name === 'audit') renderAudit();
+}
+$('#tabs').addEventListener('click', e => { const b = e.target.closest('button'); if (b) switchTab(b.dataset.tab); });
+
+/* ---------------- toast & modal ---------------- */
+function toast(t1, t2, cls){
+  const d = document.createElement('div');
+  d.className = 'toast ' + (cls||'');
+  d.innerHTML = '<div class="t1"></div><div class="t2"></div>';
+  d.firstChild.textContent = t1; d.lastChild.textContent = t2||'';
+  $('#toasts').appendChild(d);
+  setTimeout(() => { d.style.opacity='0'; d.style.transition='opacity .4s'; setTimeout(()=>d.remove(), 400); }, 4600);
+}
+function openModal(cfg){
+  const m = $('#modalBox');
+  m.innerHTML = '<h3></h3><div class="mb"></div>' + (cfg.select ? '<select id="mSel"></select>' : '') +
+    '<div class="mfoot"><button class="btn" id="mCancel">Cancel</button><button class="btn ' + (cfg.btnCls||'primary') + '" id="mOk"></button></div>';
+  $('h3', m).textContent = cfg.title; $('.mb', m).textContent = cfg.body;
+  $('#mOk', m).textContent = cfg.ok || 'Confirm';
+  if (cfg.select){
+    const s = $('#mSel', m);
+    cfg.select.forEach(o => { const op = document.createElement('option'); op.value = op.textContent = o; s.appendChild(op); });
+  }
+  $('#mCancel', m).onclick = closeModal;
+  $('#mOk', m).onclick = () => {
+    const sel = document.getElementById('mSel');
+    const reason = sel ? sel.value : undefined;
+    closeModal();
+    if (cfg.onOk) cfg.onOk(null, reason);
+  };
+  $('#overlay').classList.add('show');
+}
+function closeModal(){ $('#overlay').classList.remove('show'); }
+$('#overlay').addEventListener('click', e => { if (e.target.id === 'overlay') closeModal(); });
+
+/* ---------------- dashboard ---------------- */
+function stpRate(){ return ((state.stats.auto / Math.max(1, state.stats.auto + state.stats.humanResolved + state.stats.exceptionsPending)) * 100).toFixed(1); }
+
+function renderDashboard(){
+  const k = [
+    ['Invoices today', state.stats.today, '+6 vs avg', 'up'],
+    ['Straight-through rate', stpRate() + '%', 'target ≥ 70%', 'up'],
+    ['Exceptions pending', state.stats.exceptionsPending, state.stats.exceptionsPending > 3 ? 'SLA watch' : 'within SLA', state.stats.exceptionsPending > 3 ? 'down' : 'flat'],
+    ['Avg exception cycle', state.stats.cycle, 'was 3.6h', 'up'],
+    ['Cost / invoice', '$' + state.stats.cost.toFixed(3), 'budget $0.040', 'up'],
+    ['p95 latency (auto)', state.stats.p95, 'budget 45s', 'flat'],
+  ];
+  $('#kpis').innerHTML = k.map(x =>
+    '<div class="kpi"><div class="label">' + x[0] + '</div><div class="value">' + x[1] + '</div><div class="delta ' + x[3] + '">' + x[2] + '</div></div>'
+  ).join('');
+
+  const statusChip = s => ({ AUTO:'<span class="chip auto">AUTO-APPROVED</span>', EXC:'<span class="chip exc">IN REVIEW</span>',
+    PAID:'<span class="chip paid">PAID</span>', APPROVED:'<span class="chip auto">APPROVED · PAY Q</span>',
+    VENDOR:'<span class="chip pending">PENDING VENDOR</span>', ESC:'<span class="chip high">ESCALATED</span>', REJ:'<span class="chip gray">REJECTED</span>' }[s]);
+
+  $('#queueTable tbody').innerHTML = state.invoices.map(v =>
+    '<tr><td class="mono">' + v.id + '</td><td>' + v.vendor + '</td><td class="num mono">' + v.amount + '</td><td>' + statusChip(v.status) +
+    '</td><td class="mono">' + v.conf + '</td><td>' + v.assignee + '</td><td style="text-align:right">' +
+    (v.status === 'EXC' ? '<button class="btn small primary" onclick="jumpReview(\'' + v.id + '\')">Review</button>' :
+     '<button class="btn small" onclick="switchTab(\'audit\')">Trace</button>') + '</td></tr>'
+  ).join('');
+
+  $('#decTable tbody').innerHTML = state.decisions.slice(0, 6).map(d =>
+    '<tr><td class="mono">' + d.t + '</td><td class="mono">' + d.inv + '</td><td>' + d.dec + '</td><td>' + d.actor + '</td>' +
+    '<td><button class="btn small" onclick="switchTab(\'audit\')">open ↗</button></td></tr>'
+  ).join('');
+
+  $('#revBadge').textContent = state.exceptions.length;
+  $('#revBadge').style.display = state.exceptions.length ? '' : 'none';
+}
+
+function jumpReview(invId){
+  const ex = state.exceptions.find(x => x.invoice === invId);
+  if (ex) ex.open = true;
+  switchTab('review');
+}
+
+/* ---------------- intake ---------------- */
+const mails = [
+  { ico:'📄', bg:'#0c2230', from:'ap@kestrel-industrial.de', meta:'INV-2094.pdf · 214 KB · scenario: price mismatch', s:'mismatch' },
+  { ico:'📄', bg:'#0f2e18', from:'billing@meridian-office.co.uk', meta:'INV-2088.pdf · 168 KB · scenario: clean', s:'clean' },
+  { ico:'🧾', bg:'#3b1214', from:'accounts@northwind-fs.com', meta:'INV_2101_scan.pdf · 402 KB · scenario: suspected duplicate', s:'dup' },
+];
+function renderIntake(){
+  $('#mailFeed').innerHTML = mails.map((m, i) =>
+    '<div class="feeditem"><div class="ico" style="background:' + m.bg + '">' + m.ico + '</div>' +
+    '<div class="grow"><div class="from">' + m.from + '</div><div class="meta">' + m.meta + '</div></div>' +
+    '<button class="btn small primary" onclick="pickScenario(\'' + m.s + '\');startSelected()">Process</button></div>'
+  ).join('');
+}
+$('#scenarioPick') && $('#scenarioPick').addEventListener('click', e => {
+  const c = e.target.closest('.scen'); if (!c) return; pickScenario(c.dataset.s);
+});
+function pickScenario(s){
+  state.selectedScenario = s;
+  $$('#scenarioPick .scen').forEach(x => x.classList.toggle('sel', x.dataset.s === s));
+}
+
+/* ---------------- scenarios ---------------- */
+const SCEN = {
+  clean: {
+    inv:{ id:'INV-2088', vendor:'Meridian Office Supplies Ltd', amount:'$12,480.00' },
+    header:'clean invoice — expected route: straight-through',
+    steps: [
+      { n:'ingest',  t:700,  cls:'',            logs:[ ['info','content hash sha256:9f2c…a41 — no prior run · idempotency OK'], ['ledger','run created · graph v1.1.0 · checkpoint(postgres) armed'] ] },
+      { n:'extract', t:2700, cls:'', cost:0.0191, logs:[ ['model','gateway → qwen2.5-vl-72b-instruct · task=vision · tier-0 · 3,182 in / 1,204 out tok'], ['tool','doc-extract → 14 fields · avg conf 0.97 · bbox provenance attached'] ] },
+      { n:'validate',t:750,  cls:'',            logs:[ ['check','schema OK · ISO-8601 dates · IBAN checksum OK'], ['check','line-math OK — 12,000.00 + 480.00 (VAT 4%) = 12,480.00'] ] },
+      { n:'match',   t:950,  cls:'',            logs:[ ['tool','erp.lookup → PO-4417 · GR-9931 · vendor master match'], ['check','3-way match 8/8 lines · qty / unit-price / ccy deltas: none'] ] },
+      { n:'policy',  t:650,  cls:'',            logs:[ ['policy','spend-limit PASS · approval-matrix PASS · dup-hash PASS · near-dup PASS (cos 0.31) · bank-details PASS · PO-status PASS'], ['policy','6/6 rules PASS · severity: none'] ] },
+      { n:'gate',    t:550,  cls:'',            logs:[ ['info','composite confidence 0.96 = f(field 0.97 · Δmatch 0.00 · severity 0)'], ['route','0.96 ≥ τ 0.90 → AUTO-APPROVE'] ] },
+      { n:'auto',    t:850,  cls:'',            logs:[ ['ledger','decision AUTO · actor=SYSTEM · conf 0.96 · pinned extract_v3.2 / triage — / policy 1.4.0'], ['info','payment instruction queued (stub) · vendor notified'] ] },
+      { n:'archive', t:550,  cls:'',            logs:[ ['ledger','run closed · 38s · $0.031 · trace archived'] ] },
+    ],
+    finish(){ 
+      state.stats.today++; state.stats.auto++;
+      state.invoices.unshift({ id:'INV-2088', vendor:'Meridian Office Supplies Ltd', amount:'$12,480.00', status:'AUTO', conf:'0.96', assignee:'—', age:'now', route:'AUTO' });
+      state.decisions.unshift({ t:'10:44', inv:'INV-2088', dec:'AUTO-APPROVE', actor:'SYSTEM · conf 0.96' });
+      state.traces.unshift({ run:'run_7f3a', inv:'INV-2088', route:'AUTO', dur:'38s', cost:'$0.031', actor:'SYSTEM', opened:false,
+        spans:[['ingest','0.4s',3],['extract · qwen2.5-vl-72b','11.9s',60],['validate','0.2s',2],['match3way','0.6s',4],['policy','0.3s',3],['gate','0.1s',1],['autoapprove','0.4s',3],['archive','0.2s',2]] });
+      toast('INV-2088 auto-approved', '38s · $0.031 · policy 6/6 · conf 0.96 · trace run_7f3a', 'ok');
+    }
+  },
+  mismatch: {
+    inv:{ id:'INV-2094', vendor:'Kestrel Industrial Parts GmbH', amount:'$21,750.00' },
+    header:'price mismatch on line 2 — expected route: exception → HITL',
+    steps: [
+      { n:'ingest',  t:700,  cls:'', logs:[ ['info','content hash sha256:41d8…c07 — no prior run'], ['ledger','run created · graph v1.1.0'] ] },
+      { n:'extract', t:2900, cls:'', cost:0.0224, logs:[ ['model','gateway → qwen2.5-vl-72b-instruct · task=vision · tier-0 · 3,542 in / 1,388 out tok'], ['tool','doc-extract → 17 fields · avg conf 0.94 · line 2 vendor-item-code conf 0.89'] ] },
+      { n:'validate',t:750,  cls:'', logs:[ ['check','schema OK · line-math OK — 21,000.00 + 750.00 (VAT) = 21,750.00'] ] },
+      { n:'match',   t:1000, cls:'flag', logs:[ ['tool','erp.lookup → PO-4417 · GR-9931'], ['check','line 1: qty 40/40 · price 96.00/96.00 · OK'], ['err','line 2 MISMATCH — unit price 148.00 vs PO 135.00 · Δ +9.6% · total impact +$650.00'], ['route','match failed beyond field tolerance (2%) → EXCEPTION'] ] },
+      { n:'policy',  t:650,  cls:'', logs:[ ['policy','spend-limit PASS · dup-hash PASS · near-dup PASS (cos 0.42) · bank-details PASS'], ['policy','5/6 PASS · severity MEDIUM (route already EXCEPTION)'] ] },
+      { n:'gate',    t:500,  cls:'flag', logs:[ ['info','composite confidence 0.93 · route forced: EXCEPTION (match failure binds)'] ] },
+      { n:'triage',  t:2200, cls:'', cost:0.0117, logs:[ ['model','gateway → llama-3.3-70b-instruct (local vLLM) · task=reasoning · tier-1 · 1,988 in / 642 out tok'], ['tool','evidence.assemble → 3-way table + deltas + contract price-list clause 5.2'], ['info','classification PRICE_MISMATCH · severity MEDIUM · recommendation: approve exception or request credit note'], ['ledger','exception EXC-0192 opened · assigned Maria Chen · SLA 4h'] ] },
+      { n:'human',   t:700,  cls:'', logs:[ ['info','notification → Maria Chen · queue badge +1 · evidence package attached'] ] },
+      { n:'archive2',t:500,  cls:'', logs:[ ['ledger','run parked pending human decision · trace live'] ] },
+    ],
+    finish(){
+      state.stats.today++; state.stats.exceptionsPending++;
+      state.invoices.unshift({ id:'INV-2094', vendor:'Kestrel Industrial Parts GmbH', amount:'$21,750.00', status:'EXC', conf:'0.93', assignee:'Maria C.', age:'now', route:'PRICE_MM' });
+      state.exceptions.unshift({ id:'EXC-0192', invoice:'INV-2094', type:'PRICE_MM', severity:'MEDIUM', assignee:'Maria Chen', conf:0.93 });
+      state.traces.unshift({ run:'run_7f41', inv:'INV-2094', route:'EXCEPTION', dur:'31s + pending human', cost:'$0.055', actor:'pending · Maria Chen', opened:false,
+        spans:[['ingest','0.4s',3],['extract · qwen2.5-vl-72b','12.4s',58],['validate','0.2s',2],['match3way','0.7s',6],['policy','0.3s',3],['triage · llama-3.3-70b','6.0s',36],['humanreview','pending',100],['archive','—',0]] });
+      toast('Exception EXC-0192 created', 'INV-2094 · PRICE_MISMATCH · MEDIUM · assigned to Maria Chen · SLA 4h', 'warn');
+    }
+  },
+  dup: {
+    inv:{ id:'INV-2101', vendor:'Northwind Facility Services', amount:'$8,940.00' },
+    header:'re-issued paid invoice — expected route: HIGH severity, auto-approve hard-blocked',
+    steps: [
+      { n:'ingest',  t:700,  cls:'', logs:[ ['info','content hash sha256:77aa…e19 — matches nothing exactly'], ['ledger','run created · graph v1.1.0'] ] },
+      { n:'extract', t:2800, cls:'', cost:0.0188, logs:[ ['model','gateway → qwen2.5-vl-72b-instruct · task=vision · tier-0'], ['tool','doc-extract → 13 fields · avg conf 0.96 · invoice number differs from vendor pattern? flagged 0.84'] ] },
+      { n:'validate',t:700,  cls:'', logs:[ ['check','schema OK · line-math OK'] ] },
+      { n:'match',   t:900,  cls:'', logs:[ ['tool','erp.lookup → PO-3312 · GR-9814'], ['check','3-way match 6/6 lines · deltas none'] ] },
+      { n:'policy',  t:900,  cls:'flag', logs:[ ['err','policy DUP_SUSPECT — embedding cos 0.987 vs INV-2085 (PAID 3w ago) · same vendor · same amount · same lines'], ['policy','severity HIGH · auto-approve HARD-BLOCKED (rule policy.dup.2)'], ['route','forced: EXCEPTION regardless of confidence'] ] },
+      { n:'gate',    t:450,  cls:'flag', logs:[ ['info','composite confidence 0.95 — overridden by policy block'] ] },
+      { n:'triage',  t:2100, cls:'', cost:0.0109, logs:[ ['model','gateway → llama-3.3-70b-instruct (local vLLM) · task=reasoning'], ['tool','evidence.assemble → side-by-side INV-2101 vs INV-2085 + payment history'], ['info','classification POSSIBLE_DUPLICATE · severity HIGH · recommendation: reject as duplicate; consider vendor-risk flag'], ['ledger','exception EXC-0193 opened · assigned Dan Okafor (HIGH) · SLA 2h'] ] },
+      { n:'human',   t:700,  cls:'', logs:[ ['info','notification → Dan Okafor · flagged HIGH in queue'] ] },
+      { n:'archive2',t:500,  cls:'', logs:[ ['ledger','run parked pending human decision'] ] },
+    ],
+    finish(){
+      state.stats.today++; state.stats.exceptionsPending++;
+      state.invoices.unshift({ id:'INV-2101', vendor:'Northwind Facility Services', amount:'$8,940.00', status:'EXC', conf:'0.95', assignee:'Dan O.', age:'now', route:'DUP_SUSPECT' });
+      state.exceptions.unshift({ id:'EXC-0193', invoice:'INV-2101', type:'DUP_SUSPECT', severity:'HIGH', assignee:'Dan Okafor', conf:0.95 });
+      state.traces.unshift({ run:'run_7f55', inv:'INV-2101', route:'EXCEPTION · DUP', dur:'30s + pending human', cost:'$0.052', actor:'pending · Dan Okafor', opened:false,
+        spans:[['ingest','0.4s',3],['extract · qwen2.5-vl-72b','11.6s',57],['validate','0.2s',2],['match3way','0.6s',4],['policy · DUP_SUSPECT','0.5s',5],['triage · llama-3.3-70b','5.8s',35],['humanreview','pending',100],['archive','—',0]] });
+      toast('Exception EXC-0193 — HIGH severity', 'possible duplicate of INV-2085 (cos 0.987) · auto-approve hard-blocked · Dan Okafor assigned', 'err');
+    }
+  },
+};
+
+/* ---------------- run simulation ---------------- */
+function resetPipeline(){
+  $$('#pipeline .pnode, .branch .pnode').forEach(n => { n.className = 'pnode idle'; n.querySelector('.st').textContent = '—'; });
+  $('#branchAuto').classList.remove('taken','skipped'); $('#branchExc').classList.remove('taken','err','skipped');
+  $('#runLog').innerHTML = '';
+}
+function setNode(name, cls, stText){
+  const n = document.querySelector('.pnode[data-n="' + name + '"]');
+  if (!n) return;
+  n.className = 'pnode ' + cls;
+  if (stText) n.querySelector('.st').textContent = stText;
+}
+function nowStr(){ const d = new Date(); return d.toTimeString().slice(0,8) + '.' + String(d.getMilliseconds()).padStart(3,'0'); }
+function addLog(type, msg, extraCls){
+  const l = document.createElement('div');
+  l.className = 'logline ' + (extraCls||'');
+  l.innerHTML = '<span class="ts"></span><span class="ltag ' + type + '">' + type + '</span><span class="msg"></span>';
+  l.querySelector('.ts').textContent = nowStr();
+  l.querySelector('.msg').textContent = msg;
+  const box = $('#runLog'); box.appendChild(l); box.scrollTop = box.scrollHeight;
+}
+
+function startSelected(){
+  if (state.running) return;
+  const scen = SCEN[state.selectedScenario]; if (!scen) return;
+  state.running = true;
+  switchTab('run');
+  resetPipeline();
+  $('#runInvoice').textContent = scen.inv.id + ' — ' + scen.header;
+  $('#runVendor').textContent = scen.inv.vendor;
+  $('#runAmount').textContent = scen.inv.amount;
+  $('#runStatus').textContent = 'running';
+  $('#btnProcess').disabled = true;
+  toast('Run started', scen.inv.id + ' · ' + scen.inv.vendor + ' · ' + scen.inv.amount, '');
+
+  const t0 = performance.now(); let cost = 0; let stepIdx = 0;
+  const timer = setInterval(() => {
+    $('#runElapsed').textContent = ((performance.now() - t0) / 1000).toFixed(1) + 's';
+    $('#runCost').textContent = '$' + cost.toFixed(4);
+  }, 100);
+
+  function nextStep(){
+    if (stepIdx >= scen.steps.length){
+      clearInterval(timer);
+      state.running = false; $('#btnProcess').disabled = false;
+      $('#runStatus').textContent = 'complete';
+      scen.finish(); renderDashboard();
+      return;
+    }
+    const st = scen.steps[stepIdx++];
+    setNode(st.n, 'running', 'running…');
+    if (st.cost){ cost += st.cost; }
+    st.logs.forEach(lg => addLog(lg[0], lg[1], lg[2]));
+    setTimeout(() => {
+      setNode(st.n, st.cls ? st.cls : 'done', st.cls ? '⚠ flagged' : '✓ done');
+      if (st.n === 'auto'){
+        $('#branchAuto').classList.add('taken');
+        $('#branchExc').classList.add('skipped');
+      }
+      if (st.n === 'triage'){
+        $('#branchExc').classList.add('taken', 'err');
+        $('#branchAuto').classList.add('skipped');
+      }
+      nextStep();
+    }, st.t);
+  }
+  nextStep();
+}
+
+/* ---------------- exception review ---------------- */
+const MATCH_ROWS = [
+  ['Vendor', 'Kestrel Industrial Parts GmbH', 'Kestrel Industrial Parts GmbH', 'Kestrel Industrial Parts GmbH', false],
+  ['Currency', 'USD', 'USD', 'USD', false],
+  ['Invoice date', '2026-08-26', 'PO date 2026-08-02', 'GR date 2026-08-22', false],
+  ['Line 1 · qty', '40 @ 96.00', '40 @ 96.00', '40 received', false],
+  ['Line 2 · qty', '50 @ 148.00', '50 @ 135.00', '50 received', true],
+  ['Line 3 · qty', '12 @ 310.00', '12 @ 310.00', '12 received', false],
+  ['Total', '$21,750.00', 'PO value $21,100.00', '—', true],
+];
+const FINDINGS_PRICE = [
+  { icon:'⚠️', bg:'#3a1d0c', t:'Line 2 unit price above PO — Δ +9.6%', d:'Invoice 148.00 vs PO 135.00 · 50 units · impact +$650.00. Exceeds field tolerance (2%).' },
+  { icon:'📋', bg:'#0c2230', t:'Within contract escalation band', d:'Contract KES-2024-118 §5.2 allows CPI-indexed price adjustment up to 10% annually with notice. Vendor sent notice 2026-07-30 (ref in evidence).' },
+  { icon:'🧾', bg:'#0f2e18', t:'Everything else matches', d:'Vendor, currency, quantities vs GR, tax computation, bank details, PO status: all clean.' },
+  { icon:'💡', bg:'#1c2128', t:'Recommendation (advisory only)', d:'Approve exception (price within contract band) — or request a credit note for the delta if no valid notice is confirmed.' },
+];
+const FINDINGS_DUP = [
+  { icon:'🚨', bg:'#3b1214', t:'Near-identical to a paid invoice', d:'Embedding similarity 0.987 vs INV-2085 (PAID, 2026-08-06). Same vendor, amount ($8,940.00), line items. Invoice number re-sequenced.' },
+  { icon:'🔒', bg:'#231540', t:'Auto-approve hard-blocked', d:'Policy rule policy.dup.2 (severity HIGH) forces human decision regardless of extraction confidence (0.95).' },
+  { icon:'💡', bg:'#1c2128', t:'Recommendation (advisory only)', d:'Reject as duplicate; notify vendor; consider adding vendor to the risk-watch list after a second occurrence.' },
+];
+const CITES_PRICE = [
+  { label:'PO-4417 · line 2', snip:'PO-4417 (2026-08-02) — Line 2: M8 flange bolts, stainless · qty 50 · unit price 135.00 USD · delivery by 2026-08-25' },
+  { label:'Contract KES-2024-118 §5.2', snip:'§5.2 Price adjustment: unit prices may be indexed to CPI annually, not to exceed +10% of the prior rate, effective only after written notice ≥ 30 days prior to invoicing.' },
+  { label:'GR-9931 · receipt', snip:'GR-9931 (2026-08-22) — received against PO-4417: line 1: 40; line 2: 50; line 3: 12 · accepted by J. Rivera · no exceptions noted' },
+];
+const CITES_DUP = [
+  { label:'INV-2085 (paid)', snip:'INV-2085, Northwind Facility Services, 2026-08-03 · $8,940.00 · 6 lines · paid 2026-08-06 (payrun PR-2261)' },
+  { label:'Payment history', snip:'Vendor Northwind Facility Services: 14 invoices in 12m, all ≤ $9k, no prior duplicates. First occurrence of re-sequenced numbering.' },
+];
+
+function renderReview(){
+  const body = $('#reviewBody');
+  const ex = state.exceptions.find(x => x.open) || state.exceptions[0];
+  if (!ex){
+    body.innerHTML = '<div class="empty"><div class="big">Queue clear 🎉</div>No open exceptions. Process the price-mismatch or duplicate scenario in <b>Intake</b> to create one.</div>';
+    $('#revSub').textContent = 'Evidence package assembled by the triage agent. The agent recommends; a human decides.';
+    return;
+  }
+  const isDup = ex.type === 'DUP_SUSPECT';
+  const sevChip = ex.severity === 'HIGH' ? '<span class="chip high">HIGH SEVERITY</span>' : '<span class="chip exc">MEDIUM</span>';
+  $('#revSub').innerHTML = ex.id + ' · ' + ex.invoice + ' · assigned to <b>' + ex.assignee + '</b> · SLA ' + (isDup ? '2h' : '4h') + ' · ' + sevChip;
+
+  const rows = isDup ? [
+    ['', 'INV-2101 (this)', 'INV-2085 (paid 3w ago)', false],
+    ['Vendor', 'Northwind Facility Services', 'Northwind Facility Services', false],
+    ['Amount', '$8,940.00', '$8,940.00', false],
+    ['Lines', '6 — identical descriptions & quantities', '6', false],
+    ['Invoice № series', 'FY26-Q3 series (new)', 'FY26-Q2 series', true],
+    ['Content similarity', '—', 'cosine 0.987 (pgvector)', true],
+  ] : MATCH_ROWS;
+
+  const matchTable =
+    '<table><thead><tr><th style="width:19%">Field</th><th>Invoice ' + ex.invoice + '</th><th>' + (isDup ? 'Prior invoice' : 'PO-4417') + '</th><th>' + (isDup ? 'Signal' : 'GR-9931') + '</th></tr></thead><tbody>' +
+    rows.map(r => '<tr><td style="color:var(--muted)">' + r[0] + '</td><td class="mono' + (r[4] === true ? ' cellbad' : '') + '">' + r[1] + (r[4] === true ? '<span class="deltabadge">Δ</span>' : '') + '</td><td class="mono' + (r[4] === true ? ' cellbad' : '') + '">' + r[2] + '</td><td class="mono' + (r[4] === true ? ' cellbad' : '') + '">' + r[3] + (r[4] === true ? '<span class="deltabadge">Δ</span>' : '') + '</td></tr>').join('') +
+    '</tbody></table>';
+
+  const findings = (isDup ? FINDINGS_DUP : FINDINGS_PRICE).map(f =>
+    '<div class="finding"><div class="fi" style="background:' + f.bg + '">' + f.icon + '</div><div><div class="ft">' + f.t + '</div><div class="fd">' + f.d + '</div></div></div>'
+  ).join('');
+
+  const cites = (isDup ? CITES_DUP : CITES_PRICE).map((c, i) =>
+    '<span class="cite" onclick="toggleSnippet(this)" data-snip="' + c.snip.replace(/"/g,'&quot;') + '">' + c.label + ' ▸</span>'
+  ).join('');
+
+  const trail = isDup ? [
+    ['sys','10:41:03','ingest · hash 77aa…e19 · run_7f55 created'],
+    ['agent','10:41:16','extract · qwen2.5-vl-72b · 13 fields · conf 0.96'],
+    ['sys','10:41:19','validate · schema + math OK'],
+    ['sys','10:41:20','match3way · 6/6 lines OK'],
+    ['policyev','10:41:21','policy.dup.2 → DUP_SUSPECT · severity HIGH · auto-approve blocked'],
+    ['agent','10:41:27','triage · llama-3.3-70b (local) · POSSIBLE_DUPLICATE · evidence assembled'],
+    ['sys','10:41:28','exception EXC-0193 → Dan Okafor · SLA 2h'],
+  ] : [
+    ['sys','10:44:02','ingest · hash 41d8…c07 · run_7f41 created'],
+    ['agent','10:44:15','extract · qwen2.5-vl-72b · 17 fields · conf 0.94'],
+    ['sys','10:44:17','validate · schema + math OK'],
+    ['policyev','10:44:18','match3way → line 2 price Δ +9.6% · beyond tolerance'],
+    ['policyev','10:44:19','policy 5/6 PASS · severity MEDIUM'],
+    ['agent','10:44:26','triage · llama-3.3-70b (local) · PRICE_MISMATCH · recommendation drafted'],
+    ['sys','10:44:27','exception EXC-0192 → Maria Chen · SLA 4h'],
+  ];
+
+  body.innerHTML =
+  '<div class="runhead">' +
+    '<div class="big">' + ex.invoice + '</div>' +
+    '<span class="chip info">' + (isDup ? 'Northwind Facility Services' : 'Kestrel Industrial Parts GmbH') + '</span>' +
+    '<span class="chip gray mono">' + (isDup ? '$8,940.00' : '$21,750.00') + '</span>' +
+    '<div class="runstats"><span class="pillstat">agent conf <b>' + ex.conf.toFixed(2) + '</b></span>' +
+    '<span class="pillstat">type <b>' + ex.type + '</b></span>' +
+    '<span class="pillstat">sla <b class="sla">' + (isDup ? 'due in 1h 41m' : 'due in 3h 12m') + '</b></span></div>' +
+  '</div>' +
+  '<div class="confbarwrap"><span style="font-size:11.5px;color:var(--muted)">composite confidence</span><div class="confbar"><div style="width:' + (ex.conf*100) + '%"></div></div><span class="mono" style="font-size:12px">' + ex.conf.toFixed(2) + ' · ' + (ex.conf >= 0.9 ? 'high' : 'moderate') + '</span></div>' +
+  '<div class="revlayout" style="margin-top:12px">' +
+    '<div>' +
+      '<div class="card" style="margin-bottom:14px"><h2>3-way match — side by side' + (isDup ? ' · duplicate comparison' : '') + '</h2>' + matchTable +
+      '<div style="color:var(--faint);font-size:11.5px;margin-top:8px">red = mismatch · Δ badges mark agent-flagged fields · citations below ground every claim in source documents</div></div>' +
+      '<div class="card"><h2>Triage agent — findings &amp; recommendation</h2>' + findings +
+      '<div class="cites">' + cites + '</div><div class="snippet" id="snip"></div></div>' +
+    '</div>' +
+    '<div class="card"><h2>Audit trail</h2><ul class="trail">' +
+      trail.map(t => '<li class="' + t[0] + '"><div class="tt">' + t[1] + '</div><div class="tx">' + t[2] + '</div></li>').join('') +
+      '<li class="human"><div class="tt">awaiting</div><div class="tx"><b>Your decision</b> — will be recorded with identity, timestamp, rationale</div></li>' +
+    '</ul></div>' +
+  '</div>' +
+  '<div class="card" style="margin-top:14px"><h2>Decision</h2>' +
+    '<div style="color:var(--muted);font-size:12.5px;margin-bottom:4px">' + (isDup ? 'Four-eyes rule: HIGH severity requires manager-level decision.' : 'Maria’s approval limit $25,000 — this invoice is within limit.') + '</div>' +
+    '<div class="btnrow">' +
+      '<button class="btn success" onclick="decide(\'approve\')">✓ Approve &amp; Pay</button>' +
+      '<button class="btn" onclick="decide(\'vendor\')">↩ Request vendor correction</button>' +
+      '<button class="btn" onclick="decide(\'escalate\')">⤴ Escalate to manager</button>' +
+      '<button class="btn danger" onclick="decide(\'reject\')">✕ Reject</button>' +
+    '</div>' +
+  '</div>';
+}
+function toggleSnippet(el){
+  const s = $('#snip');
+  s.textContent = el.dataset.snip;
+  s.classList.add('show');
+}
+
+function decide(kind){
+  const ex = state.exceptions.find(x => x.open) || state.exceptions[0];
+  if (!ex) return;
+  const inv = state.invoices.find(v => v.id === ex.invoice);
+  if (kind === 'approve'){
+    openModal({
+      title:'Confirm — Approve & Pay',
+      body:'This decision will be recorded to the append-only audit ledger with your identity, timestamp, and the agent’s evidence package. Point-in-time versions: extract_v3.2 · triage_v2.0 · policy 1.4.0.',
+      ok:'Confirm & record', btnCls:'success',
+      onOk(){
+        state.exceptions = state.exceptions.filter(x => x.id !== ex.id);
+        if (inv){ inv.status = 'APPROVED'; inv.assignee = 'resolved'; }
+        state.stats.exceptionsPending--; state.stats.humanResolved++;
+        state.decisions.unshift({ t:'10:48', inv:ex.invoice, dec:'APPROVE & PAY (HITL)', actor:'Maria Chen · rationale on ledger' });
+        const tr = state.traces.find(t => t.inv === ex.invoice);
+        if (tr){ tr.actor = 'Maria Chen (HITL)'; tr.dur = tr.dur.replace('pending human', '26m human'); }
+        toast('Decision recorded', 'ledger entry #8841 · ' + ex.invoice + ' approved by Maria Chen · evidence package attached', 'ok');
+        renderDashboard(); renderReview();
+      }
+    });
+  } else if (kind === 'vendor'){
+    openModal({
+      title:'Request vendor correction',
+      body:'A draft email to the vendor is generated with the evidence table attached. Invoice moves to PENDING_VENDOR and will re-match automatically on resubmission.',
+      ok:'Send draft', onOk(){
+        state.exceptions = state.exceptions.filter(x => x.id !== ex.id);
+        if (inv){ inv.status = 'VENDOR'; }
+        state.stats.exceptionsPending--;
+        toast('Vendor correction requested', 'draft email + evidence table queued · auto re-match on resubmission', 'warn');
+        renderDashboard(); renderReview();
+      }
+    });
+  } else if (kind === 'escalate'){
+    openModal({
+      title:'Escalate to manager',
+      body:'Routes to Dan Okafor with your rationale. Required for amounts above your limit or HIGH severity.',
+      ok:'Escalate', onOk(){
+        ex.assignee = 'Dan Okafor'; ex.open = false;
+        if (inv){ inv.assignee = 'Dan O.'; }
+        toast('Escalated', ex.invoice + ' → Dan Okafor · your rationale attached', 'warn');
+        renderDashboard(); renderReview();
+      }
+    });
+  } else {
+    openModal({
+      title:'Reject invoice',
+      body:'A reason code is required and will be recorded to the ledger.',
+      select:['DUPLICATE','NO_VALID_PO','PRICE_EXCEEDS_CONTRACT','VENDOR_ERROR','OTHER — see rationale'],
+      ok:'Reject & record', btnCls:'danger',
+      onOk(_, reason){
+        state.exceptions = state.exceptions.filter(x => x.id !== ex.id);
+        if (inv){ inv.status = 'REJ'; inv.assignee = 'resolved'; }
+        state.stats.exceptionsPending--;
+        state.decisions.unshift({ t:'10:48', inv:ex.invoice, dec:'REJECT — ' + (reason||''), actor:'Dan Okafor (HITL)' });
+        toast('Rejection recorded', ex.invoice + ' · reason: ' + (reason||'n/a') + ' · vendor notification drafted', 'err');
+        renderDashboard(); renderReview();
+      }
+    });
+  }
+}
+
+/* ---------------- audit ---------------- */
+function renderAudit(){
+  $('#auditBody').innerHTML = state.traces.map((t, i) =>
+    '<details class="exp"' + (t.opened ? ' open' : '') + '><summary onclick="toggleTrace(' + i + ')">' +
+    '<span class="mono" style="min-width:84px">' + t.run + '</span>' +
+    '<span class="mono" style="min-width:80px">' + t.inv + '</span>' +
+    '<span class="chip ' + (t.route.indexOf('AUTO') === 0 ? 'auto' : (t.route.indexOf('DUP') > -1 ? 'high' : 'exc')) + '">' + t.route + '</span>' +
+    '<span class="mono" style="color:var(--muted)">' + t.dur + ' · ' + t.cost + '</span>' +
+    '<span style="color:var(--muted);font-size:12.5px">final actor: ' + t.actor + '</span>' +
+    '<span style="flex:1"></span><span style="color:var(--faint);font-size:11px">expand ▾</span></summary>' +
+    '<div class="expbody"><h2>Trace timeline</h2><ul class="spans">' +
+    t.spans.map(s => '<li><span' + (s[0].indexOf('·') > -1 ? ' class="m"' : '') + '>' + s[0] + '</span><span>' + s[1] + '</span>' +
+      '<div class="bar"><div style="left:' + Math.max(0, 100 - s[2] - 12) + '%;width:' + Math.max(3, s[2]) + '%"></div></div></li>').join('') +
+    '</ul></div></details>'
+  ).join('');
+
+  const t0 = state.traces.find(t => t.opened) || state.traces[0];
+  $('#provGrid').innerHTML = [
+    ['Extraction model', 'qwen2.5-vl-72b-instruct · via gateway task=vision'],
+    ['Triage model', 'llama-3.3-70b-instruct · local vLLM (tier-1)'],
+    ['Prompt templates', 'extract_v3.2 · triage_v2.0'],
+    ['Policy engine', 'rules v1.4.0 · 6 active rules'],
+    ['Graph version', 'langgraph v1.1.0 · checkpointed'],
+    ['Ledger entries', 'append-only · ' + t0.run],
+  ].map(p => '<div class="prov"><div class="pl">' + p[0] + '</div><div class="pv">' + p[1] + '</div></div>').join('');
+}
+function toggleTrace(i){ state.traces[i].opened = !state.traces[i].opened; renderAudit(); }
+
+/* ---------------- boot ---------------- */
+renderDashboard();
+renderIntake();
+</script>
+</body>
+</html>
