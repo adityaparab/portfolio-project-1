@@ -14,7 +14,7 @@ src/agents/ ──► gateway_client ──► LiteLLM proxy ──► Ollama (d
 ```
 
 - The wrapper uses the **`openai` SDK pointed at `LITELLM_BASE_URL`** — one client, one API shape, no provider branches in application code.
-- Models are addressed **only by virtual alias** (`extract-vision`, `triage-reasoner`, `eval-judge`, …) defined in `deploy/litellm/config.yaml`. Dev aliases map to local Ollama models; prod/eval map to OpenAI. Switching environments = config change, never code.
+- Models are addressed **only by virtual alias** (`extract-vision`, `triage-reasoner`, `eval-judge`, `embed`) defined in `deploy/litellm/config.yaml`. The gateway base URL and key come from `.env` (`INVOICEOPS_LITELLM_BASE_URL` / `LITELLM_API_KEY`) — dev points at the developer's native LiteLLM proxy on the host, prod/eval at OpenAI via `config.prod.yaml`. Switching environments = env/config change, never code. Dev backends: `openai/glm-ocr` (extract), `openai/qwen38` (triage), `openai/compass-judger` (judge), `openai/nomic-embed` (embed).
 - Adding a model need = new alias in `config.yaml` first, then reference the alias. Never hardcode a backend model name in Python.
 
 ## Wrapper responsibilities (`gateway_client`)

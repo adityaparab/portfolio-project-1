@@ -13,9 +13,12 @@ services:
       INVOICEOPS_DATABASE_DSN: postgresql://invoiceops_app:invoiceops-app@postgres:5432/invoiceops
       INVOICEOPS_ALEMBIC_DSN: postgresql://invoiceops:invoiceops@postgres:5432/invoiceops
       INVOICEOPS_MINIO_BASE_URL: http://minio:9000
-      INVOICEOPS_LITELLM_BASE_URL: http://litellm:4000
-      INVOICEOPS_LITELLM_API_KEY: ${LITELLM_MASTER_KEY:-sk-local-dev}
+      # Gateway endpoint comes from .env (native proxy by default — see .env.example)
+      INVOICEOPS_LITELLM_BASE_URL: ${INVOICEOPS_LITELLM_BASE_URL:-http://host.docker.internal:4000}
+      INVOICEOPS_LITELLM_API_KEY: ${LITELLM_API_KEY:-sk-local-dev}
       INVOICEOPS_LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # reach the native proxy on the host
     ports:
       - "8000:8000"
     depends_on:
@@ -66,14 +69,19 @@ services:
       timeout: 3s
       retries: 5
 
+  # OPTIONAL self-hosted proxy — only needed without a native LiteLLM proxy.
+  # Dev default: the app talks to the native proxy directly (.env URL).
+  # Prod/eval: LITELLM_CONFIG=/etc/litellm/config.prod.yaml
   litellm:
     image: ghcr.io/berriai/litellm:main-stable
     restart: unless-stopped
-    # dev profile by default; prod/eval: LITELLM_CONFIG=/etc/litellm/config.prod.yaml
+    profiles: ["proxy"]
     command: ["--config", "${LITELLM_CONFIG:-/etc/litellm/config.yaml}", "--port", "4000"]
     environment:
       LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:-sk-local-dev}
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      NATIVE_PROXY_BASE_URL: ${NATIVE_PROXY_BASE_URL:-http://host.docker.internal:4000/v1}
+      LITELLM_API_KEY: ${LITELLM_API_KEY:-sk-local-dev}
     extra_hosts:
       - "host.docker.internal:host-gateway"   # dev Ollama on the host (Linux)
     volumes:
