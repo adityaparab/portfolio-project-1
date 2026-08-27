@@ -12,7 +12,7 @@ build/
 .pytest_cache/
 
 # Data & artifacts (fetch scripts reproduce these)
-data/
+/data/
 eval/golden/**/raw/
 eval/reports/**/artifacts/
 
