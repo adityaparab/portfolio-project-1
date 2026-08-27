@@ -122,6 +122,7 @@ class CleanInvoiceSpec:
     due_date: date
     currency: str
     iban: str
+    po_number: str
     lines: tuple[ErpPoLine, ...]
 
     @property
@@ -139,6 +140,7 @@ class CleanInvoiceSpec:
         return {
             "vendor_name": self.vendor_name,
             "invoice_number": self.invoice_number,
+            "po_number": self.po_number,
             "issue_date": self.issue_date.isoformat(),
             "due_date": self.due_date.isoformat(),
             "currency": self.currency,
@@ -209,6 +211,7 @@ def clean_invoice_for(
         due_date=issue_date + timedelta(days=30),
         currency=po.currency,
         iban=vendor.bank_details["iban"],
+        po_number=po.po_number,
         lines=po.lines,
     )
 

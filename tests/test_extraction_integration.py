@@ -107,7 +107,7 @@ def test_agent_writes_ledger_entry_with_pins(
             "AGENT",
             "extract",
             "extract.completed",
-            "extract@v1",
+            "extract@v2",
             CURRENT.graph,
         )
     ]

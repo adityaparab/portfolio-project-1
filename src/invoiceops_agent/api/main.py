@@ -1,5 +1,6 @@
 """FastAPI application factory."""
 
+import logging
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
@@ -17,6 +18,8 @@ from invoiceops_agent.api.services.ingest import IngestService
 from invoiceops_agent.api.settings import Settings
 from invoiceops_agent.obs.logging import configure_logging
 
+logger = logging.getLogger(__name__)
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
@@ -30,9 +33,24 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         session_factory=app.state.session_factory,
         settings=settings,
     )
+    app.state.graph_runner = None
+    app.state.graph_conn = None
+    try:
+        # Eager runner: pipeline executes right after ingest. A cold start
+        # against an unreachable DB only degrades to no-runner (uploads still
+        # queue runs; a later boot picks them up) rather than failing boot.
+        runner, conn = await deps.build_graph_runner(
+            settings, app.state.session_factory, app.state.object_store
+        )
+        app.state.graph_runner = runner
+        app.state.graph_conn = conn
+    except Exception:
+        logger.exception("graph runner unavailable at startup — uploads queue without processing")
     try:
         yield
     finally:
+        if app.state.graph_conn is not None:
+            await app.state.graph_conn.close()
         await app.state.engine.dispose()
 
 
