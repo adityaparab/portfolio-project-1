@@ -21,6 +21,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from invoiceops_agent.agents.extraction import InvoiceExtraction
+from invoiceops_agent.agents.triage import build_evidence_package
 from invoiceops_agent.db.models import (
     ExceptionRecord,
     GoodsReceipt,
@@ -387,6 +388,8 @@ class PipelineNodes:
                 findings=tuple(payload for _, payload in entries),
             )
 
+        recommendation, triage_meta = await self._run_triage_agent(state, draft)
+
         async with self._ctx.sessions() as session:
             record = ExceptionRecord(
                 invoice_id=state.invoice_id,
@@ -394,6 +397,7 @@ class PipelineNodes:
                 type=draft.code.value,
                 severity=draft.severity.value,
                 evidence=draft.evidence_json(),
+                recommendation=recommendation,
                 status="OPEN",
                 sla_due_at=exception_taxonomy.sla_due_at(self._ctx.clock(), draft.code),
             )
@@ -419,10 +423,29 @@ class PipelineNodes:
                         "exception_id": record.exception_id,
                         "code": draft.code.value,
                         "severity": draft.severity.value,
-                        "triage_agent": "placeholder (lands with #30)",
+                        "triage": triage_meta,
                     },
                 ),
             )
+            if triage_meta.get("classification") is not None:
+                await writer.append(
+                    session,
+                    LedgerAppend(
+                        actor_type=ActorType.AGENT,
+                        actor_id="triage",
+                        run_id=state.run_db_id,
+                        invoice_id=state.invoice_id,
+                        event={
+                            "event": "triage.completed",
+                            "exception_id": record.exception_id,
+                            "classification": triage_meta["classification"],
+                            "confidence": triage_meta["confidence"],
+                            "abstained": triage_meta["abstained"],
+                            "suggested_action": triage_meta["suggested_action"],
+                        },
+                        prompt_version=triage_meta.get("prompt_version"),
+                    ),
+                )
             await session.commit()
             return {
                 "route": Route.EXCEPTION,
@@ -510,6 +533,35 @@ class PipelineNodes:
         return {"route": Route.REJECT, "node_trace": [*state.node_trace, "reject"]}
 
     # ---------------------------------------------------------------- internals
+
+    async def _run_triage_agent(
+        self, state: GraphState, draft: exception_taxonomy.ExceptionDraft
+    ) -> tuple[dict[str, Any] | None, dict[str, Any]]:
+        """Reasoning layer over the deterministic findings (#30). Failures
+        degrade to the basic package — the human still gets the exception."""
+        agent = self._ctx.triage_agent
+        if agent is None:
+            return None, {"classification": None, "reason": "triage agent not configured"}
+        evidence = build_evidence_package(
+            findings=list(draft.findings),
+            extraction=state.extraction,
+            match=state.match,
+            exception_code=draft.code.value,
+        )
+        try:
+            output = await agent.triage(evidence, scenario=self._ctx.gateway_scenario)
+        except Exception:
+            logger.warning(
+                "triage agent failed — basic package without recommendation", exc_info=True
+            )
+            return None, {"classification": None, "reason": "triage agent unavailable"}
+        return output.as_exception_recommendation(), {
+            "classification": output.classification,
+            "confidence": output.confidence,
+            "abstained": output.abstained,
+            "suggested_action": output.suggested_action,
+            "prompt_version": output.prompt_version,
+        }
 
     async def _ledger(
         self,
