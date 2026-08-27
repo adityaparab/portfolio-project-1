@@ -47,6 +47,10 @@ class Settings(BaseSettings):
 
     service_token: str = "dev-service-token"
 
+    # Email webhook (issue #12)
+    email_webhook_secret: str = "dev-webhook-secret"
+    email_webhook_freshness_seconds: int = 300
+
     # Ingestion limits (issue #11)
     max_upload_bytes: int = 20 * 1024 * 1024  # 20 MiB
     allowed_content_types: list[str] = [
