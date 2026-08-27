@@ -65,7 +65,7 @@
 - [x] 1.1 `POST /v1/invoices` upload endpoint (service token auth), raw doc stored in MinIO
 - [ ] 1.2 `POST /v1/invoices/email-webhook` with HMAC verification (stub email source)
 - [ ] 1.3 Content-hash dedupe on ingest → route to `Reject`
-- [ ] 1.4 Ledger writer/reader: append entries with actor_type (SYSTEM/AGENT/HUMAN/POLICY) and model/prompt/policy version pins
+- [x] 1.4 Ledger writer/reader: append entries with actor_type (SYSTEM/AGENT/HUMAN/POLICY) and model/prompt/policy version pins
 - [ ] 1.5 Gateway client: thin `openai`-SDK wrapper over LiteLLM endpoint — virtual aliases, PII redaction, schema validation, token budgets, retries/backoff
 - [ ] 1.6 Extraction agent: doc → typed `InvoiceExtraction` (Pydantic) with per-field confidence, via `extract-vision` alias
 - [ ] 1.7 Validate node: schema checks, line-math, tax checks (deterministic)
