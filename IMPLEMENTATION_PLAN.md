@@ -68,7 +68,7 @@
 - [x] 1.4 Ledger writer/reader: append entries with actor_type (SYSTEM/AGENT/HUMAN/POLICY) and model/prompt/policy version pins
 - [x] 1.5 Gateway client: thin `openai`-SDK wrapper over LiteLLM endpoint — virtual aliases, PII redaction, schema validation, token budgets, retries/backoff
 - [x] 1.6 Extraction agent: doc → typed `InvoiceExtraction` (Pydantic) with per-field confidence, via `extract-vision` alias
-- [ ] 1.7 Validate node: schema checks, line-math, tax checks (deterministic)
+- [x] 1.7 Validate node: schema checks, line-math, tax checks (deterministic)
 - [ ] 1.8 Download + preprocess Voxel51 subset (incl. quality-tier labeling A/B/C)
 - [ ] 1.9 Baseline extraction field F1 report (per-field, per-tier) — no targets yet
 
