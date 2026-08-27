@@ -9,7 +9,9 @@ services:
     command:
       ["sh", "-c", "uv run --no-dev alembic upgrade head && uv run --no-dev uvicorn invoiceops_agent.api.main:app --host 0.0.0.0 --port 8000"]
     environment:
-      INVOICEOPS_DATABASE_DSN: postgresql://invoiceops:invoiceops@postgres:5432/invoiceops
+      # App connects as the least-privilege role; migrations as the owner (#7)
+      INVOICEOPS_DATABASE_DSN: postgresql://invoiceops_app:invoiceops-app@postgres:5432/invoiceops
+      INVOICEOPS_ALEMBIC_DSN: postgresql://invoiceops:invoiceops@postgres:5432/invoiceops
       INVOICEOPS_MINIO_BASE_URL: http://minio:9000
       INVOICEOPS_LITELLM_BASE_URL: http://litellm:4000
       INVOICEOPS_LITELLM_API_KEY: ${LITELLM_MASTER_KEY:-sk-local-dev}
@@ -44,6 +46,7 @@ services:
       interval: 5s
       timeout: 3s
       retries: 10
+      start_period: 30s   # fresh initdb (+ init scripts) takes >10s
 
   minio:
     image: minio/minio:RELEASE.2025-01-20T14-49-07Z
