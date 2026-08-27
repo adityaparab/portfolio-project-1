@@ -17,9 +17,10 @@ import httpx
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from invoiceops_agent.agents.prompts import extract_invoice
+from invoiceops_agent.agents.prompts import extract_invoice_v2 as extract_invoice
 from invoiceops_agent.gateway_client import GatewayClient
 from invoiceops_agent.ledger.api import ActorType, LedgerAppend, writer
+from invoiceops_agent.storage.content_type import sniff_content_type
 from invoiceops_agent.storage.minio import ObjectStore
 from invoiceops_agent.versions import CURRENT, VersionPins
 
@@ -46,6 +47,7 @@ class InvoiceExtraction(BaseModel):
     vendor_name: str | None = None
     vendor_tax_id: str | None = None
     invoice_number: str | None = None
+    po_number: str | None = None  # PO reference on the document (match key, #21)
     issue_date: str | None = None
     due_date: str | None = None
     currency: str | None = None
@@ -90,7 +92,7 @@ class ExtractionAgent:
     async def extract(
         self,
         doc_ref: str,
-        content_type: str,
+        content_type: str | None = None,
         *,
         run_id: int | None = None,
         invoice_id: int | None = None,
@@ -126,10 +128,12 @@ class ExtractionAgent:
         return extraction
 
     async def extract_document(
-        self, doc_ref: str, content_type: str, *, scenario: str | None = None
+        self, doc_ref: str, content_type: str | None = None, *, scenario: str | None = None
     ) -> InvoiceExtraction:
         """Model call only (no ledger) — the unit-testable core."""
         data_b64 = await self._fetch_b64(doc_ref)
+        if content_type is None:
+            content_type = sniff_content_type(base64.b64decode(data_b64))
         return await self.extract_bytes(data_b64, content_type, doc_ref, scenario=scenario)
 
     async def extract_bytes(

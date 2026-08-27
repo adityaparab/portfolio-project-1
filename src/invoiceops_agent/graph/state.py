@@ -26,13 +26,17 @@ class FailureRecord(BaseModel):
 class GraphState(BaseModel):
     """State carried through the invoice-processing graph."""
 
-    # Identity & document
+    # Identity & document — run_id is the graph thread label; the DB rows
+    # hang off invoice_id / run_db_id (set by the real ingest node, #25).
     run_id: str
     content_hash: str
+    invoice_id: int | None = None
+    run_db_id: int | None = None
     doc_ref: str | None = None
-    duplicate: bool = False  # exact-hash dupe found at ingest (#13 makes it real)
+    duplicate: bool = False  # exact-hash dupe (API ingest rejects pre-graph)
 
-    # Stage results (filled by nodes; typed shapes land with their issues)
+    # Stage results (typed shapes live in tools/; dicts here stay
+    # checkpoint-compatible across contract growth)
     extraction: dict[str, Any] | None = None
     validation: list[dict[str, Any]] = Field(default_factory=list)
     match: dict[str, Any] | None = None
@@ -41,9 +45,11 @@ class GraphState(BaseModel):
     # Gate & routing
     confidence: float | None = None
     route: Route | None = None
+    gate: dict[str, Any] | None = None  # GateDecision.as_dict() (#26)
 
     # Exception path & human decision
     exception: dict[str, Any] | None = None
+    exception_id: int | None = None
     human_decision: dict[str, Any] | None = None
 
     # Bookkeeping

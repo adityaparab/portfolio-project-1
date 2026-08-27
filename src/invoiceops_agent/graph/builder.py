@@ -4,33 +4,67 @@ ingest → extract → validate → match3way → policy → gate
     ↓(dupe)  ↓(hard err)  ↓(mismatch)  ↓(policy fail)  ↓(conf < τ)
   reject                exception_triage → human_review → archive
                                       auto_approve → archive
+
+Two node sources over one topology:
+* ``stubs`` — pure transitions, no I/O (topology/checkpoint tests, demo)
+* ``PipelineNodes`` — the real wired pipeline (#25), context-injected
 """
 
-from typing import Any
+from typing import Any, Protocol
 
 from langgraph.checkpoint.base import BaseCheckpointSaver
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
 from invoiceops_agent.graph import routing
-from invoiceops_agent.graph.nodes import stubs
 from invoiceops_agent.graph.state import GraphState
 
 
-def build_graph() -> StateGraph[GraphState]:
+class NodeSource(Protocol):
+    """Anything with the eleven node callables (async, state -> partial)."""
+
+    def ingest(self, state: GraphState) -> Any: ...
+
+    def extract(self, state: GraphState) -> Any: ...
+
+    def validate(self, state: GraphState) -> Any: ...
+
+    def match3way(self, state: GraphState) -> Any: ...
+
+    def policy(self, state: GraphState) -> Any: ...
+
+    def gate(self, state: GraphState) -> Any: ...
+
+    def auto_approve(self, state: GraphState) -> Any: ...
+
+    def exception_triage(self, state: GraphState) -> Any: ...
+
+    def human_review(self, state: GraphState) -> Any: ...
+
+    def archive(self, state: GraphState) -> Any: ...
+
+    def reject(self, state: GraphState) -> Any: ...
+
+
+def build_graph(nodes: NodeSource | None = None) -> StateGraph[GraphState]:
+    if nodes is None:  # topology-only default (tests/demo)
+        from invoiceops_agent.graph.nodes import stubs
+
+        nodes = stubs
+
     g = StateGraph(GraphState)
 
-    g.add_node("ingest", stubs.ingest)
-    g.add_node("extract", stubs.extract)
-    g.add_node("validate", stubs.validate)
-    g.add_node("match3way", stubs.match3way)
-    g.add_node("policy", stubs.policy)
-    g.add_node("gate", stubs.gate)
-    g.add_node("auto_approve", stubs.auto_approve)
-    g.add_node("exception_triage", stubs.exception_triage)
-    g.add_node("human_review", stubs.human_review)
-    g.add_node("archive", stubs.archive)
-    g.add_node("reject", stubs.reject)
+    g.add_node("ingest", nodes.ingest)
+    g.add_node("extract", nodes.extract)
+    g.add_node("validate", nodes.validate)
+    g.add_node("match3way", nodes.match3way)
+    g.add_node("policy", nodes.policy)
+    g.add_node("gate", nodes.gate)
+    g.add_node("auto_approve", nodes.auto_approve)
+    g.add_node("exception_triage", nodes.exception_triage)
+    g.add_node("human_review", nodes.human_review)
+    g.add_node("archive", nodes.archive)
+    g.add_node("reject", nodes.reject)
 
     g.add_edge(START, "ingest")
     g.add_conditional_edges(
@@ -68,7 +102,8 @@ def build_graph() -> StateGraph[GraphState]:
 
 def compile_graph(
     checkpointer: BaseCheckpointSaver[Any] | None = None,
+    nodes: NodeSource | None = None,
 ) -> CompiledStateGraph[GraphState, Any]:
     """Compiled graph; checkpointer injected by the runtime (Postgres in prod)."""
-    g = build_graph()
+    g = build_graph(nodes)
     return g.compile(checkpointer=checkpointer)
