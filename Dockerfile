@@ -26,5 +26,7 @@ EXPOSE 8000
 HEALTHCHECK --interval=10s --timeout=3s --start-period=5s --retries=5 \
     CMD ["python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=2)"]
 
-CMD ["uv", "run", "--no-dev", "uvicorn", "invoiceops_agent.api.main:app", \
+# --no-sync: the venv is fully baked (and root-owned) from the build above;
+# runtime must never try to mutate it as the non-root user.
+CMD ["uv", "run", "--no-sync", "--no-dev", "uvicorn", "invoiceops_agent.api.main:app", \
      "--host", "0.0.0.0", "--port", "8000"]
