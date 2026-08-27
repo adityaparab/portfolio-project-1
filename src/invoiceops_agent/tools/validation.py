@@ -42,9 +42,17 @@ class CheckResult:
     code: ReasonCode
     severity: Severity
     detail: str
+    field: str | None = None  # offending field (taxonomy mapping needs it, #22)
 
     def as_dict(self) -> dict[str, str]:
-        return {"code": self.code.value, "severity": self.severity.value, "detail": self.detail}
+        out: dict[str, str] = {
+            "code": self.code.value,
+            "severity": self.severity.value,
+            "detail": self.detail,
+        }
+        if self.field is not None:
+            out["field"] = self.field
+        return out
 
 
 @dataclass(frozen=True)
@@ -94,6 +102,7 @@ def _check_required_fields(extraction: InvoiceExtraction) -> list[CheckResult]:
                     ReasonCode.SCHEMA_MISSING_FIELD,
                     Severity.ERROR,
                     f"missing required field: {name}",
+                    field=name,
                 )
             )
     for name in cfg.REQUIRED_WARN_FIELDS:
@@ -103,6 +112,7 @@ def _check_required_fields(extraction: InvoiceExtraction) -> list[CheckResult]:
                     ReasonCode.SCHEMA_MISSING_FIELD,
                     Severity.WARN,
                     f"missing optional field: {name}",
+                    field=name,
                 )
             )
     return results
