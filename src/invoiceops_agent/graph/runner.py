@@ -63,6 +63,23 @@ class GraphRunner:
     def thread(invoice_id: int) -> str:
         return f"invoice-{invoice_id}"
 
+    async def state_for(self, invoice_id: int) -> GraphState | None:
+        """Final (or last-good) checkpointed state — the read model for the
+        detail aggregate (#28). None when the thread has no checkpoints."""
+        config: RunnableConfig = {"configurable": {"thread_id": self.thread(invoice_id)}}
+        try:
+            snapshot = await self._graph.aget_state(config)
+        except Exception:
+            logger.warning("state unavailable for invoice_id=%s", invoice_id, exc_info=True)
+            return None
+        if not snapshot.values:
+            return None
+        try:
+            return GraphState.model_validate(snapshot.values)
+        except Exception:
+            logger.warning("checkpoint state for invoice_id=%s failed validation", invoice_id)
+            return None
+
     async def _execute(
         self, state: GraphState | None, config: RunnableConfig, invoice_id: int
     ) -> GraphState:

@@ -33,6 +33,9 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         session_factory=app.state.session_factory,
         settings=settings,
     )
+    from invoiceops_agent.api.services.queue import QueueService
+
+    app.state.queue_service = QueueService(app.state.session_factory)
     app.state.graph_runner = None
     app.state.graph_conn = None
     try:

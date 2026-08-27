@@ -8,6 +8,7 @@ from fastapi import Request
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker, create_async_engine
 
 from invoiceops_agent.api.services.ingest import IngestService
+from invoiceops_agent.api.services.queue import QueueService
 from invoiceops_agent.api.settings import Settings
 from invoiceops_agent.graph import runtime
 from invoiceops_agent.graph.checkpoint import open_saver
@@ -65,3 +66,16 @@ def get_ingest_service(request: Request) -> IngestService:
     if service is None:
         raise RuntimeError("ingest_service not initialized on app.state")
     return service
+
+
+def get_queue_service(request: Request) -> QueueService:
+    service: QueueService | None = getattr(request.app.state, "queue_service", None)
+    if service is None:
+        raise RuntimeError("queue_service not initialized on app.state")
+    return service
+
+
+def get_graph_runner(request: Request) -> GraphRunner | None:
+    """The pipeline runner, or None on a cold start without a reachable DB —
+    detail aggregates then degrade to ``state_available: false``."""
+    return getattr(request.app.state, "graph_runner", None)
