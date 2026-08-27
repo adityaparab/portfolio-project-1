@@ -235,3 +235,17 @@ invoiceops-agent/
 | [`docs/EVALUATION.md`](docs/EVALUATION.md) | Golden dataset design, anomaly catalog, metrics, CI eval harness |
 | [`docs/DEMO_VIDEO_SCRIPT.md`](docs/DEMO_VIDEO_SCRIPT.md) | Storyboard and narration for the demo video |
 | [`mocks/index.html`](mocks/index.html) | **Interactive working mock** — the user journey, clickable, in one self-contained file |
+
+---
+
+## 13. Development Quickstart
+
+```bash
+uv sync                                   # install env from uv.lock
+uv run ruff check .                       # lint
+uv run ruff format --check .              # formatting
+uv run mypy                               # strict type check (src + tests)
+uv run pytest -m unit                     # fast tests; -m integration needs the stack
+```
+
+Layout, quality bar, and workflow rules for agents and contributors live in [`AGENTS.md`](AGENTS.md); the build tracker is [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md).
