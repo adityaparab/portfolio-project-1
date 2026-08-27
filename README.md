@@ -119,13 +119,14 @@ API push  ─────► │  dedupe · virus-scan stub · idempotency key �
 
 **Stack:** Python 3.12 · LangGraph (+ Google ADK variant) · FastAPI (async) · PostgreSQL + pgvector (ERP-sim + ledger) · Surya/Marker or Qwen-VL for document extraction · Pydantic v2 for schema contracts · Docker Compose · GitHub Actions (unit → integration → **eval gate**) · OpenTelemetry + Langfuse + Grafana.
 
-**Key design decisions (ADRs live in the repo):**
+**Key design decisions (ADRs live in [`adr/`](adr/)):**
 
-1. **Determinism at the edges, intelligence in the middle.** Matching and policy are deterministic code; the LLM handles extraction, classification, and evidence summarization. This is what makes the system auditable.
-2. **Confidence gate with abstention.** Below threshold τ the system *must* escalate rather than guess — tuning τ is an eval-driven decision, documented as an experiment.
-3. **ADK and LangGraph variants of the same graph**, with an ADR comparing developer ergonomics, checkpointing, observability, and cloud fit — demonstrating framework judgment, not framework loyalty.
-4. **Every LLM call goes through the LLM Gateway** (portfolio Project 3): model routing by task class and data-sensitivity tier, semantic caching, PII redaction, token budgets, cost telemetry.
-5. **Synthetic data only**, generated with known ground truth — itself a talking point about data governance in banking.
+1. **Determinism at the edges, intelligence in the middle.** Matching and policy are deterministic code; the LLM handles extraction, classification, and evidence summarization. This is what makes the system auditable. — [ADR 0001](adr/0001-deterministic-matcher-policy.md)
+2. **Confidence gate with abstention.** Below threshold τ the system *must* escalate rather than guess — tuning τ is an eval-driven decision, documented as an experiment. — [ADR 0003](adr/0003-composite-confidence-gate.md)
+3. **ADK and LangGraph variants of the same graph**, with an ADR comparing developer ergonomics, checkpointing, observability, and cloud fit — demonstrating framework judgment, not framework loyalty. — [ADR 0002](adr/0002-langgraph-primary-adk-variant.md)
+4. **Every LLM call goes through the LLM Gateway**: model routing by task class and data-sensitivity tier, semantic caching, PII redaction, token budgets, cost telemetry. — [ADR 0005](adr/0005-gateway-only-model-traffic.md) (implemented as a LiteLLM proxy with virtual model aliases)
+5. **Synthetic data only**, generated with known ground truth — itself a talking point about data governance in banking. — [ADR 0006](adr/0006-synthetic-data-anomalies.md)
+6. **Append-only audit ledger** with point-in-time version pinning — [ADR 0004](adr/0004-append-only-ledger.md) · **deterministic replay in tests** via recorded LLM cassettes — [ADR 0007](adr/0007-vcr-cassettes.md)
 
 ---
 
