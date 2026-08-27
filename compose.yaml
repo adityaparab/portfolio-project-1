@@ -13,8 +13,9 @@ services:
       INVOICEOPS_DATABASE_DSN: postgresql://invoiceops_app:invoiceops-app@postgres:5432/invoiceops
       INVOICEOPS_ALEMBIC_DSN: postgresql://invoiceops:invoiceops@postgres:5432/invoiceops
       INVOICEOPS_MINIO_BASE_URL: http://minio:9000
-      # Gateway endpoint comes from .env (native proxy by default — see .env.example)
-      INVOICEOPS_LITELLM_BASE_URL: ${INVOICEOPS_LITELLM_BASE_URL:-http://host.docker.internal:4000}
+      # Container context resolves the host's native proxy via host-gateway;
+      # host-run scripts use localhost (.env INVOICEOPS_LITELLM_BASE_URL).
+      INVOICEOPS_LITELLM_BASE_URL: ${API_LITELLM_BASE_URL:-http://host.docker.internal:4000}
       INVOICEOPS_LITELLM_API_KEY: ${LITELLM_API_KEY:-sk-local-dev}
       INVOICEOPS_LOG_LEVEL: ${LOG_LEVEL:-INFO}
     extra_hosts:

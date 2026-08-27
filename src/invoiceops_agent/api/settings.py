@@ -25,6 +25,21 @@ class Settings(BaseSettings):
     litellm_base_url: str = "http://localhost:4000"
     litellm_api_key: str = "sk-local-dev"
 
+    # Gateway client (issue #15)
+    gateway_timeout_seconds: float = 120.0
+    gateway_infra_retries: int = 2
+    gateway_token_budgets: dict[str, int] = {
+        "extract-vision": 16_384,
+        "triage-reasoner": 8_192,
+        "eval-judge": 8_192,
+        "embed": 2_048,
+    }
+    gateway_redaction_enabled: bool = True
+    # Escape hatch for proxies that do not define our virtual aliases (e.g. the
+    # native dev proxy): maps alias -> backend model name sent on the wire.
+    # Preferred setup: define the aliases in the proxy itself (deploy/litellm).
+    gateway_model_map_json: str = "{}"
+
     log_level: str = "INFO"
 
     # Frontend dev server (Vite proxy origin)
