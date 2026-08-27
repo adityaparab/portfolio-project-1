@@ -32,9 +32,7 @@ def test_ledger_writer_reader_roundtrip(monkeypatch: pytest.MonkeyPatch) -> None
         command.upgrade(Config("alembic.ini"), "head")
 
         async def scenario() -> dict[str, Any]:
-            engine = create_async_engine(
-                dsn.replace("postgresql://", "postgresql+asyncpg://", 1)
-            )
+            engine = create_async_engine(dsn.replace("postgresql://", "postgresql+asyncpg://", 1))
             factory = async_sessionmaker(engine, expire_on_commit=False)
 
             async with factory() as session:
@@ -69,9 +67,7 @@ def test_ledger_writer_reader_roundtrip(monkeypatch: pytest.MonkeyPatch) -> None
                         invoice_id=invoice.invoice_id,
                         event={"event": "extract.completed"},
                         prompt_version="extract@v3",
-                        versions=VersionPins(
-                            graph="0.2.0", models={"extract-vision": "glm-ocr"}
-                        ),
+                        versions=VersionPins(graph="0.2.0", models={"extract-vision": "glm-ocr"}),
                     ),
                 )
                 e3 = await writer.append(
@@ -91,9 +87,7 @@ def test_ledger_writer_reader_roundtrip(monkeypatch: pytest.MonkeyPatch) -> None
                 page1 = await reader.by_run(session, run.run_id, limit=2, offset=0)
                 page2 = await reader.by_run(session, run.run_id, limit=2, offset=2)
                 by_invoice = await reader.by_invoice(session, invoice.invoice_id)
-                rows = (
-                    (await session.execute(select(Invoice.invoice_id))).scalars().all()
-                )
+                rows = (await session.execute(select(Invoice.invoice_id))).scalars().all()
 
             await engine.dispose()
             return {
