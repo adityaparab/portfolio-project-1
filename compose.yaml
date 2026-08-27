@@ -1,0 +1,91 @@
+name: invoiceops
+
+services:
+  api:
+    build: .
+    image: invoiceops-api:local
+    restart: unless-stopped
+    environment:
+      INVOICEOPS_DATABASE_DSN: postgresql://invoiceops:invoiceops@postgres:5432/invoiceops
+      INVOICEOPS_MINIO_BASE_URL: http://minio:9000
+      INVOICEOPS_LITELLM_BASE_URL: http://litellm:4000
+      INVOICEOPS_LITELLM_API_KEY: ${LITELLM_MASTER_KEY:-sk-local-dev}
+      INVOICEOPS_LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+
+  postgres:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: invoiceops
+      POSTGRES_PASSWORD: invoiceops
+      POSTGRES_DB: invoiceops
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U invoiceops -d invoiceops"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  minio:
+    image: minio/minio:RELEASE.2025-01-20T14-49-07Z
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: invoiceops
+      MINIO_ROOT_PASSWORD: invoiceops-secret
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  litellm:
+    image: ghcr.io/berriai/litellm:main-stable
+    restart: unless-stopped
+    command: ["--config", "/etc/litellm/config.yaml", "--port", "4000"]
+    environment:
+      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:-sk-local-dev}
+    volumes:
+      - ./deploy/litellm/config.yaml:/etc/litellm/config.yaml:ro
+    ports:
+      - "4400:4000"   # host 4000 already in use (native LiteLLM); internal port unchanged
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:4000/health/liveliness', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 15s
+
+  # One-shot synthetic-ERP seeder — implemented with issue #20.
+  seed:
+    image: invoiceops-api:local
+    profiles: ["seed"]
+    command: ["python", "-c", "print('seed placeholder — synthetic ERP generator lands with issue #20')"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres-data:
+  minio-data:
