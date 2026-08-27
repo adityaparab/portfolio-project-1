@@ -7,7 +7,7 @@ name = "invoiceops-agent"
 version = "0.1.0"
 description = "Agentic, human-in-the-loop invoice processing for Source-to-Pay"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 dependencies = []
 
 [dependency-groups]
