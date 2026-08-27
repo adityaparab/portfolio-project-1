@@ -5,6 +5,9 @@ services:
     build: .
     image: invoiceops-api:local
     restart: unless-stopped
+    # Migrate on boot, then serve (dev convenience; prod would run these apart).
+    command:
+      ["sh", "-c", "uv run --no-dev alembic upgrade head && uv run --no-dev uvicorn invoiceops_agent.api.main:app --host 0.0.0.0 --port 8000"]
     environment:
       INVOICEOPS_DATABASE_DSN: postgresql://invoiceops:invoiceops@postgres:5432/invoiceops
       INVOICEOPS_MINIO_BASE_URL: http://minio:9000
