@@ -14,6 +14,7 @@ from datetime import UTC, datetime
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from invoiceops_agent.agents.extraction import ExtractionAgent
+from invoiceops_agent.agents.triage import TriageAgent
 from invoiceops_agent.gateway_client import GatewayClient
 from invoiceops_agent.storage.minio import ObjectStore
 from invoiceops_agent.tools.near_dup import Embedder, GatewayEmbedder, NearDupService
@@ -30,6 +31,8 @@ class NodeContext:
     gateway: GatewayClient
     extraction_agent: ExtractionAgent
     near_dup: NearDupService
+    # None => basic package without recommendation (degraded, still reaches human)
+    triage_agent: TriageAgent | None = None
     clock: Callable[[], datetime] = utc_now
     # Cassette scenario for replay/record runs (ADR 0007); None = live calls.
     gateway_scenario: str | None = None
@@ -73,6 +76,7 @@ def build_context(
         store=store,
         gateway=gateway,
         extraction_agent=ExtractionAgent(store=store, gateway=gateway, session_factory=sessions),
+        triage_agent=TriageAgent(gateway),
         near_dup=near_dup,
         clock=clock,
     )
