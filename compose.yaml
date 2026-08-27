@@ -97,6 +97,23 @@ services:
       retries: 10
       start_period: 15s
 
+  # Front-end dev server (issue #31): Vite with the /api dev proxy aimed at
+  # the api service; source mounted, hot reload.
+  ui:
+    image: node:24-alpine
+    profiles: ["ui"]
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0 --port 5173"
+    environment:
+      VITE_PROXY_TARGET: http://api:8000
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "5173:5173"
+    depends_on:
+      api:
+        condition: service_healthy
+
   # One-shot synthetic-ERP seeder (issue #20): migrate, then generate +
   # load vendors/POs/GRs. Deterministic per seed; clean DB required.
   seed:

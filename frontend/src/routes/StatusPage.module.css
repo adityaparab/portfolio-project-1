@@ -1,0 +1,55 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-4);
+  max-width: 640px;
+}
+
+.card {
+  background: var(--io-surface);
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-2);
+}
+
+.row {
+  justify-content: space-between;
+}
+
+.checks {
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-1);
+  padding-top: var(--io-space-2);
+  border-top: 1px solid var(--io-border);
+}
+
+.checkName {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-font-size-s);
+}
+
+.cardTitle {
+  font-weight: 600;
+}
+
+.headers {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-font-size-s);
+  color: var(--io-text-muted);
+}
+
+.badgeOk {
+  background: var(--io-ok-soft);
+  color: var(--io-ok);
+}
+
+.badgeWarn {
+  background: var(--io-warning-soft);
+  color: var(--io-warning);
+}
+
+.badgeDown {
+  background: var(--io-danger-soft);
+  color: var(--io-danger);
+}

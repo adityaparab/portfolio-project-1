@@ -1,0 +1,20 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--io-space-3);
+}
+
+.control {
+  background: var(--io-surface);
+  border: 1px solid var(--io-border);
+}
+
+.label {
+  font-size: var(--io-font-size-s);
+}
+
+.role {
+  font-size: var(--io-font-size-s);
+  color: var(--io-text-muted);
+  font-family: var(--io-font-mono);
+}
