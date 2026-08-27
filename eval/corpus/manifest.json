@@ -1,0 +1,4924 @@
+{
+  "manifest_version": "voxel51-corpus@1",
+  "source_repo": "Voxel51/high-quality-invoice-images-for-ocr",
+  "license_note": "No license declared on the dataset card (checked 2026-08-27); used locally for portfolio evaluation, not redistributed.",
+  "selection": {
+    "strategy": "annotated samples ordered by sha256(sample_id), first N",
+    "count_requested": 100,
+    "count_selected": 100
+  },
+  "tier_rule": "A: min(w,h)>=1000 and contrast_std>=33; B: min(w,h)>=800 and std>=26; else C (heuristic v1, calibrated on corpus: uniform ~1654px, std 26-36)",
+  "images": [
+    {
+      "content_hash": "b16af0aecd6f0588671c8ec588cc375b7e123b040b5574fc1ddc145d8cccfe6c",
+      "path": "data/voxel51/raw/b16af0aecd6f0588671c8ec588cc375b7e123b040b5574fc1ddc145d8cccfe6c.jpg",
+      "source_file": "data/batch1-0980.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 36.11,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Snyder-Lane",
+        "invoice_number": "87844093",
+        "issue_date": "04/09/2021",
+        "issue_date_iso": "2021-04-09",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "7328.87",
+        "tax_total": "666.26",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Custom Build HP Desktop Computer 16GB | 2TB | SSD | Windows 10 Windows 7 PC WiFi",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "1085.70"
+          },
+          {
+            "line_no": "2",
+            "description": "Fast HP Desktop PC Computer Dual Core 3.0Ghz 8GB 2TB Windows 10 Pro WIFI monitor",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "666.57"
+          },
+          {
+            "line_no": "3",
+            "description": "Dell Optiplex All in One Windows 10 Desktop Computer 780 3.0GHz 4GB 250GB 19 LCD",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "142.99"
+          },
+          {
+            "line_no": "4",
+            "description": "SAMA RGB Gaming PC Desktop Computer i5 3.7GHz Nvidia GTX 1060 16GB Windows 10",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "1320.00"
+          },
+          {
+            "line_no": "5",
+            "description": "HP Desktop Computer 400 G1 Core i3 3.4GHz 8GB 256GB SSD 19\" LCD Windows 10 PC",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "769.73"
+          },
+          {
+            "line_no": "6",
+            "description": "HP ProDesk G1 Desktop Computer Core i3 3.4GHz 8GB 500GB HD 19\" LCD Windows 10 PC",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "263.89"
+          },
+          {
+            "line_no": "7",
+            "description": "CUSTOM BUILT AMD RYZEN THREADRIPPER GAMING COMPUTER, 32 GB RAM,",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "3080.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "57b3a90cbe90cac809f57389a70e1d511237c5924c0997b1cdec5deade10c62a",
+      "path": "data/voxel51/raw/57b3a90cbe90cac809f57389a70e1d511237c5924c0997b1cdec5deade10c62a.jpg",
+      "source_file": "data/batch1-1130.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 35.21,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Marshall, Nelson and Hudson",
+        "invoice_number": "45425546",
+        "issue_date": "07/13/2017",
+        "issue_date_iso": "2017-07-13",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "6 232,82",
+        "tax_total": "566,62",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Dell Desktop Computer 3020\nMicro Tiny PC Intel i3 4GB\n120GB SSD Windows 10 WiFi",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "148,44"
+          },
+          {
+            "line_no": "2",
+            "description": "HP Pro 6200 Desktop Tower\nComputer Core i5 3.1GHz 8GB\n500GB Windows 10 Home WiFi",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "197,95"
+          },
+          {
+            "line_no": "3",
+            "description": "Fast HP Desktop Computer Intel\nProcessor 4GB 160GB 17\" LCD\nDVD Wifi Windows 10",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "329,84"
+          },
+          {
+            "line_no": "4",
+            "description": "HP ProDesk 600 G5 Mini\nDesktop Computer i5-9500T\n8GB 256GB SSD W10 (new)",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "658,90"
+          },
+          {
+            "line_no": "5",
+            "description": "Gaming PC Desktop Computer\nRGB Intel i7 GTX 1650, 16GB\nRAM, 2TB HDD, 240GB SSD",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "3 794,95"
+          },
+          {
+            "line_no": "6",
+            "description": "HP ProDesk 400 G5 Mini\nDesktop Computer i5-9500T\n8GB 256GB SSD W10P",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "1 102,75"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "f5d4d483619f0fd7f94f4afb5b87c33e09784286cdb8e7e4be627908cff358f4",
+      "path": "data/voxel51/raw/f5d4d483619f0fd7f94f4afb5b87c33e09784286cdb8e7e4be627908cff358f4.jpg",
+      "source_file": "data/batch1-0723.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 35.06,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Harrison and Sons",
+        "invoice_number": "86268868",
+        "issue_date": "03/30/2012",
+        "issue_date_iso": "2012-03-30",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "36 946,22",
+        "tax_total": "3 358,75",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "YILONG 4'x6' Traditional Handmade Carpet Sitting Room Hand Knotted Silk Rug 076B",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "11 880,00"
+          },
+          {
+            "line_no": "2",
+            "description": "Bohemian Rag Rug- Woven Chindi Dari Living Room Rug / Hand-Woven Carpet Rug-Mats",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "128,65"
+          },
+          {
+            "line_no": "3",
+            "description": "Cotton Linen Kitchen Mat Bathroom Doormat Absorbent Rug Hand-woven Tassel Carpet",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "22,57"
+          },
+          {
+            "line_no": "4",
+            "description": "YILONG 5.6'x8.3' All Over Pattern Hand Knotted Silk Rugs Oriental Carpets 1807",
+            "qty": "2,00",
+            "unit_price": null,
+            "line_total": "19 800,00"
+          },
+          {
+            "line_no": "5",
+            "description": "YILONG 4'x6' Handmade Carpet Hunting Scene Hand Knotted Silk Rugs 079B",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "3 960,00"
+          },
+          {
+            "line_no": "6",
+            "description": "7x10 Diamond Geometric Rugs Contemporary Black Color Large Mat Dhurrie Carpet",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "1 155,00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "b3731880bdefb9628ef23abceb6936b6af2b2ddb9b7eea3c31b866823574ed01",
+      "path": "data/voxel51/raw/b3731880bdefb9628ef23abceb6936b6af2b2ddb9b7eea3c31b866823574ed01.jpg",
+      "source_file": "data/batch1-0194.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 29.41,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Johnson LLC",
+        "invoice_number": "68094256",
+        "issue_date": "02/18/2016",
+        "issue_date_iso": "2016-02-18",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "3 221,63",
+        "tax_total": "292,88",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "36 Inches Marble Meeting Table\nTop Inlay Dinning Table with\nRed Jasper Stone Art",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "1 513,87"
+          },
+          {
+            "line_no": "2",
+            "description": "Multi Color Stones Inlay Art\nCoffee Table Top Marble Patio\nSofa Table 27 Inches",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "1 707,75"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "c835e6fb0f43dbf715f23b90b628b23dda1a716f5ee21f88616d06b891d30dce",
+      "path": "data/voxel51/raw/c835e6fb0f43dbf715f23b90b628b23dda1a716f5ee21f88616d06b891d30dce.jpg",
+      "source_file": "data/batch1-0050.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 31.26,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Lee-Brown",
+        "invoice_number": "53553822",
+        "issue_date": "07/24/2012",
+        "issue_date_iso": "2012-07-24",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "25738.94",
+        "tax_total": "2339.90",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "24\" Marble White Coffee Top\nTable Inlay Lapis Stone\nFurniture Indoor Decor W045",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "3029.96"
+          },
+          {
+            "line_no": "2",
+            "description": "6'x3' Marvelous Marble Living\nRoom Table Top Inlay Scagliola\nInlay Decor H602C",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "22383.68"
+          },
+          {
+            "line_no": "3",
+            "description": "12\" White Marble Coffee Table\nTop Lapis Turquoise Floral Inlay\nHome Decors W538",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "325.30"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "f3be20e4303c99986c4da000de4c22a11d6269e422f9f6c255a94b9636feb490",
+      "path": "data/voxel51/raw/f3be20e4303c99986c4da000de4c22a11d6269e422f9f6c255a94b9636feb490.jpg",
+      "source_file": "data/batch1-0845.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.78,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Cunningham-Richmond",
+        "invoice_number": "19832522",
+        "issue_date": "09/27/2016",
+        "issue_date_iso": "2016-09-27",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "76.91",
+        "tax_total": "6.99",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Caslon Blue White Sleeveless Belted Ruffle Rayon Dress Sz L",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "27.45"
+          },
+          {
+            "line_no": "2",
+            "description": "Talbots Petite 8 Navy & White Dandelion Puffs Sleeveless Dress",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "49.47"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "569167ade4c4e493e2a467f900ff9cbffc0647c1c90b91f31b066dadd7ccdc7c",
+      "path": "data/voxel51/raw/569167ade4c4e493e2a467f900ff9cbffc0647c1c90b91f31b066dadd7ccdc7c.jpg",
+      "source_file": "data/batch1-1017.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 32.57,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Nelson, Ellis and Gregory",
+        "invoice_number": "14361748",
+        "issue_date": "09/09/2018",
+        "issue_date_iso": "2018-09-09",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "412.36",
+        "tax_total": "37.49",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Joma Boys Youth Super Copa 102 Soccer Cleats 5 White Yellow Blue Futbol NEW",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "87.96"
+          },
+          {
+            "line_no": "2",
+            "description": "Nike Air Jordan 1 Mid Obsidian 640735-174 Toddler Kids Children Size 8C Blue",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "137.44"
+          },
+          {
+            "line_no": "3",
+            "description": "Toddler Car Rain boots 5",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "49.50"
+          },
+          {
+            "line_no": "4",
+            "description": "PRIMIGI Armad Blue boys everyday casual sneakers shoes NEW Size 34/ US 2,5",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "49.50"
+          },
+          {
+            "line_no": "5",
+            "description": "Children's sports shoes breathable mesh boys casual shoes",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "87.96"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "70c087860a0858555edc3f767d66aeaeb7599a2b3ad5d07e2c2564008d5b5747",
+      "path": "data/voxel51/raw/70c087860a0858555edc3f767d66aeaeb7599a2b3ad5d07e2c2564008d5b5747.jpg",
+      "source_file": "data/batch1-1150.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 27.23,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Johnson Inc",
+        "invoice_number": "26871861",
+        "issue_date": "05/15/2014",
+        "issue_date_iso": "2014-05-15",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "85.76",
+        "tax_total": "7.80",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Leopard Printed Rug Skin Mat\nLeather Faux Fur Animals Area\nRugs Home Carpets",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "85.76"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "cf4f7de9781edab87d6c9e6927ea72fc5a209264e573e2d5fc4bd866390deacc",
+      "path": "data/voxel51/raw/cf4f7de9781edab87d6c9e6927ea72fc5a209264e573e2d5fc4bd866390deacc.jpg",
+      "source_file": "data/batch1-0575.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.7,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Rodriguez-Conley",
+        "invoice_number": "48223084",
+        "issue_date": "12/05/2018",
+        "issue_date_iso": "2018-12-05",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "335,17",
+        "tax_total": "30,47",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "LAUREN RALPH LAUREN Womens Landette V-Neck A-Line Dress Size 6 NWT $200",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "252,95"
+          },
+          {
+            "line_no": "2",
+            "description": "Xhilaration Womens L Burgandy Boho Embroidered Festival Mini Dress NEW",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "82,23"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "72abfdacdc6a6e1ed9f2c6c67325b91c395447fe5aaa67c33858b1a32fe0c516",
+      "path": "data/voxel51/raw/72abfdacdc6a6e1ed9f2c6c67325b91c395447fe5aaa67c33858b1a32fe0c516.jpg",
+      "source_file": "data/batch1-0801.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 27.45,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Jennings, Perkins and Young",
+        "invoice_number": "85817513",
+        "issue_date": "10/16/2018",
+        "issue_date_iso": "2018-10-16",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "104.45",
+        "tax_total": "9.50",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Book: The Lee-Enfield by lan Skennerton- Signed Edition",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "104.45"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "49b606f776fe47f52c8323b2d2f8390129a93f379a58446a0d5c67bda0341ad2",
+      "path": "data/voxel51/raw/49b606f776fe47f52c8323b2d2f8390129a93f379a58446a0d5c67bda0341ad2.jpg",
+      "source_file": "data/batch1-0358.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 27.06,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Gardner, Tucker and Martinez",
+        "invoice_number": "61660848",
+        "issue_date": "05/30/2019",
+        "issue_date_iso": "2019-05-30",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "26.53",
+        "tax_total": "2.41",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Hekate Soteira : A Study of Hekate's Role in the Chaldean Oracles and Related...",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "26.53"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "10e7b929d8ef6a6170832286f7121a453fdaa93feeb5192408d2d42a10201729",
+      "path": "data/voxel51/raw/10e7b929d8ef6a6170832286f7121a453fdaa93feeb5192408d2d42a10201729.jpg",
+      "source_file": "data/batch1-0857.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 32.54,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Mcdowell, Marsh and Hall",
+        "invoice_number": "85736423",
+        "issue_date": "10/06/2019",
+        "issue_date_iso": "2019-10-06",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "2 161,30",
+        "tax_total": "196,48",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Microsoft Xbox One 500GB 1540 Black Game Console TESTED Complete",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "615,96"
+          },
+          {
+            "line_no": "2",
+            "description": "New Nintendo 2DS XL Console Black/Turquoise w/ Mario Kart 7 Preinstalled -JA1141",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "428,97"
+          },
+          {
+            "line_no": "3",
+            "description": "Sega V Saturn Victor Console RG-JX1 Gray Tested Working Japan",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "604,94"
+          },
+          {
+            "line_no": "4",
+            "description": "B400 Nintendo 3DS console Gloss Pink Japan x",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "16,49"
+          },
+          {
+            "line_no": "5",
+            "description": "Sega Genesis System Console Controller Games Bundle",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "494,95"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "f1ede7ac17fbbcccabff44be07ef5ee41d1c312e81490c125f86f58b3c1c9aad",
+      "path": "data/voxel51/raw/f1ede7ac17fbbcccabff44be07ef5ee41d1c312e81490c125f86f58b3c1c9aad.jpg",
+      "source_file": "data/batch1-0538.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 31.84,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Huynh, Kim and Jacobs",
+        "invoice_number": "93008460",
+        "issue_date": "03/06/2015",
+        "issue_date_iso": "2015-03-06",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "5 575.87",
+        "tax_total": "506.90",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Gaming PC Desktop Computer\nHDMI RGB Intel i7 RTX 2060, HDD+SSD, Windows 10, Wifi",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "2 198.90"
+          },
+          {
+            "line_no": "2",
+            "description": "Dell Precision Workstation\nComputer Intel Xeon Quad Core\n16GB 1TB Windows 10 Pro",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "764.50"
+          },
+          {
+            "line_no": "3",
+            "description": "hp all in one desktop computer\ntouch screen",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "1 127.50"
+          },
+          {
+            "line_no": "4",
+            "description": "HP All-in-One Computer 22\"\nFull-HD Display Intel 2.90GHz\n4GB 1TB HD Win10 - TEAL",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "1 484.97"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "f62a745c658a90377bfc05e2b0c8d36d95cde5da14578c2fa1f86930d140cc78",
+      "path": "data/voxel51/raw/f62a745c658a90377bfc05e2b0c8d36d95cde5da14578c2fa1f86930d140cc78.jpg",
+      "source_file": "data/batch1-0382.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 29.18,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Barnes, Roberts and Hayes",
+        "invoice_number": "38680884",
+        "issue_date": "12/22/2015",
+        "issue_date_iso": "2015-12-22",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "112.13",
+        "tax_total": "10.19",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Nike Air Jordan 1 Mid Obsidian\n640735-174 Toddler Kids\nChildren Size 8C Blue",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "54.98"
+          },
+          {
+            "line_no": "2",
+            "description": "All Mattel Disney Pixar Model\nCars McQueen 1:55 Diecast Lot\nChoose Loose Kid Toy",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "57.16"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "338d71b512d717369d17554534a82d90d0995fce409aad7cf3d40b8352188809",
+      "path": "data/voxel51/raw/338d71b512d717369d17554534a82d90d0995fce409aad7cf3d40b8352188809.jpg",
+      "source_file": "data/batch1-0412.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 29.57,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Parker, Patterson and Smith",
+        "invoice_number": "60866416",
+        "issue_date": "02/17/2021",
+        "issue_date_iso": "2021-02-17",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "284.86",
+        "tax_total": "25.90",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "ViewSonic VOT 133 Nettop Mini PC Computer VS14165 E-350 @ 1.6GHz 2GB 320GB NO OS",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "175.96"
+          },
+          {
+            "line_no": "2",
+            "description": "Custom Build Dell Desktop Computer i5 | 16GB | 1TB SSD | HDMI Windows 10 PC WiFi",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "108.90"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "62ededecea3b40634f67df3f0d186e83739fe35210710245cbefafdb5ddd5626",
+      "path": "data/voxel51/raw/62ededecea3b40634f67df3f0d186e83739fe35210710245cbefafdb5ddd5626.jpg",
+      "source_file": "data/batch1-0442.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 29.44,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Miller-Nunez",
+        "invoice_number": "39193381",
+        "issue_date": "06/19/2015",
+        "issue_date_iso": "2015-06-19",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "3 607.73",
+        "tax_total": "327.98",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "HP ProDesk 600 G4 Desktop Computer 6-Core i7-8700T 16GB 512GB SSD Win10 Pro 64bi",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "3 299.95"
+          },
+          {
+            "line_no": "2",
+            "description": "Dell Desktop Computer Intel Core 2 Duo 8GB 1TB HD Windows 10 PC 22\" LCD Wifi",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "307.78"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "26f7b9e007c55136b996e86f55b45bf5c671ee253ccfcb990e9371f00c15efe6",
+      "path": "data/voxel51/raw/26f7b9e007c55136b996e86f55b45bf5c671ee253ccfcb990e9371f00c15efe6.jpg",
+      "source_file": "data/batch1-1161.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 34.4,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Byrd Group",
+        "invoice_number": "64480147",
+        "issue_date": "04/09/2012",
+        "issue_date_iso": "2012-04-09",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "3 046,86",
+        "tax_total": "276,99",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Nintendo 64 Pokemon Pikachu Limited Edition video game console set",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "1 099,89"
+          },
+          {
+            "line_no": "2",
+            "description": "SONY Playstation2 Slim Console set \"SCPH-90000 / White \" / TESTED Working 11193",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "396,00"
+          },
+          {
+            "line_no": "3",
+            "description": "Nintendo Wii White Console RVL-001 Bundle 10 games Complete Gamecube Compatible",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "330,00"
+          },
+          {
+            "line_no": "4",
+            "description": "Nintendo N64 Atomic Purple Console in box Mario Kart in box +Extras",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "280,50"
+          },
+          {
+            "line_no": "5",
+            "description": "Nintendo Switch Lite Gray CONSOLE ONLY - No Accessories or Charger [B4-4]",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "445,50"
+          },
+          {
+            "line_no": "6",
+            "description": "New Nintendo 3DS XL Red System Console Working W/ AC Adapter Bundle",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "494,97"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "0a525d7ae5d5228e0f4e09c0df0fb0ce91012e8d6dc3c8d05df56e1cfc2f765e",
+      "path": "data/voxel51/raw/0a525d7ae5d5228e0f4e09c0df0fb0ce91012e8d6dc3c8d05df56e1cfc2f765e.jpg",
+      "source_file": "data/batch1-0151.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.91,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Archer, Davis and Hudson",
+        "invoice_number": "92059706",
+        "issue_date": "04/28/2017",
+        "issue_date_iso": "2017-04-28",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "3 838.87",
+        "tax_total": "348.99",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Working - Super Nintendo SNES Original System Console w/ Mario World!",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "374.00"
+          },
+          {
+            "line_no": "2",
+            "description": "Sony PlayStation 5 Console - PS5- PRESALE- Disc Version Pre Order Confirmed",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "2 804.97"
+          },
+          {
+            "line_no": "3",
+            "description": "Nintendo Wii Console Mario Kart Controller Wii Fit 2 Board Remotes Game BUNDLE",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "659.90"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "de66d991708d29e6bc2c0fd1668182f7da07511e8d50db50016c6353fa8fc1eb",
+      "path": "data/voxel51/raw/de66d991708d29e6bc2c0fd1668182f7da07511e8d50db50016c6353fa8fc1eb.jpg",
+      "source_file": "data/batch1-0789.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 35.8,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Shelton Inc",
+        "invoice_number": "84422507",
+        "issue_date": "12/08/2019",
+        "issue_date_iso": "2019-12-08",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "5274.36",
+        "tax_total": "479.49",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "HP Windows 10 Pro Desktop Computer Intel QUAD CORE i5 Wifi, Keyboard & Mouse",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "186.95"
+          },
+          {
+            "line_no": "2",
+            "description": "Alarco Gaming PC Desktop Computer Intel i5 8G 1TbWIN 10 NVIDIA GTX 650 1GB",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "550.00"
+          },
+          {
+            "line_no": "3",
+            "description": "HP Pro 3500 Microtower Desktop Computer 3.4GHz i3 4GB 500GB Windows 10 Pro",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "82.49"
+          },
+          {
+            "line_no": "4",
+            "description": "Intel Compute Stick PC (32GB, 1.33GHz, 2GB) - BOXSTCK1A32WFC + Wireless Keyboard",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "164.94"
+          },
+          {
+            "line_no": "5",
+            "description": "NEW RGB Quad Core Gaming PC Desktop Computer 4.2 GHz 500 8GB RAM WIN 10 WIFI",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "659.98"
+          },
+          {
+            "line_no": "6",
+            "description": "HP XW9400 AMD Dual Core 2216 2.6GHz/8GB/250GB/PC Computer / Desktop",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "990.00"
+          },
+          {
+            "line_no": "7",
+            "description": "Alienware Area 51 Gaming Desktop Computer",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "2640.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "7e03c50a65e69d80834b251f9f24d4efa9c5936ad43a78201f3c527a754839e9",
+      "path": "data/voxel51/raw/7e03c50a65e69d80834b251f9f24d4efa9c5936ad43a78201f3c527a754839e9.jpg",
+      "source_file": "data/batch1-1312.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 27.67,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Andrade Inc",
+        "invoice_number": "57567230",
+        "issue_date": "02/20/2020",
+        "issue_date_iso": "2020-02-20",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "1 980.00",
+        "tax_total": "180.00",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Yilong 3'x5' Blue HandKnotted Silk Area Rug Antistatic Home Decor Carpet 975B",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "1 980.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "711f8791921726d9ded9ed239324bb66eb3a0abaca66731086a90653c8eca9ce",
+      "path": "data/voxel51/raw/711f8791921726d9ded9ed239324bb66eb3a0abaca66731086a90653c8eca9ce.jpg",
+      "source_file": "data/batch1-1293.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.11,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Berger-Dickerson",
+        "invoice_number": "47156580",
+        "issue_date": "11/09/2011",
+        "issue_date_iso": "2011-11-09",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "131.98",
+        "tax_total": "12.00",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "New ERIN Erin Fertherston\nStraight Dress White Sequence\nLining Sleeveless SZ 10",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "131.98"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "95e0b8bd67ed25ff3b22aebf7fa67d419c1c1950ca71430ef8094ee8cbee2170",
+      "path": "data/voxel51/raw/95e0b8bd67ed25ff3b22aebf7fa67d419c1c1950ca71430ef8094ee8cbee2170.jpg",
+      "source_file": "data/batch1-1458.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.88,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Stewart, Arias and Nguyen",
+        "invoice_number": "30126821",
+        "issue_date": "11/27/2014",
+        "issue_date_iso": "2014-11-27",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "5 322,08",
+        "tax_total": "483,83",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Carnelian Stone Inlay Art Marble Coffee Table Top White Corner Table 14 Inches",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "743,33"
+          },
+          {
+            "line_no": "2",
+            "description": "Multi Color Stones Inlay Art Coffee Table Top Marble Patio Sofa Table 27 Inches",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "2 846,25"
+          },
+          {
+            "line_no": "3",
+            "description": "18\" Handmade White Top Chess Table Inlaid Mosaic Gemstone Art Halloween Gift Art",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "1 732,50"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "e0c3079fa2c82a9bad3043b640959d1933d03dfb30f7f0b1d7190d4c00d08c2a",
+      "path": "data/voxel51/raw/e0c3079fa2c82a9bad3043b640959d1933d03dfb30f7f0b1d7190d4c00d08c2a.jpg",
+      "source_file": "data/batch1-0451.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 27.38,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Farmer Inc",
+        "invoice_number": "72256079",
+        "issue_date": "04/01/2018",
+        "issue_date_iso": "2018-04-01",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "916.21",
+        "tax_total": "83.29",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Lenovo C20-00... all in one\ndesktop computer...with\nWireless Mouse.....",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "916.21"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "e04311bb77414f6d338229367d5757003be41ba3e7f3c3845d8e3c5ec304bc12",
+      "path": "data/voxel51/raw/e04311bb77414f6d338229367d5757003be41ba3e7f3c3845d8e3c5ec304bc12.jpg",
+      "source_file": "data/batch1-0670.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 32.41,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Tyler-Black",
+        "invoice_number": "24734743",
+        "issue_date": "12/13/2015",
+        "issue_date_iso": "2015-12-13",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "296.48",
+        "tax_total": "26.95",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Old Navy Womens Sleeveless Rayon Dress Hawaiian Floral Print Size XS",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "39.60"
+          },
+          {
+            "line_no": "2",
+            "description": "GUESS dress size 2",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "88.00"
+          },
+          {
+            "line_no": "3",
+            "description": "LuLaRoe Nicole Dress Size Large 25",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "10.94"
+          },
+          {
+            "line_no": "4",
+            "description": "Large Blue Long Sleeve Fit & Flare Dress Elastic Waist Crochet Detail Bohemian",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "4.36"
+          },
+          {
+            "line_no": "5",
+            "description": "Lilly Pulitzer XS Spike the Punch Cassie Cotton Dress with Quarter Sleeves",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "148.14"
+          },
+          {
+            "line_no": "6",
+            "description": "Mossimo M Red and Orange Braided Strap Tank Maxi Dress",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "5.45"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "467a9bc72a494a117ca19708ec38ecbf3493b738fc36248f9543b2a0a4ee32b5",
+      "path": "data/voxel51/raw/467a9bc72a494a117ca19708ec38ecbf3493b738fc36248f9543b2a0a4ee32b5.jpg",
+      "source_file": "data/batch1-1010.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.41,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Martin LLC",
+        "invoice_number": "10457894",
+        "issue_date": "08/21/2012",
+        "issue_date_iso": "2012-08-21",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "215.04",
+        "tax_total": "19.55",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "ELTOW Modular Plastic Wine Rack 3-Pack Stackable Display and Fridge Storage S...",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "52.78"
+          },
+          {
+            "line_no": "2",
+            "description": "Hanging Wine Cup Rack Goblet Inverted Holder Stemware Display Shelf Drainer",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "59.14"
+          },
+          {
+            "line_no": "3",
+            "description": "Wine Rack Holder Iron Art Hanging Racks Glass Cup Stemware Shelf Mounted 2 Color",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "103.13"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "29762dcc0cb45bb3f9d7a57edcdc1593179bd2546c5e68056bfc7e4ebf7a299d",
+      "path": "data/voxel51/raw/29762dcc0cb45bb3f9d7a57edcdc1593179bd2546c5e68056bfc7e4ebf7a299d.jpg",
+      "source_file": "data/batch1-1038.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 34.93,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Jacobs-Curtis",
+        "invoice_number": "83186249",
+        "issue_date": "03/06/2014",
+        "issue_date_iso": "2014-03-06",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "9 103,46",
+        "tax_total": "827,59",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Custom Built Gaming Computer",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "717,75"
+          },
+          {
+            "line_no": "2",
+            "description": "Custom Gaming PC Computer\nFX-6300 3.5GHz 8GB RAM\n128GB SSD 1 TB HDD RX 580\n4GB",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "1 484,97"
+          },
+          {
+            "line_no": "3",
+            "description": "SAMA RGB Gaming PC Desktop\nComputer i5 3.7GHz Nvidia GTX\n1060 16GB Windows 10",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "1 760,00"
+          },
+          {
+            "line_no": "4",
+            "description": "gaming pc desktop computer",
+            "qty": "2,00",
+            "unit_price": null,
+            "line_total": "880,00"
+          },
+          {
+            "line_no": "5",
+            "description": "Qaud core J3160 Dual Lan\nindustrial mini PC,AES NI Linux\nubuntu desktop computer",
+            "qty": "2,00",
+            "unit_price": null,
+            "line_total": "539,00"
+          },
+          {
+            "line_no": "6",
+            "description": "Gaming PC Desktop Computer\nHDMI RGB Intel i7 RTX 2060,\nHDD+SSD, Windows 10, Wifi",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "2 982,54"
+          },
+          {
+            "line_no": "7",
+            "description": "Dell Core 2 Duo Desktop\nComputer | Windows XP Pro |\n4GB | 500GB",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "739,20"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "d18a2cf3a14f5cc38ed93e3348e949c02d1f0b2793d3950aea6fdd6287e3aace",
+      "path": "data/voxel51/raw/d18a2cf3a14f5cc38ed93e3348e949c02d1f0b2793d3950aea6fdd6287e3aace.jpg",
+      "source_file": "data/batch1-1249.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 33.54,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Krueger LLC",
+        "invoice_number": "45325258",
+        "issue_date": "02/13/2012",
+        "issue_date_iso": "2012-02-13",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "1 821,48",
+        "tax_total": "165,59",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "New Nintendo 3DS XL Red System Console Working W/ AC Adapter Bundle",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "494,97"
+          },
+          {
+            "line_no": "2",
+            "description": "Nintendo 64 N64 Game Console System + Controller Cords WORKING",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "550,00"
+          },
+          {
+            "line_no": "3",
+            "description": "Nintendo 64 game console unit / controllers / games used untested",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "131,97"
+          },
+          {
+            "line_no": "4",
+            "description": "Microsoft Xbox One 500GB 1540 Black Game Console TESTED Complete",
+            "qty": "2,00",
+            "unit_price": null,
+            "line_total": "307,98"
+          },
+          {
+            "line_no": "5",
+            "description": "B310 Nintendo 3DS console Cosmo Black Japan x",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "39,57"
+          },
+          {
+            "line_no": "6",
+            "description": "Nintendo Switch 32GB Neon Red/Neon Blue Console Slightly Used",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "297,00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "97dfd34cb7b9a43e0887c7a1fef397a72e2de3172ebb4afa9a72312e02217326",
+      "path": "data/voxel51/raw/97dfd34cb7b9a43e0887c7a1fef397a72e2de3172ebb4afa9a72312e02217326.jpg",
+      "source_file": "data/batch1-1135.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 32.5,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Martin, Foster and Hayes",
+        "invoice_number": "58769039",
+        "issue_date": "07/09/2012",
+        "issue_date_iso": "2012-07-09",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "3074.95",
+        "tax_total": "307.50",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "HP Z220 Desktop Computer\nBarebone system",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "70.00"
+          },
+          {
+            "line_no": "2",
+            "description": "Dell Optiplex 7040 SFF PC\nComputer Intel Core i5-6500\n3.2GHz 4GB RAM 500GB HDD",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "399.96"
+          },
+          {
+            "line_no": "3",
+            "description": "HP ProDesk 600 G5 Mini\nDesktop Computer i5-9500T\n8GB 256GB SSD W10 (new)",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "1797.00"
+          },
+          {
+            "line_no": "4",
+            "description": "personal computer",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "118.00"
+          },
+          {
+            "line_no": "5",
+            "description": "Gaming PC Desktop Computer\nRGB Intel i7 GTX 1650, 16GB\nRAM, 2TB HDD, 240GB SSD",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "689.99"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "52389087ced0a7547930291c7208d33aa10de30898ea061c36cfc12f4b4e548a",
+      "path": "data/voxel51/raw/52389087ced0a7547930291c7208d33aa10de30898ea061c36cfc12f4b4e548a.jpg",
+      "source_file": "data/batch1-0043.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 29.64,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Williamson-Hernandez",
+        "invoice_number": "37107781",
+        "issue_date": "07/29/2012",
+        "issue_date_iso": "2012-07-29",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "2 804.92",
+        "tax_total": "254.99",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "CLEARANCE!!! Fast HP Desktop Computer PC Core 2 Duo WINDOWS 10 + LCD + KB + MS",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "296.97"
+          },
+          {
+            "line_no": "2",
+            "description": "GAMING PC Desktop Computer RGB BUNDLE Intel CORE i7 16GB RAM Nvidia GTX 1650 1TB",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "2 507.96"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "4ffd27108252b49a8455ac94ab75f31831b58a22a9881fb4def38d64fbdf5188",
+      "path": "data/voxel51/raw/4ffd27108252b49a8455ac94ab75f31831b58a22a9881fb4def38d64fbdf5188.jpg",
+      "source_file": "data/batch1-0171.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.47,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Sullivan Group",
+        "invoice_number": "57168941",
+        "issue_date": "10/19/2020",
+        "issue_date_iso": "2020-10-19",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "1620.38",
+        "tax_total": "147.31",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Yilong 2'x3' Traditional Handmade Silk Area Rugs Kid Friendly Floor Carpet 356B",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "1320.00"
+          },
+          {
+            "line_no": "2",
+            "description": "Garden Flower Carpet Quilted Bedroom Floor Princess Tapis Lace Rug Carpets",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "250.25"
+          },
+          {
+            "line_no": "3",
+            "description": "3D Stones Florals Corridor Carpet Doorway Mat Soft Antislip Living Room Area Rug",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "50.13"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "46967e4fe3a09e9374d64e072f8b319ac5ad8f6994bf2fac5ce9f2619213808f",
+      "path": "data/voxel51/raw/46967e4fe3a09e9374d64e072f8b319ac5ad8f6994bf2fac5ce9f2619213808f.jpg",
+      "source_file": "data/batch1-1015.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 27.77,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Walker, Serrano and Garcia",
+        "invoice_number": "43883632",
+        "issue_date": "06/20/2020",
+        "issue_date_iso": "2020-06-20",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "330.00",
+        "tax_total": "30.00",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Nintendo 64 N64 Game Console System + Controller Cords WORKING",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "330.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "1cd2c4b511ce5fb5cc112877628f24aab1ad4e54ca8b2f56590bb75e791ea6c9",
+      "path": "data/voxel51/raw/1cd2c4b511ce5fb5cc112877628f24aab1ad4e54ca8b2f56590bb75e791ea6c9.jpg",
+      "source_file": "data/batch1-0477.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.86,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Horton LLC",
+        "invoice_number": "65981953",
+        "issue_date": "05/14/2020",
+        "issue_date_iso": "2020-05-14",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "1 028.36",
+        "tax_total": "93.49",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "iBUYPOWER Gaming Computer\nAMD Ryzen 3 3100, Radeon RX\n550, 240GB SSD, WiFi Ready",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "560.95"
+          },
+          {
+            "line_no": "2",
+            "description": "Dell Desktop Computer PC Core\ni5 3.1GHz 8GB RAM 500GB HD\nWifi DVD Windows 10",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "137.45"
+          },
+          {
+            "line_no": "3",
+            "description": "HP 8300 Slim Desktop Small\nComputer PC i5 3.2GHz 4GB\n500GB Windows 10 Pro WiFi",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "329.97"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "f91a5fa00712a6440df487435ba904301d9d4f040eb47d1f57921fd60544a729",
+      "path": "data/voxel51/raw/f91a5fa00712a6440df487435ba904301d9d4f040eb47d1f57921fd60544a729.jpg",
+      "source_file": "data/batch1-1148.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.15,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Prince-Gutierrez",
+        "invoice_number": "73707762",
+        "issue_date": "12/13/2017",
+        "issue_date_iso": "2017-12-13",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "1 221,77",
+        "tax_total": "111.07",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "HP T520 Thin Client Computer\nAMD GX-212JC 1.2GHz 4GB RAM\nTESTED !! READ BELOW!!",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "166.10"
+          },
+          {
+            "line_no": "2",
+            "description": "FAST Dell Optiplex Windows 10\nDesktop Computer Tower C2D\n4GB DVD WiFi 17\" LCD",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "549.78"
+          },
+          {
+            "line_no": "3",
+            "description": "Dell Optiplex Core i7 Desktop\nComputer PC 8GB 1TB HD DVD\nWindows 10 Pro",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "505.89"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "25750d1b5ea00894de6cc2a1550d554a942b405f90398cc4bb88d126b5857e30",
+      "path": "data/voxel51/raw/25750d1b5ea00894de6cc2a1550d554a942b405f90398cc4bb88d126b5857e30.jpg",
+      "source_file": "data/batch1-1375.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 33.68,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Thomas, Gonzalez and Bennett",
+        "invoice_number": "59612541",
+        "issue_date": "08/24/2016",
+        "issue_date_iso": "2016-08-24",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "21 089,90",
+        "tax_total": "1 917,26",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Red Traditional Oriental Medallion 8x10 Area Rug Carpet 2x3 Mat 5x7 Rugs",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "219.89"
+          },
+          {
+            "line_no": "2",
+            "description": "Sheepskin Shaggy Faux Fur Silky Plush Soft Fabric Rectangular Rug Doormat Carpet",
+            "qty": "2,00",
+            "unit_price": null,
+            "line_total": "19.78"
+          },
+          {
+            "line_no": "3",
+            "description": "YILONG 5.6'x8.2' Handknotted Silk Rug Red Medallion Indoor Durable Carpet 1842",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "3 630,00"
+          },
+          {
+            "line_no": "4",
+            "description": "Galaxy Butterfly Area Rugs Children Bedroom Non-Slip Doormat Floor Mat Carpet",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "60.24"
+          },
+          {
+            "line_no": "5",
+            "description": "YILONG 9'x12' Oversize Handmade Silk Carpet Antistatic Luxurious Area Rug TJ107A",
+            "qty": "2,00",
+            "unit_price": null,
+            "line_total": "17 160,00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "0becb83b164698e53607123a5861831beb033e78a3b148c2052ae9af7931a13c",
+      "path": "data/voxel51/raw/0becb83b164698e53607123a5861831beb033e78a3b148c2052ae9af7931a13c.jpg",
+      "source_file": "data/batch1-0741.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 27.1,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Rojas-Cook",
+        "invoice_number": "33931957",
+        "issue_date": "12/17/2015",
+        "issue_date_iso": "2015-12-17",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "27.50",
+        "tax_total": "2.50",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "NWT Women's MAX EDITION Classy Gray Knit Stretch Dress side bow tie 3/4 sleeve XL",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "27.50"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "8772fb9450639d8210637b81fb1a33c23c41ceb5e28e24b1af58c9718fa79088",
+      "path": "data/voxel51/raw/8772fb9450639d8210637b81fb1a33c23c41ceb5e28e24b1af58c9718fa79088.jpg",
+      "source_file": "data/batch1-0992.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 34.63,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Wagner-Weaver",
+        "invoice_number": "30386285",
+        "issue_date": "09/28/2020",
+        "issue_date_iso": "2020-09-28",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "23844.07",
+        "tax_total": "2167.64",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "40 Inches Marble Utility Table Top Inlay with Royal Pattern Stone Dinning Table",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "5655.37"
+          },
+          {
+            "line_no": "2",
+            "description": "18\"x18\" Marble White Table Top Lapis Inlay Pietradura Floral Home Décor Art Gift",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "1307.30"
+          },
+          {
+            "line_no": "3",
+            "description": "4 Pcs Table Feet Durable High Quality Sturdy Chair Feet Table Feet for Home",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "84.12"
+          },
+          {
+            "line_no": "4",
+            "description": "6'x3' Marble Counter Height Dining Table Top Multi Inlay Furniture Decor E955A",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "12032.64"
+          },
+          {
+            "line_no": "5",
+            "description": "20 Inches Marble Coffee Table Top Multi Stone Chess Board Table with Inlay Art",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "364.65"
+          },
+          {
+            "line_no": "6",
+            "description": "24\"x24\" Top Marble White Table Carnelian Marquetry Interior Thanksgiving Gift",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "4400.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "cf276c3fa11db74df9c902ec65ff19b71b7a90a185f4090449b9ff409ece729b",
+      "path": "data/voxel51/raw/cf276c3fa11db74df9c902ec65ff19b71b7a90a185f4090449b9ff409ece729b.jpg",
+      "source_file": "data/batch1-1213.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.32,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Reid, Owens and Miller",
+        "invoice_number": "65917154",
+        "issue_date": "03/25/2019",
+        "issue_date_iso": "2019-03-25",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "2850.93",
+        "tax_total": "259.18",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "HP Desktop Computer PC\nCore i5 16GB 2TB HD 256GB\nSSD 22\" LCD Windows 10",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "153.94"
+          },
+          {
+            "line_no": "2",
+            "description": "Custom Build Gaming RGB Mini\nITX Computer PC",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "2288.00"
+          },
+          {
+            "line_no": "3",
+            "description": "Dell Desktop Computer PC Intel\nWindows 10 Pro WIFI DVD Dual\nLCD Monitor 17\"/19\"",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "408.98"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "1193e44bb564689671cc560aa1b443b032b1f862c95851e838092617afe2404c",
+      "path": "data/voxel51/raw/1193e44bb564689671cc560aa1b443b032b1f862c95851e838092617afe2404c.jpg",
+      "source_file": "data/batch1-1127.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.27,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Cruz-Rice",
+        "invoice_number": "92802196",
+        "issue_date": "04/09/2017",
+        "issue_date_iso": "2017-04-09",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "686.75",
+        "tax_total": "62.43",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "The Art of Glen Loates",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "26.75"
+          },
+          {
+            "line_no": "2",
+            "description": "Signed ~THE HOT ZONE A\nTerrifying True Story Richard\nPreston HCDJ First Edition!",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "660.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "346c6bcde473934866fddd7df4e0c5f872ff2def999fb084c560ec7cc32c89ed",
+      "path": "data/voxel51/raw/346c6bcde473934866fddd7df4e0c5f872ff2def999fb084c560ec7cc32c89ed.jpg",
+      "source_file": "data/batch1-0862.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 27.61,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Harris-Jones",
+        "invoice_number": "14941401",
+        "issue_date": "07/28/2020",
+        "issue_date_iso": "2020-07-28",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "605.00",
+        "tax_total": "55.00",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Xbox One S 1 TB Console",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "165.00"
+          },
+          {
+            "line_no": "2",
+            "description": "Sony PlayStation 2 Fat Console\nPS2 SCPH-30001",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "440.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "ecb3da001d22e81cc89c1fb82f556978599c169c085639f264b111e73419d68d",
+      "path": "data/voxel51/raw/ecb3da001d22e81cc89c1fb82f556978599c169c085639f264b111e73419d68d.jpg",
+      "source_file": "data/batch1-0029.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 35.67,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Fitzgerald Group",
+        "invoice_number": "54661411",
+        "issue_date": "07/29/2020",
+        "issue_date_iso": "2020-07-29",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "7 920.58",
+        "tax_total": "720.05",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Bohemia Style Round Morocco Area Rug Tassel Carpet Mat Floor Blanket Room Decor",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "154.74"
+          },
+          {
+            "line_no": "2",
+            "description": "Color Skull Series Small Large Long Floor Carpet Area Rugs Various Size Soft Rug",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "119.79"
+          },
+          {
+            "line_no": "3",
+            "description": "3D Swirl Print Optical Illusion Area Rug Carpet Floor Pad Non-slip Doormat Mats",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "13.16"
+          },
+          {
+            "line_no": "4",
+            "description": "Rug Area Hand Knotted Wool Oriental Carpet Vintage Geometric Traditional Handmad",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "1 353.00"
+          },
+          {
+            "line_no": "5",
+            "description": "YILONG 1.2x1.7' 300L Tree And Birds Handmade Silk Rug Carpet Tapestry LH691A",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "620.40"
+          },
+          {
+            "line_no": "6",
+            "description": "Indian Green Red Color 2.6'x4' Carpet Hand Knotted Living Room Traditional Chobi",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "709.50"
+          },
+          {
+            "line_no": "7",
+            "description": "Yilong 3'x5' Blue HandKnotted Silk Area Rug Antistatic Home Decor Carpet 975B",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "4 950.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "5af056c01199264c7e83acea7565f0d25223508437a02fc00228d728c9e5c674",
+      "path": "data/voxel51/raw/5af056c01199264c7e83acea7565f0d25223508437a02fc00228d728c9e5c674.jpg",
+      "source_file": "data/batch1-1273.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.6,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Moses-Blair",
+        "invoice_number": "61769801",
+        "issue_date": "11/01/2018",
+        "issue_date_iso": "2018-11-01",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "280.50",
+        "tax_total": "25.50",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Hazlitt 1852 Vineyard home of\nthe red cat wine glass",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "16.50"
+          },
+          {
+            "line_no": "2",
+            "description": "VINTAGE ANTIQUE BRASS\nTABLE TOP WINE BOTTLE\nOPENER/WOOD HANDLE",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "264.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "cdd58fa71ae913af09b91e913d92b178ed4e8a6893091cb6d4e5a8d803228705",
+      "path": "data/voxel51/raw/cdd58fa71ae913af09b91e913d92b178ed4e8a6893091cb6d4e5a8d803228705.jpg",
+      "source_file": "data/batch1-0427.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 31.77,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Jensen PLC",
+        "invoice_number": "17811597",
+        "issue_date": "07/24/2013",
+        "issue_date_iso": "2013-07-24",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "3 756,43",
+        "tax_total": "341,49",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "NINTENDO 64 CONSOLE Plus 2 GAMES Barely Played With in PARTIAL ORIGINAL BOX",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "54.99"
+          },
+          {
+            "line_no": "2",
+            "description": "Nintendo Wii Console System Bundle GameCube Compatible w Controllers Games Cords",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "104.45"
+          },
+          {
+            "line_no": "3",
+            "description": "Xbox Series X Console CONFIRMED PRE-ORDER",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "3 300.00"
+          },
+          {
+            "line_no": "4",
+            "description": "Nintendo Switch Lite Yellow CONSOLE ONLY - No Accessories or Charger [B1-1]",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "297.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "d4afac2f65bc6302dfac71d81d35acfc80c3be3833591af8cc5d27653ef96001",
+      "path": "data/voxel51/raw/d4afac2f65bc6302dfac71d81d35acfc80c3be3833591af8cc5d27653ef96001.jpg",
+      "source_file": "data/batch1-0981.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 32.73,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Smith Ltd",
+        "invoice_number": "26343874",
+        "issue_date": "07/17/2013",
+        "issue_date_iso": "2013-07-17",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "3490.29",
+        "tax_total": "317.30",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Microsoft Xbox One X 1TB 4k Ultra HD Console black controller works great 1787",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "1369.50"
+          },
+          {
+            "line_no": "2",
+            "description": "Cables 500gb, Sony PlayStation 4 PS4 CUH 1215A Jet Black Console w/ Controller",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "550.00"
+          },
+          {
+            "line_no": "3",
+            "description": "PS2 Slim Console System SCPH-77000 PINK Playstation 2 Tested",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "1108.80"
+          },
+          {
+            "line_no": "4",
+            "description": "Nintendo Game Boy Micro Console - Black (OXYSFBB)",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "286.00"
+          },
+          {
+            "line_no": "5",
+            "description": "Nintendo GameCube System Console Bundle Mario Sunshine + Genuine controller LOT",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "175.99"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "de2215da0c9e5838541aad6f059ef099269f3b8925a2fdf295ec7d2c7c6a9078",
+      "path": "data/voxel51/raw/de2215da0c9e5838541aad6f059ef099269f3b8925a2fdf295ec7d2c7c6a9078.jpg",
+      "source_file": "data/batch1-0974.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 33.93,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Wilson Inc",
+        "invoice_number": "46405643",
+        "issue_date": "05/16/2018",
+        "issue_date_iso": "2018-05-16",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "3098.57",
+        "tax_total": "281.69",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Sony PlayStation 5 Disc Edition\nConsole Preorder + Spiderman:\nMM Day One Confirm",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "1320.00"
+          },
+          {
+            "line_no": "2",
+            "description": "PocketGo Bittboy v2 White\nRetro Video Game Portable\nConsole - 3.5 IPS display",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "128.70"
+          },
+          {
+            "line_no": "3",
+            "description": "Sony PlayStation 3 12 GB\nCharcoal Black Console (Used)",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "120.99"
+          },
+          {
+            "line_no": "4",
+            "description": "Nintendo Switch Lite Gray\nCONSOLE ONLY - No\nAccessories or Charger [B5-2]",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "742.50"
+          },
+          {
+            "line_no": "5",
+            "description": "Vg PlayStation PS Vita console\nPCH-1100AB01 PCH-1100\nCrystal Black 4GB 271214",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "632.39"
+          },
+          {
+            "line_no": "6",
+            "description": "Sony PlayStation 3 150GB\nCharcoal Black Console (Used)",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "153.99"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "d3baaad3ceb479b9604cd672bf7bcbe5a37a8bf0f9eb153c7b9d39940068c476",
+      "path": "data/voxel51/raw/d3baaad3ceb479b9604cd672bf7bcbe5a37a8bf0f9eb153c7b9d39940068c476.jpg",
+      "source_file": "data/batch1-1045.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 29.93,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Carson, Holder and Roberts",
+        "invoice_number": "62842838",
+        "issue_date": "08/27/2019",
+        "issue_date_iso": "2019-08-27",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "20 710,80",
+        "tax_total": "1 882,80",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "60 Inches Marble Dinning Table\nTop Inlay Work Lawn Table with\nMulti Color Stones",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "18 994,80"
+          },
+          {
+            "line_no": "2",
+            "description": "18\" Handmade White Table\nChess Coffee Table Inlay Mosaic\nArt Christmas Gift Arts",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "1 716,00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "2ebf3c470f737bcd156b2e920b869164968ba1a42ed5545db7543890ffa0f396",
+      "path": "data/voxel51/raw/2ebf3c470f737bcd156b2e920b869164968ba1a42ed5545db7543890ffa0f396.jpg",
+      "source_file": "data/batch1-0228.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 34.68,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Anderson Inc",
+        "invoice_number": "35992997",
+        "issue_date": "02/01/2017",
+        "issue_date_iso": "2017-02-01",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "37016.78",
+        "tax_total": "3365.16",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "YILONG 4'x6' Golden Handmade Silk Rugs Vintage Classic Oriental Carpet 086B",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "26400.00"
+          },
+          {
+            "line_no": "2",
+            "description": "Yilong 9'x12' Oversized Handwoven Silk Carpet Luxurious Villa Area Rug HF058A",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "8580.00"
+          },
+          {
+            "line_no": "3",
+            "description": "Checkered Gabbeh Kashkoli Oriental Area Rug Contemporary Hand-knotted 6x8 Carpet",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "1835.86"
+          },
+          {
+            "line_no": "4",
+            "description": "Plush Carpet for Living Room Fluffy Rug Thick Bed Room Carpets Anti-slip Floor G",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "22.40"
+          },
+          {
+            "line_no": "5",
+            "description": "KEEP OFF classic Patterned Carpet, Fan Carpet Non Slip Floor Carpet,Teen's Carp",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "97.90"
+          },
+          {
+            "line_no": "6",
+            "description": "3 Pieces Fluffy Faux Fur Seat Pads 30cm/12inch Round Pad Floor Carpets",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "80.63"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "a555f327f906e063654e8a7c084da1c0333bbab1d569cb6837659a5240a53786",
+      "path": "data/voxel51/raw/a555f327f906e063654e8a7c084da1c0333bbab1d569cb6837659a5240a53786.jpg",
+      "source_file": "data/batch1-0107.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 34.56,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Maxwell Inc",
+        "invoice_number": "40700258",
+        "issue_date": "12/27/2013",
+        "issue_date_iso": "2013-12-27",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "514.02",
+        "tax_total": "46.73",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Boys Black Dress Shoes",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "19.80"
+          },
+          {
+            "line_no": "2",
+            "description": "Fila Boys Skele-Toes Bay RNR 3\nBlack Running Shoes 11\nMedium (D) Little Kid 9953",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "11.28"
+          },
+          {
+            "line_no": "3",
+            "description": "Steve Madden Bserge Boys\nBlack Dress Leather Loafer\nShoes US 4 NIB",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "87.89"
+          },
+          {
+            "line_no": "4",
+            "description": "Kid's Boys Hiking Garden\nSandals Leisure Closed Toe\nFisherman Beach Shoes\nSummer",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "175.34"
+          },
+          {
+            "line_no": "5",
+            "description": "Nike Dangeruss Wilson Youth\nFlex Shoes Green Blue Sneakers\nKids Size 12.5",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "87.78"
+          },
+          {
+            "line_no": "6",
+            "description": "Joma Boys Youth Gol-102\nSoccer Cleats Shoes Size 1.5\nWhite Red 1.5Y NEW",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "109.94"
+          },
+          {
+            "line_no": "7",
+            "description": "Diadora Youth Boys Avanti MD\nJR Soccer Cleats Size 2.5 Yellow\nBlack NEW",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "21.99"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "f51c7697d271c9ef8c4310e4ef556af7d0766d663c4bea06b9767f7f4fe63735",
+      "path": "data/voxel51/raw/f51c7697d271c9ef8c4310e4ef556af7d0766d663c4bea06b9767f7f4fe63735.jpg",
+      "source_file": "data/batch1-1413.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 35.53,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Contreras, Hunter and Cameron",
+        "invoice_number": "24945791",
+        "issue_date": "12/15/2015",
+        "issue_date_iso": "2015-12-15",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "27 657,15",
+        "tax_total": "2 514,29",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Round Rug Carpet For Living Room Decor Faux Fur Rugs Kids Room Long Plush Rugs",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "21.71"
+          },
+          {
+            "line_no": "2",
+            "description": "Nordic Braided Tassels Sofa Rugs Area Rug Soft Mat Palm Leaves Room Carpet",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "410.39"
+          },
+          {
+            "line_no": "3",
+            "description": "Moroccan Amazigh Handmade Carpet 14'2\" x 7'5\"",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "376.20"
+          },
+          {
+            "line_no": "4",
+            "description": "Floral Style Vintage 5X7 Handmade Bidjar Foyer Rug Oriental Home Decor Carpet",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "1 957.16"
+          },
+          {
+            "line_no": "5",
+            "description": "YILONG 1.2x1.7' 300L Tree And Birds Handmade Silk Rug Carpet Tapestry LH691A",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "1 034.00"
+          },
+          {
+            "line_no": "6",
+            "description": "Yilong 6'x9' Handknotted Silk Area Rug Medallion Deep Red Home Carpet 0962",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "23 760.00"
+          },
+          {
+            "line_no": "7",
+            "description": "Cotton Handmade Area Rug Home Decorative Rustic Carpet Woven Dhurrie 3X5 Runner",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "97.68"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "521a86a90d80b5e1fc6b8eee40bafb547f004207e235f7b34249bb50c3e62144",
+      "path": "data/voxel51/raw/521a86a90d80b5e1fc6b8eee40bafb547f004207e235f7b34249bb50c3e62144.jpg",
+      "source_file": "data/batch1-1222.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 35.05,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Barber LLC",
+        "invoice_number": "93035437",
+        "issue_date": "07/23/2017",
+        "issue_date_iso": "2017-07-23",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "44 262,48",
+        "tax_total": "4 023,86",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "YILONG 6.56'x9.84' Handmade Silk Carpet Blue Bedroom Indoor Area Rug 0785",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "15 840,00"
+          },
+          {
+            "line_no": "2",
+            "description": "YILONG 4'x6' Golden Handmade Silk Rugs Vintage Classic Oriental Carpet 086B",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "21 120,00"
+          },
+          {
+            "line_no": "3",
+            "description": "YILONG 4'x6' Golden Hand Knotted Silk Rugs Antistatic Family Room Carpet 085B",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "5 280,00"
+          },
+          {
+            "line_no": "4",
+            "description": "Yilong 1'x1.5' 400Lines Area Rug High Density Hand knotted Silk Carpet 221H",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "1 782,00"
+          },
+          {
+            "line_no": "5",
+            "description": "Morocco Area Rug Round Carpet Bohemian Style Tassel Mat Door Room Decor Blanket",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "227,65"
+          },
+          {
+            "line_no": "6",
+            "description": "Fluffy Floor Mat Anti-Skid Shaggy Area Rugs Dining Living Room Carpet Home Decor",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "12,84"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "eb4190b9031f0a7ca287cee87336ab65888d89bfe3ffdb99cf8b6883296609cc",
+      "path": "data/voxel51/raw/eb4190b9031f0a7ca287cee87336ab65888d89bfe3ffdb99cf8b6883296609cc.jpg",
+      "source_file": "data/batch1-0697.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 33.64,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Booth, Townsend and Sanford",
+        "invoice_number": "98824587",
+        "issue_date": "03/09/2020",
+        "issue_date_iso": "2020-03-09",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "4 113.92",
+        "tax_total": "373.99",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Nintendo Wii U WUP-101(02)\n32GB Console - Black - US\nModel",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "132.00"
+          },
+          {
+            "line_no": "2",
+            "description": "Sega V Saturn Victor Console\nRG-JX1 Gray Tested Working\nJapan",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "131.99"
+          },
+          {
+            "line_no": "3",
+            "description": "Microsoft Xbox One 1 - 500 GB\nConsole - Black w/ Controller &\nPower Supply GOOD",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "770.00"
+          },
+          {
+            "line_no": "4",
+            "description": "Xbox One S 1 TB Console",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "330.00"
+          },
+          {
+            "line_no": "5",
+            "description": "Microsoft Xbox Series X 1TB\nVideo Game Console - Black,\nPreorder Confirm PRESALE",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "2 408.93"
+          },
+          {
+            "line_no": "6",
+            "description": "Magnavox Odyssey 2\nMicroprocessor Console System\nw Joy Sticks & 15 Games - 1978",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "341.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "ce8a71db99833e99f95437d11f3eb07fe414d6349204fbc820fe3bd8c93b8113",
+      "path": "data/voxel51/raw/ce8a71db99833e99f95437d11f3eb07fe414d6349204fbc820fe3bd8c93b8113.jpg",
+      "source_file": "data/batch1-0875.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.02,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Summers-Bradley",
+        "invoice_number": "96452603",
+        "issue_date": "03/12/2016",
+        "issue_date_iso": "2016-03-12",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "458.96",
+        "tax_total": "41.72",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Checkered Gabbeh Kashkoli\nOriental Area Rug\nContemporary Hand-knotted\n6x8 Carpet",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "458.96"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "77ddea945b8c650da305587eef2f5d0c4aafa9d591e2bcacccd088f27ba59b26",
+      "path": "data/voxel51/raw/77ddea945b8c650da305587eef2f5d0c4aafa9d591e2bcacccd088f27ba59b26.jpg",
+      "source_file": "data/batch1-1309.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.89,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Todd PLC",
+        "invoice_number": "35797032",
+        "issue_date": "10/06/2015",
+        "issue_date_iso": "2015-10-06",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "940.50",
+        "tax_total": "85.50",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Nintendo Switch Lite Gray CONSOLE ONLY - No Accessories or Charger [B5-3]",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "742.50"
+          },
+          {
+            "line_no": "2",
+            "description": "SONY Playstation2 Console SCPH-39000 \"Aqua Color \" / TESTED 11179",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "198.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "f6560e323ca01128bd40aae567d5997da41f508b2ab84c32e34fc2b133e0a81f",
+      "path": "data/voxel51/raw/f6560e323ca01128bd40aae567d5997da41f508b2ab84c32e34fc2b133e0a81f.jpg",
+      "source_file": "data/batch1-0225.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.0,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Graham, Floyd and Johnson",
+        "invoice_number": "34911755",
+        "issue_date": "01/30/2019",
+        "issue_date_iso": "2019-01-30",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "199,20",
+        "tax_total": "18,11",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Metal Storage Shelf Wine Glass Rack Wine Glasses for The Cabinet",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "123,31"
+          },
+          {
+            "line_no": "2",
+            "description": "Wine Things Unlimited - Tipsy Wine Elf - Pewter Wine Bottle Stopper/Cork",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "9,89"
+          },
+          {
+            "line_no": "3",
+            "description": "Set of 2 Stemless Christmas Wine Glasses NEW",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "66,00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "d9e2d611e01fe0af67dfa54efc1dc6dacb61233cbbcc0ec724c07e1f71132e88",
+      "path": "data/voxel51/raw/d9e2d611e01fe0af67dfa54efc1dc6dacb61233cbbcc0ec724c07e1f71132e88.jpg",
+      "source_file": "data/batch1-0774.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 32.58,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Hopkins and Sons",
+        "invoice_number": "13194726",
+        "issue_date": "05/29/2021",
+        "issue_date_iso": "2021-05-29",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "640.12",
+        "tax_total": "58.19",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Beach Lunch Lounge Striped Shirt Dress Large Navy Blue White Long Sleeve Causal",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "18.69"
+          },
+          {
+            "line_no": "2",
+            "description": "Jams World Hawaiian [] Dress Rayon sz.L",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "357.50"
+          },
+          {
+            "line_no": "3",
+            "description": "LuLaRoe Nicole Dress Size Large 26",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "4.38"
+          },
+          {
+            "line_no": "4",
+            "description": "Johnny Was Medium Linen Wrap Dress Dessert Rose Embroiderd Bohemian",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "197.98"
+          },
+          {
+            "line_no": "5",
+            "description": "Eileen Fisher Women's Long Sleeve Fleece Lined Front Pockets Dress XS Gray",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "35.18"
+          },
+          {
+            "line_no": "6",
+            "description": "Hanna Anderson Women's L Large Coral Short Sleeve Casual Fall Tee Shirt Dress",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "26.40"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "0b356958f8ec6ef47a7489b60eaa0fce041fb2fecebbe49d190024bcb14e0b48",
+      "path": "data/voxel51/raw/0b356958f8ec6ef47a7489b60eaa0fce041fb2fecebbe49d190024bcb14e0b48.jpg",
+      "source_file": "data/batch1-1037.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 31.14,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Rodriguez-Smith",
+        "invoice_number": "33658471",
+        "issue_date": "12/24/2016",
+        "issue_date_iso": "2016-12-24",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "272.47",
+        "tax_total": "24.77",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Elisa Cavaletti Daniela Dallavalle Shift Dress Grey And White .Size M",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "66.00"
+          },
+          {
+            "line_no": "2",
+            "description": "Jams World Hawaiian Dress Rayon sz.L",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "71.50"
+          },
+          {
+            "line_no": "3",
+            "description": "LuLaRoe Nicole Dress Size Medium 11",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "8.76"
+          },
+          {
+            "line_no": "4",
+            "description": "Zara Yellow Shift Dress XS",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "27.23"
+          },
+          {
+            "line_no": "5",
+            "description": "Johnny Was Medium Linen Wrap Dress Dessert Rose Embroiderd Bohemian",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "98.99"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "08790e143d33a3f81d018fd072346a29e3f503b263b4d15d6c4d9e9e1164f532",
+      "path": "data/voxel51/raw/08790e143d33a3f81d018fd072346a29e3f503b263b4d15d6c4d9e9e1164f532.jpg",
+      "source_file": "data/batch1-0259.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 31.75,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Campos-Cooper",
+        "invoice_number": "40046347",
+        "issue_date": "07/28/2011",
+        "issue_date_iso": "2011-07-28",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "130.83",
+        "tax_total": "11.89",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Joma Youth Boys Gol 205 Piso Multitaco Soccer Cleats 1.5 White Blue Yellow NEW",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "65.97"
+          },
+          {
+            "line_no": "2",
+            "description": "3 Boys sneakers light up size 11",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "16.50"
+          },
+          {
+            "line_no": "3",
+            "description": "LL Bean HIGH TOP Black Canvas SNEAKER Shoes Kid's Boy's 6 M EXCL CND",
+            "qty": "2,00",
+            "unit_price": null,
+            "line_total": "37.38"
+          },
+          {
+            "line_no": "4",
+            "description": "Timberland brown slip on shoes size 4.5 juniors",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "6.60"
+          },
+          {
+            "line_no": "5",
+            "description": "Wonder Nation Kids Shoes Size 8c",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "4.39"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "9e80638ccc76c542ba4754dc6f06ffe74257cb3ebdeed6433dca5941ca940dfb",
+      "path": "data/voxel51/raw/9e80638ccc76c542ba4754dc6f06ffe74257cb3ebdeed6433dca5941ca940dfb.jpg",
+      "source_file": "data/batch1-1311.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.17,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Ortiz, Alvarez and Davis",
+        "invoice_number": "52661039",
+        "issue_date": "06/27/2017",
+        "issue_date_iso": "2017-06-27",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "546.16",
+        "tax_total": "49.65",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Nintendo Wii Console Complete Bundle w/extras tested",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "115.49"
+          },
+          {
+            "line_no": "2",
+            "description": "Nintendo Wii Console RVL-001 Complete Hookups W/ Mario&Sonic; Tested / Working",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "347.07"
+          },
+          {
+            "line_no": "3",
+            "description": "Original xbox console (Works Great, Tested)",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "83.60"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "9ed1111d2b88626fac0362ebe031f891cfe114c7ec423c72eee4270d4e5c1e65",
+      "path": "data/voxel51/raw/9ed1111d2b88626fac0362ebe031f891cfe114c7ec423c72eee4270d4e5c1e65.jpg",
+      "source_file": "data/batch1-1324.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.98,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Mcneil, Munoz and Campbell",
+        "invoice_number": "50857048",
+        "issue_date": "05/22/2020",
+        "issue_date_iso": "2020-05-22",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "64.72",
+        "tax_total": "5.88",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "New without boxes heavy duty plastic wine glasses lot of 16",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "42.73"
+          },
+          {
+            "line_no": "2",
+            "description": "Electric Wine Bottle Opener Auto Cordless Corkscrew Wine Cork Remover Opener",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "21.99"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "90889d37befaca87284bde2026c6f5d6356952432645d28e3367d10864f13684",
+      "path": "data/voxel51/raw/90889d37befaca87284bde2026c6f5d6356952432645d28e3367d10864f13684.jpg",
+      "source_file": "data/batch1-0379.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 32.15,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Howell, Underwood and Davis",
+        "invoice_number": "59051048",
+        "issue_date": "12/12/2015",
+        "issue_date_iso": "2015-12-12",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "294.27",
+        "tax_total": "26.75",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Vintage Gothic Lolita Dress\nWomen Loose Puff Sleeve Pure\nColor Princess Dresses",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "50.09"
+          },
+          {
+            "line_no": "2",
+            "description": "StellaLuxe One Shoulder Lace\nDress",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "82.50"
+          },
+          {
+            "line_no": "3",
+            "description": "S.L. Fashions Size 16 Stretch\nBodice Dress",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "34.10"
+          },
+          {
+            "line_no": "4",
+            "description": "Old Navy Womens Sleeveless\nRayon Dress Hawaiian Floral\nPrint Size XS",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "39.60"
+          },
+          {
+            "line_no": "5",
+            "description": "Athleta Coral Paisley Print\nStretch Ruching Wrap Athletic\nDress Size L",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "87.98"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "4e543784ee29b7a3679a4e37841120bd1bbc071ed79f063e85d464ef101ba853",
+      "path": "data/voxel51/raw/4e543784ee29b7a3679a4e37841120bd1bbc071ed79f063e85d464ef101ba853.jpg",
+      "source_file": "data/batch1-0856.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.43,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Oliver and Sons",
+        "invoice_number": "76588527",
+        "issue_date": "11/21/2018",
+        "issue_date_iso": "2018-11-21",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "747.96",
+        "tax_total": "68.00",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Nintendo 64 Console with Box, Foam and extra oem controller",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "132.00"
+          },
+          {
+            "line_no": "2",
+            "description": "Sony PlayStation 3 150GB Charcoal Black Console (Used)",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "615.96"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "a031319700df8102fc2d713b34a451a079124fdb12cf8733f239cdad2a65c3f7",
+      "path": "data/voxel51/raw/a031319700df8102fc2d713b34a451a079124fdb12cf8733f239cdad2a65c3f7.jpg",
+      "source_file": "data/batch1-0156.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.98,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Hurst Ltd",
+        "invoice_number": "71490900",
+        "issue_date": "11/01/2013",
+        "issue_date_iso": "2013-11-01",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "1 704,45",
+        "tax_total": "154,95",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "FAST Dell Windows 10 Desktop Computer Core 2 Duo 4GB Ram 250GB DVD WiFi 22\" LCD",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "934,73"
+          },
+          {
+            "line_no": "2",
+            "description": "HP Desktop Computer PC Core i5 16GB 2TB HD 256GB SSD 22\" LCD Windows 10",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "769,73"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "4ab4fa606c85dfbf5276ce33e4ca748c6b0cb8d98dc61e608d963744782c0915",
+      "path": "data/voxel51/raw/4ab4fa606c85dfbf5276ce33e4ca748c6b0cb8d98dc61e608d963744782c0915.jpg",
+      "source_file": "data/batch1-0148.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.99,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Garcia, Avery and Hernandez",
+        "invoice_number": "33299774",
+        "issue_date": "10/24/2015",
+        "issue_date_iso": "2015-10-24",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "1721.01",
+        "tax_total": "156.46",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "HP Pro 6200 Desktop Tower\nComputer Core i5 3.1GHz 8GB\n500GB Windows 10 Home WiFi",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "791.78"
+          },
+          {
+            "line_no": "2",
+            "description": "Fast Dell Optiplex Windows 10\nPro Desktop Computer Dual\nCore 6GB 160GB DVD WIFI",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "659.73"
+          },
+          {
+            "line_no": "3",
+            "description": "Qaud core J3160 Dual Lan\nindustrial mini PC,AES NI Linux\nubuntu desktop computer",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "269.50"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "5adb2d94e0b8ec3519bb1856fc2390b50115d5a13f6d70c437bdc490f48be967",
+      "path": "data/voxel51/raw/5adb2d94e0b8ec3519bb1856fc2390b50115d5a13f6d70c437bdc490f48be967.jpg",
+      "source_file": "data/batch1-0082.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 34.02,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Nunez Inc",
+        "invoice_number": "31293737",
+        "issue_date": "12/15/2020",
+        "issue_date_iso": "2020-12-15",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "371.51",
+        "tax_total": "37.15",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Women's black cocktail dress, size 4",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "59.97"
+          },
+          {
+            "line_no": "2",
+            "description": "Christmas Dress Grace Karin Sleeveless Christmas dress Red Black size Large",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "9.99"
+          },
+          {
+            "line_no": "3",
+            "description": "Windsor womens black and Pink Bodycon Sleeveless Dress, Womens Size Small",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "15.83"
+          },
+          {
+            "line_no": "4",
+            "description": "Lumiere Large Multicolored Orange Short Dress NWT",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "19.96"
+          },
+          {
+            "line_no": "5",
+            "description": "Xhilaration Womens L Burgandy Boho Embroidered Festival Mini Dress NEW",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "59.80"
+          },
+          {
+            "line_no": "6",
+            "description": "Johnny Was Medium Linen Wrap Dress Dessert Rose Embroiderd Bohemian",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "179.98"
+          },
+          {
+            "line_no": "7",
+            "description": "Pre-Owned Women's Nah Nah Dress Size 8 Black Sheer Formal Sexy",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "25.98"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "3ed73c1f974f61922e6af92620076f8de731909cbe2f71a7b230122599e6f17c",
+      "path": "data/voxel51/raw/3ed73c1f974f61922e6af92620076f8de731909cbe2f71a7b230122599e6f17c.jpg",
+      "source_file": "data/batch1-0775.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 34.31,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Williams-Brown",
+        "invoice_number": "75703845",
+        "issue_date": "05/20/2019",
+        "issue_date_iso": "2019-05-20",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "2425.87",
+        "tax_total": "220.53",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Solid Color Tribal Design 5'2X6'6 Hand-Loomed Indo-Gabbeh Oriental Rug Carpet",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "878.90"
+          },
+          {
+            "line_no": "2",
+            "description": "handmade carpet rug vtg moroccan boucherouite wollen 9.4*3.5/288cm*107cm",
+            "qty": "2,00",
+            "unit_price": null,
+            "line_total": "637.98"
+          },
+          {
+            "line_no": "3",
+            "description": "Floor Mat Kitchen Bedroom Bathroom Non Slip Doormat Carpet Area Rug 180x60cm",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "173.69"
+          },
+          {
+            "line_no": "4",
+            "description": "Victorian European Country Traditional Floral Floor Mat Area Rug Carpet Beige U",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "587.40"
+          },
+          {
+            "line_no": "5",
+            "description": "Rectangle Faux Fur Sheepskin Rug Fluffy Area Rug Floor Carpets Dark Pink",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "131.78"
+          },
+          {
+            "line_no": "6",
+            "description": "3 Pieces Fluffy Faux Fur Seat Pads 30cm/12inch Round Pad Floor Carpets",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "16.13"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "6180f74986a1edf945bde999a0599b81e175a3ad97149a5901cef547679d5d3b",
+      "path": "data/voxel51/raw/6180f74986a1edf945bde999a0599b81e175a3ad97149a5901cef547679d5d3b.jpg",
+      "source_file": "data/batch1-0859.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 31.31,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Dominguez, Hunt and Garcia",
+        "invoice_number": "50368630",
+        "issue_date": "10/08/2018",
+        "issue_date_iso": "2018-10-08",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "36 623,38",
+        "tax_total": "3 329,40",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "6'x3' Black Marble Dining\nCenter Table Top Marquetry\nInlay Outdoor Decor H3420A",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "31 661,96"
+          },
+          {
+            "line_no": "2",
+            "description": "Hardwood Insect Pinning Block\nContains 9 Holes with Same\nHeights for Pin",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "44,42"
+          },
+          {
+            "line_no": "3",
+            "description": "36\" Round Marble Dining Table\nLapis Mosaic Floral Inlay\nFurniture Decorates B397",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "4 917,00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "4a37453f4e862dba05eb491de8a045e2335fe35972a5cea299a5ebb603ba72f2",
+      "path": "data/voxel51/raw/4a37453f4e862dba05eb491de8a045e2335fe35972a5cea299a5ebb603ba72f2.jpg",
+      "source_file": "data/batch1-0884.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 26.92,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Mcdonald LLC",
+        "invoice_number": "39338291",
+        "issue_date": "03/07/2017",
+        "issue_date_iso": "2017-03-07",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "275.00",
+        "tax_total": "25.00",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Day Trading Joe Ross New Hard cover English edition",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "275.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "fe99ff9acf86148267cfea983d5cef0f34a79975e06383d38d81d3d060f1933a",
+      "path": "data/voxel51/raw/fe99ff9acf86148267cfea983d5cef0f34a79975e06383d38d81d3d060f1933a.jpg",
+      "source_file": "data/batch1-0216.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 27.34,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Salinas Inc",
+        "invoice_number": "39510474",
+        "issue_date": "08/24/2018",
+        "issue_date_iso": "2018-08-24",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "47.28",
+        "tax_total": "4.30",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "nickelodeon TMNT Teenage\nMutant Ninja Turtles D L M R 6in\nAction Figure Kids Toy",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "47.28"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "b0804ddd6c01acb3ccd552b4f9c407558abe80a71a5f2c9f6a030996836caa12",
+      "path": "data/voxel51/raw/b0804ddd6c01acb3ccd552b4f9c407558abe80a71a5f2c9f6a030996836caa12.jpg",
+      "source_file": "data/batch1-0821.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 31.76,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Wells-Allen",
+        "invoice_number": "23128566",
+        "issue_date": "08/27/2020",
+        "issue_date_iso": "2020-08-27",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "135.62",
+        "tax_total": "12.33",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "A History of the Indians of the United States (The",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "19.76"
+          },
+          {
+            "line_no": "2",
+            "description": "Experience by Martin Amis",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "10.76"
+          },
+          {
+            "line_no": "3",
+            "description": "Language and Woman's Place\nby Robin Lakoff",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "22.49"
+          },
+          {
+            "line_no": "4",
+            "description": "Motorcycle Journeys Through North America : A Guide for Choosing and Planning..",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "13.20"
+          },
+          {
+            "line_no": "5",
+            "description": "The Epic of Gilgamesh",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "9.88"
+          },
+          {
+            "line_no": "6",
+            "description": "Bobby Fischer s Chess Games",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "59.53"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "b2b0ae69e1f13667f50d8932646528ba86eb5540d4696ec9e62248ef48ad2b10",
+      "path": "data/voxel51/raw/b2b0ae69e1f13667f50d8932646528ba86eb5540d4696ec9e62248ef48ad2b10.jpg",
+      "source_file": "data/batch1-0430.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 36.04,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Kaufman-Martin",
+        "invoice_number": "37763406",
+        "issue_date": "08/17/2015",
+        "issue_date_iso": "2015-08-17",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "70 053.37",
+        "tax_total": "6 368.49",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Christmas Carpet For Kitchen\nRug Living Room Floor Mat\nNon-slip Area Rugs Decor",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "59.84"
+          },
+          {
+            "line_no": "2",
+            "description": "Soft Sheepskin Mat Faux Fur\nRug Small Shaggy Non Slip\nFloor Carpet Light Pink",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "35.68"
+          },
+          {
+            "line_no": "3",
+            "description": "Rug Beni Ourain, Moroccan\nHandmade 100% Wool Area\nRug Berber Beni Ouarain Carpet",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "2 475.00"
+          },
+          {
+            "line_no": "4",
+            "description": "YILONG 4'x6' Traditional\nHandmade Carpet Parlor Home\nHand Knotted Silk Rugs 084B",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "7 920.00"
+          },
+          {
+            "line_no": "5",
+            "description": "120cm*160cm Large Faux\nRabbit Fur Carpet Soft Living\nRoom Bedroom Warm Carpet",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "116.58"
+          },
+          {
+            "line_no": "6",
+            "description": "Deluxe Soft Faux Sheepskin\nShaggy Area Floor Rugs Kids\nPlay Carpet",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "46.27"
+          },
+          {
+            "line_no": "7",
+            "description": "Yilong 6'x9' Handknotted Silk\nArea Rug Medallion Deep Red\nHome Carpet 0962",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "59 400.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "d0439846c8ca7f641f690d9ae7e76f50c0fca478f6d58bc8b8ba3334ffc763f8",
+      "path": "data/voxel51/raw/d0439846c8ca7f641f690d9ae7e76f50c0fca478f6d58bc8b8ba3334ffc763f8.jpg",
+      "source_file": "data/batch1-1185.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 27.4,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Henson, Mccarthy and Hart",
+        "invoice_number": "61268082",
+        "issue_date": "10/23/2013",
+        "issue_date_iso": "2013-10-23",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "14.00",
+        "tax_total": "1.27",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "6 Pack Metal Plated Table Locks\nDining Training Table Buckles\nConnectors Hardwar",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "14.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "4d95fc6e039eb8dc6b312b6b84c3181bf294036c3675d802fa987c26aee51f66",
+      "path": "data/voxel51/raw/4d95fc6e039eb8dc6b312b6b84c3181bf294036c3675d802fa987c26aee51f66.jpg",
+      "source_file": "data/batch1-1396.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 34.56,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Schultz-Garcia",
+        "invoice_number": "17794459",
+        "issue_date": "10/28/2020",
+        "issue_date_iso": "2020-10-28",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "29 543,09",
+        "tax_total": "2 685,74",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Checkered Modern Kashkoli Oriental Area Rug Foyer Hand-knotted Wool Carpet 4'x6'",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "3 546,40"
+          },
+          {
+            "line_no": "2",
+            "description": "Soft Sheepskin Mat Faux Fur Rug Small Shaggy Non Slip Floor Carpet Light Pink",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "8,92"
+          },
+          {
+            "line_no": "3",
+            "description": "Cotton Linen Kitchen Mat Bathroom Doormat Absorbent Rug Hand-woven Tassel Carpet",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "67,72"
+          },
+          {
+            "line_no": "4",
+            "description": "Pond Scenery Fish Area Rugs Kitchen Rug Bedroom Floor Mat Non-slip Carpet Decor",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "15,10"
+          },
+          {
+            "line_no": "5",
+            "description": "Indian Rectangular Beautifully Made Chindi Rag Rug Floor Carpet Ethnic Mat",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "164,94"
+          },
+          {
+            "line_no": "6",
+            "description": "Yilong 9'x12' Oversized Handwoven Silk Carpet Luxurious Villa Area Rug HF058A",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "25 740,00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "6c149847c8347be34f110024ad64229db98bc29ae1c5befd99752ceed7d862d4",
+      "path": "data/voxel51/raw/6c149847c8347be34f110024ad64229db98bc29ae1c5befd99752ceed7d862d4.jpg",
+      "source_file": "data/batch1-0235.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 31.88,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Harrell, Johnson and Thompson",
+        "invoice_number": "76724637",
+        "issue_date": "07/10/2017",
+        "issue_date_iso": "2017-07-10",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "418.84",
+        "tax_total": "38.08",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Under Armour black boys athletic shoes 7y",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "93.50"
+          },
+          {
+            "line_no": "2",
+            "description": "Teva Hurricane 1019390 All Black Sandals with Hook and Loop Closure, Youth's 5",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "10.99"
+          },
+          {
+            "line_no": "3",
+            "description": "Nike Air Force 1 Low 314192-117 Triple White Youth Boys Size 5Y",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "241.78"
+          },
+          {
+            "line_no": "4",
+            "description": "Adidas Baseball Youth Cleats Spikes Kids Shoes Black White Size 12K",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "39.57"
+          },
+          {
+            "line_no": "5",
+            "description": "Skechers Shoes Kids Size 2",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "33.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "75bbb1dc6bb704101912f28bf65a53d5fa574a7a53805787d1a3af6073ffc215",
+      "path": "data/voxel51/raw/75bbb1dc6bb704101912f28bf65a53d5fa574a7a53805787d1a3af6073ffc215.jpg",
+      "source_file": "data/batch1-0663.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 34.31,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Wilkerson Ltd",
+        "invoice_number": "17619666",
+        "issue_date": "03/09/2020",
+        "issue_date_iso": "2020-03-09",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "41419.40",
+        "tax_total": "3765.40",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Used Couch Dark Blue",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "213.40"
+          },
+          {
+            "line_no": "2",
+            "description": "Blue Shiny Stone Floral Art\nDinning Table Top Marble\nKitchen Table Top 48 Inches",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "13068.00"
+          },
+          {
+            "line_no": "3",
+            "description": "24\" Sale Online Coffee Top\nTable Marquetry Inlay Floral\nDesign Christmas Gift",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "6534.00"
+          },
+          {
+            "line_no": "4",
+            "description": "34\"x34\" Marble Round Top\nCoffee Table Elephant Floral\nInlaid Art Christmas Gifts",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "6270.00"
+          },
+          {
+            "line_no": "5",
+            "description": "35\" Round Marble Coffee Top\nTable Floral Marquetry Inlay\nFurniture Decors B430",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "5539.60"
+          },
+          {
+            "line_no": "6",
+            "description": "54 Inches Marble Dinning Table\nTop Hand Crafted Reception\nTable Home Furniture",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "9794.40"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "603b9e205929c7159b421f67c12097c32b45ddb6bde1337c4c57fde48b04226c",
+      "path": "data/voxel51/raw/603b9e205929c7159b421f67c12097c32b45ddb6bde1337c4c57fde48b04226c.jpg",
+      "source_file": "data/batch1-1200.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 35.44,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Coffey Ltd",
+        "invoice_number": "54445950",
+        "issue_date": "05/15/2019",
+        "issue_date_iso": "2019-05-15",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "53550.75",
+        "tax_total": "4868.25",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "15\"x15\" White Marble Chess Top Table Carnelian Inlay Art Black Friday Gift Deco",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "1320.00"
+          },
+          {
+            "line_no": "2",
+            "description": "18\" Marble White Top Chess Table Handmade Collectible Black Friday Gift Décor",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "3085.50"
+          },
+          {
+            "line_no": "3",
+            "description": "SOFA SET",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "825.00"
+          },
+          {
+            "line_no": "4",
+            "description": "30 Inches Marble Island Table Top Elephant Design Coffee Table with Multi Stones",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "3957.53"
+          },
+          {
+            "line_no": "5",
+            "description": "6'x3' Marvelous Marble Dining Outdoor Table Top Inlay Marquetry Design Art E842B",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "12295.58"
+          },
+          {
+            "line_no": "6",
+            "description": "18\"x18\" White Hand Curved Top Coffee Table Inlay Decorative Gift For Her Wedding",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "2613.71"
+          },
+          {
+            "line_no": "7",
+            "description": "6'x3' Multi Pietra Dura Design Marble Dining Room Table Top Furniture Decor E764",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "29453.44"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "c7b62646ce9d2f02385a3ea15c9fe9be9e999a10d748eb73eb03b80dcdc9c317",
+      "path": "data/voxel51/raw/c7b62646ce9d2f02385a3ea15c9fe9be9e999a10d748eb73eb03b80dcdc9c317.jpg",
+      "source_file": "data/batch1-0833.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.84,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Lopez PLC",
+        "invoice_number": "22323078",
+        "issue_date": "05/11/2016",
+        "issue_date_iso": "2016-05-11",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "131.92",
+        "tax_total": "11.99",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "NIB Waterford Seahorse Crystal\nWine Bottle Stopper with Tag\nIreland",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "65.99"
+          },
+          {
+            "line_no": "2",
+            "description": "Waterford Elegance Chardonnay\nWine Glass, Pair - 40001097\nNew In Box",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "65.93"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "2bc5a7b9789a147a6a52506e8820ded6954db659a85921fefa446d82903872e9",
+      "path": "data/voxel51/raw/2bc5a7b9789a147a6a52506e8820ded6954db659a85921fefa446d82903872e9.jpg",
+      "source_file": "data/batch1-0431.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.03,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Shaffer Ltd",
+        "invoice_number": "69607855",
+        "issue_date": "08/02/2014",
+        "issue_date_iso": "2014-08-02",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "22 660.00",
+        "tax_total": "2 060.00",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "54 Inches Black Marble Dinning\nTable Top Unique Hallway Table\nwith Luxurious Art",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "22 660.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "713533646a1eec8f1b6d7df12c986964cd96a4633f24d78ad57365e3354fc6c4",
+      "path": "data/voxel51/raw/713533646a1eec8f1b6d7df12c986964cd96a4633f24d78ad57365e3354fc6c4.jpg",
+      "source_file": "data/batch1-0873.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 26.45,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Clark Ltd",
+        "invoice_number": "15685761",
+        "issue_date": "05/15/2017",
+        "issue_date_iso": "2017-05-15",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "14.82",
+        "tax_total": "1.35",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "O-Zone",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "13.47"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "42b0a21f7ea4c82d3f90b03a4e814581bcfde72242149b3118fe3665a6abbdf1",
+      "path": "data/voxel51/raw/42b0a21f7ea4c82d3f90b03a4e814581bcfde72242149b3118fe3665a6abbdf1.jpg",
+      "source_file": "data/batch1-0855.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.74,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Smith-Peterson",
+        "invoice_number": "35494837",
+        "issue_date": "04/02/2019",
+        "issue_date_iso": "2019-04-02",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "95.94",
+        "tax_total": "8.72",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Dont Sweat the Small Stuff... and Its All Small Stuff: Simple Ways to Keep",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "9.88"
+          },
+          {
+            "line_no": "2",
+            "description": "House of Earth: A Novel by Woody Guthrie",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "14.82"
+          },
+          {
+            "line_no": "3",
+            "description": "Rod: The Autobiography by Rod Stewart",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "19.76"
+          },
+          {
+            "line_no": "4",
+            "description": "Entertaining",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "19.76"
+          },
+          {
+            "line_no": "5",
+            "description": "Warman's Star Wars Field Guide by Wells, Stuart W., III",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "31.73"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "7b569651517fb4de7bfbb9e61add60fc23a881be6894af7131cbee4b597f793b",
+      "path": "data/voxel51/raw/7b569651517fb4de7bfbb9e61add60fc23a881be6894af7131cbee4b597f793b.jpg",
+      "source_file": "data/batch1-0653.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.54,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Smith-Brown",
+        "invoice_number": "96192536",
+        "issue_date": "06/12/2011",
+        "issue_date_iso": "2011-06-12",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "145.94",
+        "tax_total": "13.27",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "14 Colors Women Spaghetti Strap Bodycon Mini Dress Sexy Party Club Wear Dresses",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "5.18"
+          },
+          {
+            "line_no": "2",
+            "description": "R&M; RICHARDS WOMAN'S BLUE PRINT LONG DRESS WITH SHRUG JACKET SIZE 18W NWT",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "131.96"
+          },
+          {
+            "line_no": "3",
+            "description": "NWT As U Wish NEW Black Chevron Size Small Sequin cocktail formal dress prom",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "8.80"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "667acc5d354a16676430a5aea12263881fd539bdfc87ec21d0b75844ee34766f",
+      "path": "data/voxel51/raw/667acc5d354a16676430a5aea12263881fd539bdfc87ec21d0b75844ee34766f.jpg",
+      "source_file": "data/batch1-0713.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 29.3,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Walters-Johnson",
+        "invoice_number": "50222999",
+        "issue_date": "03/03/2015",
+        "issue_date_iso": "2015-03-03",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "3323.10",
+        "tax_total": "302.10",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "24 Inches Marble Sofa Table Top Inlay Coffee Table with Malachite Stone Work",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "2706.00"
+          },
+          {
+            "line_no": "2",
+            "description": "18\" Marble White Top Chess Table Handmade Collectible Black Friday Gift Décor",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "617.10"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "bdfd71752518568be2b671005a132258ec42cf45ca9cc3e9f2fc299cf2d9c05d",
+      "path": "data/voxel51/raw/bdfd71752518568be2b671005a132258ec42cf45ca9cc3e9f2fc299cf2d9c05d.jpg",
+      "source_file": "data/batch1-0965.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 27.17,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Carpenter, Robinson and Jackson",
+        "invoice_number": "41389063",
+        "issue_date": "03/17/2021",
+        "issue_date_iso": "2021-03-17",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "16.14",
+        "tax_total": "1.47",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Haida: Their Art and Culture",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "16.14"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "9cf723e6f5c678e3c12509ad84a171dff09d6a9828b45197f65ae99515c32b61",
+      "path": "data/voxel51/raw/9cf723e6f5c678e3c12509ad84a171dff09d6a9828b45197f65ae99515c32b61.jpg",
+      "source_file": "data/batch1-1143.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 31.27,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Burke Ltd",
+        "invoice_number": "51890008",
+        "issue_date": "10/21/2020",
+        "issue_date_iso": "2020-10-21",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "1516.88",
+        "tax_total": "137.90",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Microsoft Xbox 360 Console 49\nGame Bundle 250GB Black",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "82.50"
+          },
+          {
+            "line_no": "2",
+            "description": "Sony PlayStation 3 150GB\nCharcoal Black Console (Used)",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "307.98"
+          },
+          {
+            "line_no": "3",
+            "description": "Nintendo Game Boy Micro\nConsole - Black (OXYSFBB)",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "572.00"
+          },
+          {
+            "line_no": "4",
+            "description": "PS2 Slim Console System\nSCPH-77000 PINK Playstation 2\nTested",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "554.40"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "5f9f43213c26c9718d488db556858a62bc51e96d66e21b4d1006bbceec3baadd",
+      "path": "data/voxel51/raw/5f9f43213c26c9718d488db556858a62bc51e96d66e21b4d1006bbceec3baadd.jpg",
+      "source_file": "data/batch1-1219.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 32.72,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Smith LLC",
+        "invoice_number": "99741629",
+        "issue_date": "10/12/2020",
+        "issue_date_iso": "2020-10-12",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "454,74",
+        "tax_total": "41,34",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Unicorn Wine Bottle Holder",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "122,98"
+          },
+          {
+            "line_no": "2",
+            "description": "Hammered Brass Over Stainless steel Stemless Wine Glasses/Candle Holders",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "32,97"
+          },
+          {
+            "line_no": "3",
+            "description": "Beautiful Blue Dolphin Wine Bottle Stopper New In Box",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "19,77"
+          },
+          {
+            "line_no": "4",
+            "description": "9.5 Inch Dinosaur Bones Wine Bottle Holder",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "132,00"
+          },
+          {
+            "line_no": "5",
+            "description": "VTG BRASS BRONZE GLASS GRAPE LEAVES ORNATE WINE BOTTLE HOLDER",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "43,96"
+          },
+          {
+            "line_no": "6",
+            "description": "Libbey Classic White Wine Glasses, Set of 4 14 ounce Glass",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "103,07"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "0b96659940369f01add28e2a9ac2fecfbbd0a4277216b28e23c644d24fc052b4",
+      "path": "data/voxel51/raw/0b96659940369f01add28e2a9ac2fecfbbd0a4277216b28e23c644d24fc052b4.jpg",
+      "source_file": "data/batch1-0655.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 31.17,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Caldwell, Ochoa and Williams",
+        "invoice_number": "45072803",
+        "issue_date": "08/05/2017",
+        "issue_date_iso": "2017-08-05",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "2 782,39",
+        "tax_total": "252,94",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "AMD Dual Core 3.9Ghz 4GB\nDDR3 500GB WiFi Windows 10\noffice Desktop PC Computer",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "1 374,95"
+          },
+          {
+            "line_no": "2",
+            "description": "Dell OptiPlex 7060 SFF\nComputer, 8th Gen Core i5, 8GB\nDDR4, New 240GB SSD, DVD",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "668,25"
+          },
+          {
+            "line_no": "3",
+            "description": "Dell Core 2 Duo Desktop\nComputer | Windows XP Pro |\n4GB | 500GB",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "739,20"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "54a1cc28af7edf4414dd1b66863ea7b8f6b445234597c7842a49e7d02c2513de",
+      "path": "data/voxel51/raw/54a1cc28af7edf4414dd1b66863ea7b8f6b445234597c7842a49e7d02c2513de.jpg",
+      "source_file": "data/batch1-0791.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 29.29,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Evans PLC",
+        "invoice_number": "39463508",
+        "issue_date": "09/17/2013",
+        "issue_date_iso": "2013-09-17",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "5 013,80",
+        "tax_total": "455,80",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "2' Black Marble Coffee Top Side Table Floral Fine Marquetry Inlay Decors E1068A",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "2 373,80"
+          },
+          {
+            "line_no": "2",
+            "description": "13\"x13\" White Marble Chess Inlay Top Table With 15\" Tall Stand Christmas Gift",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "2 640,00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "cc71b4ba7f2e7acaf394bbaa81a9ea808d049447b8e26f65fa385e31fe0aa57c",
+      "path": "data/voxel51/raw/cc71b4ba7f2e7acaf394bbaa81a9ea808d049447b8e26f65fa385e31fe0aa57c.jpg",
+      "source_file": "data/batch1-0879.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.61,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Bernard, Lang and Guerra",
+        "invoice_number": "11764566",
+        "issue_date": "06/01/2018",
+        "issue_date_iso": "2018-06-01",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "97.75",
+        "tax_total": "8.89",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Beach Lunch Lounge Striped Shirt Dress Large Navy Blue White Long Sleeve Causal",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "74.76"
+          },
+          {
+            "line_no": "2",
+            "description": "NWT DRA M White Embroidered Nathalie Bohemian Mini Dress",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "22.99"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "3c3bb0637abcbbbfa036d5acfe2f3c8f6a18385327a763675e0b6c135562849b",
+      "path": "data/voxel51/raw/3c3bb0637abcbbbfa036d5acfe2f3c8f6a18385327a763675e0b6c135562849b.jpg",
+      "source_file": "data/batch1-0722.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.56,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Diaz, Warren and Carter",
+        "invoice_number": "53695084",
+        "issue_date": "10/25/2015",
+        "issue_date_iso": "2015-10-25",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "2 012.51",
+        "tax_total": "182.96",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Dell Optiplex Desktop Computer\nwith Dual 19\" LCD Monitors\nWindows 10 Pro",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "824.73"
+          },
+          {
+            "line_no": "2",
+            "description": "HP Windows 10 Pro Desktop\nComputer Intel QUAD CORE i5\nWifi, Keyboard & Mouse",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "747.78"
+          },
+          {
+            "line_no": "3",
+            "description": "STUDENT/WORK COMPUTER\nWORKSTATION WINDOWS 10\nPRO",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "440.00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "13a29f240f9963e0c00ee546cf3a921c5a40d8942c4ecc389edaa4f7b84e5869",
+      "path": "data/voxel51/raw/13a29f240f9963e0c00ee546cf3a921c5a40d8942c4ecc389edaa4f7b84e5869.jpg",
+      "source_file": "data/batch1-0059.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 32.15,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "James PLC",
+        "invoice_number": "93219493",
+        "issue_date": "05/16/2019",
+        "issue_date_iso": "2019-05-16",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "1255.00",
+        "tax_total": "114.09",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Microsoft Xbox 360 Console 49\nGame Bundle 250GB Black",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "82.50"
+          },
+          {
+            "line_no": "2",
+            "description": "N64 Nintendo System Console\nLot Bundle W/ 2 Games 1\nController Tested Working",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "422.36"
+          },
+          {
+            "line_no": "3",
+            "description": "Nintendo Switch Lite Turquoise\nBlue CONSOLE ONLY - No\nCharger [B4-1]",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "286.00"
+          },
+          {
+            "line_no": "4",
+            "description": "SEGA Dreamcast White Console\n[Japan Import] HKT-3000",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "409.20"
+          },
+          {
+            "line_no": "5",
+            "description": "B451 Nintendo DSi console Pink\nJapan NDS x",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "54.95"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "4c68d800085f87c0f02114477258a178fef4eab0ae36656bd5ec30824a7e9b8b",
+      "path": "data/voxel51/raw/4c68d800085f87c0f02114477258a178fef4eab0ae36656bd5ec30824a7e9b8b.jpg",
+      "source_file": "data/batch1-0052.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.53,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Walton PLC",
+        "invoice_number": "36033621",
+        "issue_date": "04/18/2017",
+        "issue_date_iso": "2017-04-18",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "243.71",
+        "tax_total": "22.16",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "DC Kids Turbo Skate Shoe (Little Kid/Big Kid) Color WHITE/ROYAL",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "242.00"
+          },
+          {
+            "line_no": "2",
+            "description": "Easy No Tie Rubber Shoe Laces Colored Trainers Snickers Kids + Adults Shoelaces",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "1.71"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "91f718f926ea3ec1dd21b2e933909892f0e65b3449113316449f38e7880a0691",
+      "path": "data/voxel51/raw/91f718f926ea3ec1dd21b2e933909892f0e65b3449113316449f38e7880a0691.jpg",
+      "source_file": "data/batch1-0700.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 33.53,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Solomon-Barnett",
+        "invoice_number": "78785504",
+        "issue_date": "03/21/2012",
+        "issue_date_iso": "2012-03-21",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "567.55",
+        "tax_total": "51.60",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "mDesign Metal Wine Rack\nStorage Organizer, 12 Bottles -\nDark Gray",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "197.96"
+          },
+          {
+            "line_no": "2",
+            "description": "Replacement Corkscrew Parts\nSpiral Worm Wine Opener Bottle\nHoudini",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "41.25"
+          },
+          {
+            "line_no": "3",
+            "description": "Lolita \"Wine Bouquet\" Hand\nPainted and Decorated Wine\nGlass NIB",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "22.00"
+          },
+          {
+            "line_no": "4",
+            "description": "confetti wine glass",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "66.00"
+          },
+          {
+            "line_no": "5",
+            "description": "2 Hand Blown Wine Water\nGoblet Glass Art Mexico Pulled\nFeather Iridescent Swirl",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "98.97"
+          },
+          {
+            "line_no": "6",
+            "description": "1PC Tricycle Shape Red Wine\nRack Cocktail Holder Wine\nDisplay Rack for Home Bar",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "141.37"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "78aa9f901801df753bfb43f52ae9adbe296229126b02b229344155c4891e2ce3",
+      "path": "data/voxel51/raw/78aa9f901801df753bfb43f52ae9adbe296229126b02b229344155c4891e2ce3.jpg",
+      "source_file": "data/batch1-1169.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 32.5,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Rosario-Ross",
+        "invoice_number": "59989382",
+        "issue_date": "11/30/2015",
+        "issue_date_iso": "2015-11-30",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "4845.38",
+        "tax_total": "440.49",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Nintendo DS Lite Onyx Black System Console & 6 games\nMario Charger Stylus",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "76.99"
+          },
+          {
+            "line_no": "2",
+            "description": "Presale Microsoft Xbox Series X 1TB Black Console Confirmed Order Free Shipping",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "2882.00"
+          },
+          {
+            "line_no": "3",
+            "description": "Nintendo 64 complete Boxed Console (No Styrofoam) works great!",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "824.95"
+          },
+          {
+            "line_no": "4",
+            "description": "SEGA Dreamcast White Console [Japan Import] HKT-3000",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "511.50"
+          },
+          {
+            "line_no": "5",
+            "description": "Sony PlayStation 3 Slim 120GB Black Console",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "549.95"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "9366411691fe5e602890c1c8143eef0153bd9914a32769879444660b05000217",
+      "path": "data/voxel51/raw/9366411691fe5e602890c1c8143eef0153bd9914a32769879444660b05000217.jpg",
+      "source_file": "data/batch1-0958.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 28.9,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Jimenez-Jones",
+        "invoice_number": "22819126",
+        "issue_date": "09/05/2012",
+        "issue_date_iso": "2012-09-05",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "3 948,95",
+        "tax_total": "359,00",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Intel core i7 Geforce GTX1060\nSuper Game Gamer Master\nGaming Desktop Computer PC",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "3 794,95"
+          },
+          {
+            "line_no": "2",
+            "description": "HP Z220 Desktop Computer\nBarebone system",
+            "qty": "2,00",
+            "unit_price": null,
+            "line_total": "154,00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "be128ffd7e9a0d3f7f8548a04601caf192bd3fd4bef9dcb7dbd2e16c2a9a9cb7",
+      "path": "data/voxel51/raw/be128ffd7e9a0d3f7f8548a04601caf192bd3fd4bef9dcb7dbd2e16c2a9a9cb7.jpg",
+      "source_file": "data/batch1-0565.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.36,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Gallagher PLC",
+        "invoice_number": "45767415",
+        "issue_date": "05/28/2015",
+        "issue_date_iso": "2015-05-28",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "118.73",
+        "tax_total": "10.79",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Vintage Bronze Textured Black Iron Scroll Design 6 Bottle Wine Holder*",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "71.45"
+          },
+          {
+            "line_no": "2",
+            "description": "Vintage Cobalt Blue Spiral Stemmed Wine Glasses - Pair",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "33.00"
+          },
+          {
+            "line_no": "3",
+            "description": "HOME ESSENTIALS GRADIENT STEMLESS WINE GLASSES SET OF 4 20 FL OZ (591 ml) NEW",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "14.29"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "aa4cfdc770bcd156033c36a2980a3ce060da59db1418de134adda4c0f4a1d218",
+      "path": "data/voxel51/raw/aa4cfdc770bcd156033c36a2980a3ce060da59db1418de134adda4c0f4a1d218.jpg",
+      "source_file": "data/batch1-0654.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.5,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Cantrell, Barnes and Miller",
+        "invoice_number": "44868919",
+        "issue_date": "02/08/2020",
+        "issue_date_iso": "2020-02-08",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "481.79",
+        "tax_total": "43.80",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Hanna Anderson Women's L Large Coral Short Sleeve Casual Fall Tee Shirt Dress",
+            "qty": "5.00",
+            "unit_price": null,
+            "line_total": "132.00"
+          },
+          {
+            "line_no": "2",
+            "description": "Burent Orange Long Dress With Beads SUE WONG SIZE 2",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "330.00"
+          },
+          {
+            "line_no": "3",
+            "description": "Liza Byrd Dress Sz L- Coral Green Medallion Print Short Sleeve 100% Cotton Line",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "19.79"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "c4cd9c293230e8c1c73966e552a4c21cea71c0adbce156614ec762855b925fb4",
+      "path": "data/voxel51/raw/c4cd9c293230e8c1c73966e552a4c21cea71c0adbce156614ec762855b925fb4.jpg",
+      "source_file": "data/batch1-0703.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 34.25,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Rowe-Lee",
+        "invoice_number": "66430808",
+        "issue_date": "06/18/2020",
+        "issue_date_iso": "2020-06-18",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "769.54",
+        "tax_total": "69.96",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Diamond Cut Crystal Whisky Glass Coketail Glasses Wine Glass 310ml Set of 6",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "143.00"
+          },
+          {
+            "line_no": "2",
+            "description": "Hicoup Waiters Corkscrew Wine Bottle Opener Professional Stainless Steel - Black",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "18.67"
+          },
+          {
+            "line_no": "3",
+            "description": "EU Blichmann Riptide Brewing Pump - Hombrew Beer Wine Food Grade Stainless Steel",
+            "qty": "2,00",
+            "unit_price": null,
+            "line_total": "440.00"
+          },
+          {
+            "line_no": "4",
+            "description": "6) Vintage Leaf Etched Straight Sided Wine Glasses. Set of 6 Unknown Maker",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "71.50"
+          },
+          {
+            "line_no": "5",
+            "description": "Wine Glass Holder Shelf Japanese Style Bar Iron Under Cabinet Stemware Rack",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "66.84"
+          },
+          {
+            "line_no": "6",
+            "description": "BLACK Butterfly Winged Corkscrew WINE BOTTLE OPENER Swing-a-Way",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "29.54"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "128a781326768a17ec30e3db07b96c807a81736671d1f5fb3f5d19016f69100e",
+      "path": "data/voxel51/raw/128a781326768a17ec30e3db07b96c807a81736671d1f5fb3f5d19016f69100e.jpg",
+      "source_file": "data/batch1-0666.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 32.15,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Gonzalez-Davis",
+        "invoice_number": "71561544",
+        "issue_date": "10/27/2019",
+        "issue_date_iso": "2019-10-27",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "81 117,18",
+        "tax_total": "7 374,29",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "7'x4' Collectible Marble Green Dining Table Top Floral Inlay Design Decor E997",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "59 558,66"
+          },
+          {
+            "line_no": "2",
+            "description": "Blue Shiny Stone Floral Art Dinning Table Top Marble Kitchen Table Top 48 Inches",
+            "qty": "2,00",
+            "unit_price": null,
+            "line_total": "8 712,00"
+          },
+          {
+            "line_no": "3",
+            "description": "12\" White Marble Corner Table Top Paua Shell Mosaic Floral Inlay Home Decor W532",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "1 626,52"
+          },
+          {
+            "line_no": "4",
+            "description": "48 Inches Marble Coffee Table Top Inlay with Yellow Stone Art Dinette Table Top",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "11 220,00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "01bf779301808b8fd6490694b3f9daf3872992036bd6b137e7072dc67115f6f4",
+      "path": "data/voxel51/raw/01bf779301808b8fd6490694b3f9daf3872992036bd6b137e7072dc67115f6f4.jpg",
+      "source_file": "data/batch1-0177.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.13,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Costa Inc",
+        "invoice_number": "44195807",
+        "issue_date": "07/09/2014",
+        "issue_date_iso": "2014-07-09",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "19.22",
+        "tax_total": "1.75",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "The Complete Life's Little Instruction Book by Brown, H. Jackson, Jr.",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "4.50"
+          },
+          {
+            "line_no": "2",
+            "description": "American Zoos",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "5.38"
+          },
+          {
+            "line_no": "3",
+            "description": "Florida's List of Protected Plants in Words and Pictures",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "6.05"
+          },
+          {
+            "line_no": "4",
+            "description": "the invisible life of addie larue, EBOOK new original high quality, updated 2020",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "3.29"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "e4e55110ba57effc5b29c39b63ec5fd2a2e381f577c67b4b73485b06b3cb498c",
+      "path": "data/voxel51/raw/e4e55110ba57effc5b29c39b63ec5fd2a2e381f577c67b4b73485b06b3cb498c.jpg",
+      "source_file": "data/batch1-0080.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 32.81,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Mercer-Donovan",
+        "invoice_number": "66389180",
+        "issue_date": "07/30/2016",
+        "issue_date_iso": "2016-07-30",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "291.92",
+        "tax_total": "26.54",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "Hot Toys COSB748 Mandalorian\n& The Child COSBABY Mini\nFigure Model Collection",
+            "qty": "2.00",
+            "unit_price": null,
+            "line_total": "72.36"
+          },
+          {
+            "line_no": "2",
+            "description": "Jordan B'Loyal Boys Grade\nSchool Sneakers US 3Y",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "9.90"
+          },
+          {
+            "line_no": "3",
+            "description": "Nike 7y Black",
+            "qty": "1.00",
+            "unit_price": null,
+            "line_total": "16.50"
+          },
+          {
+            "line_no": "4",
+            "description": "Joma Youth Boys Gol 205 Piso\nMultitaco Soccer Cleats 3.5\nWhite Blue Yellow NEW",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "87.96"
+          },
+          {
+            "line_no": "5",
+            "description": "Star Wars 100% 925 sterling\nsilver BB8 Darth Vader Charm\nR2-D2 Fiit Pandora Gift",
+            "qty": "3.00",
+            "unit_price": null,
+            "line_total": "65.60"
+          },
+          {
+            "line_no": "6",
+            "description": "Toddler Kids Monster Jam Shoes\nSize 11c Grave Digger",
+            "qty": "4.00",
+            "unit_price": null,
+            "line_total": "39.60"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "3c95f8c1e790157339438b511230c9d91aae7c1ecb35f8c2e7c9054aabf236f0",
+      "path": "data/voxel51/raw/3c95f8c1e790157339438b511230c9d91aae7c1ecb35f8c2e7c9054aabf236f0.jpg",
+      "source_file": "data/batch1-0815.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 30.85,
+      "quality_tier": "B",
+      "labels": {
+        "vendor_name": "Montgomery Ltd",
+        "invoice_number": "21722776",
+        "issue_date": "11/05/2019",
+        "issue_date_iso": "2019-11-05",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "2 188,73",
+        "tax_total": "198,98",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "HP Desktop Computer 400 G1\nCore i3 3.4GHz 8GB 256GB SSD\n19\" LCD Windows 10 PC",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "769,73"
+          },
+          {
+            "line_no": "2",
+            "description": "Alarco Gaming PC Desktop\nComputer Intel i5 ✓ 8G✓ WIN\n10✓1Tb ✓ NVIDIA GTX 650 1GB",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "550,00"
+          },
+          {
+            "line_no": "3",
+            "description": "Fast i7 RGB Gaming Desktop PC\nComputer VR-Ready WiFi AAA\nFortnite GTAV PUBG IG3",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "869,00"
+          }
+        ]
+      }
+    },
+    {
+      "content_hash": "3b9f56dcdd6c8be6cae8b6b5509dd171a00b87bea27a7cdfa8cf521dae60f8fb",
+      "path": "data/voxel51/raw/3b9f56dcdd6c8be6cae8b6b5509dd171a00b87bea27a7cdfa8cf521dae60f8fb.jpg",
+      "source_file": "data/batch1-0286.jpg",
+      "width": 1654,
+      "height": 2339,
+      "contrast_std": 33.76,
+      "quality_tier": "A",
+      "labels": {
+        "vendor_name": "Barnes, Parks and Jenkins",
+        "invoice_number": "46460686",
+        "issue_date": "12/23/2017",
+        "issue_date_iso": "2017-12-23",
+        "due_date": null,
+        "due_date_iso": null,
+        "currency": "USD",
+        "currency_assumed": true,
+        "total_amount": "18 471,60",
+        "tax_total": "1 679,24",
+        "lines": [
+          {
+            "line_no": "1",
+            "description": "7x10 Diamond Geometric Rugs Contemporary Black Color Large Mat Dhurrie Carpet",
+            "qty": "5,00",
+            "unit_price": null,
+            "line_total": "1925,00"
+          },
+          {
+            "line_no": "2",
+            "description": "YILONG 4'x6' Traditional Handmade Carpet Parlor Home Hand Knotted Silk Rugs 084B",
+            "qty": "4,00",
+            "unit_price": null,
+            "line_total": "15 840,00"
+          },
+          {
+            "line_no": "3",
+            "description": "War Horse Series Small Large Long Floor Carpet Area Rugs Various Size Soft Rug",
+            "qty": "1,00",
+            "unit_price": null,
+            "line_total": "39,93"
+          },
+          {
+            "line_no": "4",
+            "description": "Deluxe Soft Faux Sheepskin Shaggy Area Floor Rugs Kids Play Carpet",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "46,27"
+          },
+          {
+            "line_no": "5",
+            "description": "YILONG 1.2x1.7' 300L Handmade Tree of Life Silk Carpet Home Tapestry LH693A",
+            "qty": "3,00",
+            "unit_price": null,
+            "line_total": "620,40"
+          }
+        ]
+      }
+    }
+  ]
+}
