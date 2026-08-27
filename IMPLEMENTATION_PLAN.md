@@ -54,7 +54,7 @@
 - [x] 0.5 FastAPI app shell: `/healthz`, `/readyz`, RFC 7807 error handler, Pydantic v2 settings, idempotency-key middleware
 - [x] 0.6 Alembic migrations for full schema (ARCHITECTURE §6): `vendors`, `purchase_orders`, `goods_receipts`, `invoices` (unique `content_hash`), `invoice_lines`, `runs`, `checkpoints`, `ledger`, `exceptions`, `decisions`
 - [x] 0.7 Append-only enforcement on `ledger` + `decisions` (grants + triggers)
-- [ ] 0.8 LangGraph hello-path graph (stub nodes) with Postgres checkpointer, run end-to-end in Compose
+- [x] 0.8 LangGraph hello-path graph (stub nodes) with Postgres checkpointer, run end-to-end in Compose
 - [x] 0.9 GitHub Actions CI: ruff → mypy → pytest, running against Compose (or testcontainers)
 - [x] 0.10 Write ADRs 0001–0007 into `adr/` (decisions already made in docs; record them)
 
@@ -173,7 +173,7 @@ All steps are tracked as GitHub issues in `adityaparab/portfolio-project-1`, one
 
 | Phase | Status | Completed on | Notes |
 |---|---|---|---|
-| P0 — Platform skeleton | In progress | — | 9/10 steps done (+ #7 PR #66) |
+| P0 — Platform skeleton | In progress | — | 10/10 — COMPLETE (#8 PR #67) |
 | P1 — Extraction & validation | Not started | — | |
 | P2 — Match + policy | Not started | — | |
 | P3 — HITL + triage + front end | Not started | — | |
