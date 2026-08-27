@@ -5,10 +5,14 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.ext.asyncio import async_sessionmaker
 
+from invoiceops_agent.api import deps
 from invoiceops_agent.api.errors import register_error_handlers
 from invoiceops_agent.api.health import router as health_router
 from invoiceops_agent.api.middleware import IdempotencyMiddleware, InMemoryIdempotencyStore
+from invoiceops_agent.api.routes.invoices import router as invoices_router
+from invoiceops_agent.api.services.ingest import IngestService
 from invoiceops_agent.api.settings import Settings
 from invoiceops_agent.obs.logging import configure_logging
 
@@ -17,7 +21,18 @@ from invoiceops_agent.obs.logging import configure_logging
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     settings: Settings = app.state.settings
     configure_logging(settings.log_level)
-    yield
+    app.state.engine = deps.build_engine(settings)
+    app.state.session_factory = async_sessionmaker(app.state.engine, expire_on_commit=False)
+    app.state.object_store = deps.build_object_store(settings)
+    app.state.ingest_service = IngestService(
+        store=app.state.object_store,
+        session_factory=app.state.session_factory,
+        settings=settings,
+    )
+    try:
+        yield
+    finally:
+        await app.state.engine.dispose()
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -42,6 +57,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     register_error_handlers(app)
     app.include_router(health_router)
+    app.include_router(invoices_router)
     return app
 
 

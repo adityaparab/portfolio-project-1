@@ -36,6 +36,16 @@ def register_error_handlers(app: FastAPI) -> None:
 
     @app.exception_handler(StarletteHTTPException)
     async def http_exception_handler(request: Request, exc: StarletteHTTPException) -> JSONResponse:
+        # Structured details (e.g. duplicate-content payloads) ride along as an
+        # `extra` extension so problem+json stays spec-shaped.
+        if isinstance(exc.detail, dict):
+            return _problem(
+                exc.status_code,
+                title=exc.detail.get("message", "HTTP error"),
+                detail=str(exc.detail.get("message", "")),
+                instance=str(request.url.path),
+                extra=exc.detail,
+            )
         return _problem(
             exc.status_code,
             title=str(exc.detail) if exc.detail else "HTTP error",

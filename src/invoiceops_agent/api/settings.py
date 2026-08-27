@@ -19,6 +19,9 @@ class Settings(BaseSettings):
     database_dsn: str = "postgresql://invoiceops:invoiceops@localhost:5432/invoiceops"
     alembic_dsn: str | None = None  # falls back to database_dsn
     minio_base_url: str = "http://localhost:9000"
+    minio_access_key: str = "invoiceops"
+    minio_secret_key: str = "invoiceops-secret"
+    minio_bucket: str = "raw-invoices"
     litellm_base_url: str = "http://localhost:4000"
     litellm_api_key: str = "sk-local-dev"
 
@@ -28,3 +31,13 @@ class Settings(BaseSettings):
     cors_origins: list[str] = ["http://localhost:5173"]
 
     service_token: str = "dev-service-token"
+
+    # Ingestion limits (issue #11)
+    max_upload_bytes: int = 20 * 1024 * 1024  # 20 MiB
+    allowed_content_types: list[str] = [
+        "application/pdf",
+        "image/png",
+        "image/jpeg",
+        "image/tiff",
+        "image/webp",
+    ]
