@@ -1,0 +1,16 @@
+# Placeholder LiteLLM config — real alias routing (extract-vision, triage-reasoner,
+# eval-judge, embed) lands with issue #4. Kept minimal so the proxy boots healthy
+# in the Compose stack today. Adding/re-pointing an alias = edit model_list here.
+model_list:
+  # Dummy passthrough entry pointing at the dev Ollama backend; unreachable until
+  # #4 configures real aliases, which is fine for /health/liveliness.
+  - model_name: placeholder
+    litellm_params:
+      model: ollama/placeholder
+      api_base: http://host.docker.internal:11434
+
+litellm_settings:
+  drop_params: true
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
