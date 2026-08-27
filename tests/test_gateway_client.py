@@ -215,3 +215,22 @@ async def test_fenced_json_is_tolerated(tmp_path: Path) -> None:
     )
     assert isinstance(result, Extraction)
     assert result.vendor == "B"
+
+
+@pytest.mark.unit
+def test_budget_estimator_counts_images_fixed_not_base64() -> None:
+    from invoiceops_agent.gateway_client.client import IMAGE_TOKEN_ESTIMATE, _estimate_tokens
+
+    big_image = "x" * 400_000  # ~400KB base64 payload
+    messages: list[dict[str, Any]] = [
+        {"role": "system", "content": "a" * 400},
+        {
+            "role": "user",
+            "content": [
+                {"type": "text", "text": "b" * 400},
+                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{big_image}"}},
+            ],
+        },
+    ]
+    estimate = _estimate_tokens(messages)
+    assert estimate == 100 + 100 + IMAGE_TOKEN_ESTIMATE  # not 400_000/4

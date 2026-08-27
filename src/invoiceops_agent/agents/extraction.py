@@ -130,6 +130,17 @@ class ExtractionAgent:
     ) -> InvoiceExtraction:
         """Model call only (no ledger) — the unit-testable core."""
         data_b64 = await self._fetch_b64(doc_ref)
+        return await self.extract_bytes(data_b64, content_type, doc_ref, scenario=scenario)
+
+    async def extract_bytes(
+        self,
+        data_b64: str,
+        content_type: str,
+        doc_ref: str,
+        *,
+        scenario: str | None = None,
+    ) -> InvoiceExtraction:
+        """Model call from in-memory base64 — used by eval runners (#19/#45)."""
         messages: list[dict[str, Any]] = [
             {"role": "system", "content": extract_invoice.SYSTEM},
             {

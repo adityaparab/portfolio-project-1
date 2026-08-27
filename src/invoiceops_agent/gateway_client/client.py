@@ -36,10 +36,26 @@ TelemetryHook = Callable[[dict[str, Any]], Awaitable[None]]
 KNOWN_ALIASES = frozenset({"extract-vision", "triage-reasoner", "eval-judge", "embed"})
 
 
+IMAGE_TOKEN_ESTIMATE = 1600  # typical high-res vision encoding; budget heuristic
+
+
 def _estimate_tokens(messages: list[dict[str, Any]]) -> int:
-    """Cheap deterministic estimate (~4 chars/token) for budget checks."""
-    chars = sum(len(str(m.get("content", ""))) for m in messages)
-    return chars // 4
+    """Cheap deterministic estimate for budget checks. Text counts at ~4
+    chars/token; image parts count as a fixed IMAGE_TOKEN_ESTIMATE (base64
+    payload size is not how vision models tokenize images)."""
+    total = 0
+    for message in messages:
+        content = message.get("content", "")
+        if isinstance(content, str):
+            total += len(content) // 4
+            continue
+        if isinstance(content, list):
+            for part in content:
+                if isinstance(part, dict) and part.get("type") == "image_url":
+                    total += IMAGE_TOKEN_ESTIMATE
+                else:
+                    total += len(str(part.get("text", ""))) // 4
+    return total
 
 
 class GatewayClient:
