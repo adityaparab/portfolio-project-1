@@ -63,11 +63,15 @@ services:
   litellm:
     image: ghcr.io/berriai/litellm:main-stable
     restart: unless-stopped
-    command: ["--config", "/etc/litellm/config.yaml", "--port", "4000"]
+    # dev profile by default; prod/eval: LITELLM_CONFIG=/etc/litellm/config.prod.yaml
+    command: ["--config", "${LITELLM_CONFIG:-/etc/litellm/config.yaml}", "--port", "4000"]
     environment:
       LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:-sk-local-dev}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # dev Ollama on the host (Linux)
     volumes:
-      - ./deploy/litellm/config.yaml:/etc/litellm/config.yaml:ro
+      - ./deploy/litellm:/etc/litellm:ro
     ports:
       - "4400:4000"   # host 4000 already in use (native LiteLLM); internal port unchanged
     healthcheck:
