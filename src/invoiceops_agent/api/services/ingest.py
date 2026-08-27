@@ -10,11 +10,10 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from invoiceops_agent.api.schemas.invoices import InvoiceAccepted
 from invoiceops_agent.api.settings import Settings
-from invoiceops_agent.db.models import Invoice, LedgerEntry, Run
+from invoiceops_agent.db.models import Invoice, Run
+from invoiceops_agent.ledger.api import ActorType, LedgerAppend, writer
 from invoiceops_agent.storage.minio import ObjectStore
-
-# Versioned config placeholder until graph/prompt versioning lands (#14/#26).
-GRAPH_VERSION = "0.1.0"
+from invoiceops_agent.versions import CURRENT
 
 
 class DuplicateInvoiceError(HTTPException):
@@ -120,7 +119,7 @@ class IngestService:
 
         run = Run(
             invoice_id=invoice.invoice_id,
-            graph_version=GRAPH_VERSION,
+            graph_version=CURRENT.graph,
             model_versions={},
             status="QUEUED",
         )
@@ -129,21 +128,20 @@ class IngestService:
         return invoice, run
 
     async def _append_ledger(self, session: AsyncSession, invoice: Invoice, run: Run) -> None:
-        entry = LedgerEntry(
-            run_id=run.run_id,
-            invoice_id=invoice.invoice_id,
-            seq=1,
-            actor_type="SYSTEM",
-            actor_id="ingest",
-            event={
-                "event": "ingest.accepted",
-                "content_hash": invoice.content_hash,
-                "doc_ref": invoice.doc_ref,
-            },
-            policy_version=None,
-            prompt_template_version=None,
+        await writer.append(
+            session,
+            LedgerAppend(
+                actor_type=ActorType.SYSTEM,
+                actor_id="ingest",
+                run_id=run.run_id,
+                invoice_id=invoice.invoice_id,
+                event={
+                    "event": "ingest.accepted",
+                    "content_hash": invoice.content_hash,
+                    "doc_ref": invoice.doc_ref,
+                },
+            ),
         )
-        session.add(entry)
 
     async def _find_existing(self, session: AsyncSession, content_hash: str) -> int | None:
         from sqlalchemy import select
