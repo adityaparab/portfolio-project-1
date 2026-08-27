@@ -23,8 +23,10 @@ target_metadata = Base.metadata
 
 
 def _db_url() -> str:
-    # asyncpg driver URL from settings (INVOICEOPS_DATABASE_DSN is postgresql://...)
-    return Settings().database_dsn.replace("postgresql://", "postgresql+asyncpg://", 1)
+    # asyncpg driver URL from settings; migrations run as the schema owner
+    # (INVOICEOPS_ALEMBIC_DSN when set, else the app DSN).
+    dsn = Settings().alembic_dsn or Settings().database_dsn
+    return dsn.replace("postgresql://", "postgresql+asyncpg://", 1)
 
 
 def run_migrations_offline() -> None:

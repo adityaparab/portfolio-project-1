@@ -13,8 +13,11 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    # Dependency endpoints (service names inside Compose, localhost in dev)
+    # Dependency endpoints (service names inside Compose, localhost in dev).
+    # database_dsn runs as the least-privilege app role; alembic_dsn as the
+    # schema owner (migrations only — issue #7).
     database_dsn: str = "postgresql://invoiceops:invoiceops@localhost:5432/invoiceops"
+    alembic_dsn: str | None = None  # falls back to database_dsn
     minio_base_url: str = "http://localhost:9000"
     litellm_base_url: str = "http://localhost:4000"
     litellm_api_key: str = "sk-local-dev"
