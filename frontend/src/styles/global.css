@@ -1,0 +1,53 @@
+/*
+ Global styles exist exactly once (see .agents/skills/frontend-react-mantine):
+ design tokens as CSS custom properties + a minimal reset. Everything else
+ lives in component *.module.css files.
+*/
+:root {
+  /* palette */
+  --io-bg: #f4f6f8;
+  --io-surface: #ffffff;
+  --io-border: #dde2e8;
+  --io-text: #1b2733;
+  --io-text-muted: #5d6b7a;
+  --io-primary: #1f6f5c;
+  --io-primary-soft: #e2f0ec;
+  --io-accent: #2b6cb0;
+  --io-danger: #b93a3a;
+  --io-danger-soft: #f9e7e7;
+  --io-warning: #b7791f;
+  --io-warning-soft: #f8eeda;
+  --io-ok: #2f855a;
+  --io-ok-soft: #e4f2ea;
+
+  /* spacing scale (4px base) */
+  --io-space-1: 0.25rem;
+  --io-space-2: 0.5rem;
+  --io-space-3: 0.75rem;
+  --io-space-4: 1rem;
+  --io-space-6: 1.5rem;
+  --io-space-8: 2rem;
+
+  /* shape + type */
+  --io-radius: 6px;
+  --io-font-size-s: 0.8125rem;
+  --io-font-size-m: 0.9375rem;
+  --io-font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: var(--io-bg);
+  color: var(--io-text);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  font-size: var(--io-font-size-m);
+}
