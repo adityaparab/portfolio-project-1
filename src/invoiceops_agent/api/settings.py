@@ -60,3 +60,9 @@ class Settings(BaseSettings):
         "image/tiff",
         "image/webp",
     ]
+
+    # Graph node retries (issue #27): INFRA-only, exponential backoff + jitter
+    graph_retry_attempts: int = 3
+    graph_retry_base_delay_seconds: float = 0.5
+    graph_retry_max_delay_seconds: float = 8.0
+    graph_retry_jitter_seconds: float = 0.25

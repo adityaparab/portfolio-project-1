@@ -172,3 +172,28 @@ class Decision(Base):
     rationale: Mapped[str] = mapped_column(Text)
     reason_code: Mapped[str] = mapped_column(String(64))
     created_at: Mapped[datetime] = mapped_column(default=utcnow)
+
+
+class DLQEntry(Base):
+    """Dead-letter queue for failed runs (issue #27).
+
+    An OPS queue, not an audit record: ``status`` mutates on replay/discard
+    (unlike ledger/decisions), while every transition is still audited via
+    ledger entries. ``state_snapshot`` is the last good checkpoint so admin
+    replay re-executes from exactly where the run died.
+    """
+
+    __tablename__ = "dlq_entries"
+
+    dlq_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    run_id: Mapped[int] = mapped_column(ForeignKey("runs.run_id"), index=True)
+    invoice_id: Mapped[int] = mapped_column(ForeignKey("invoices.invoice_id"), index=True)
+    node: Mapped[str] = mapped_column(String(64))
+    failure_kind: Mapped[str] = mapped_column(String(16))  # INFRA | BUSINESS
+    error_type: Mapped[str] = mapped_column(String(128))
+    error_message: Mapped[str] = mapped_column(Text)
+    attempts: Mapped[int] = mapped_column(default=1)
+    state_snapshot: Mapped[dict[str, Any]] = mapped_column(JSONB)
+    status: Mapped[str] = mapped_column(String(16), default="PENDING")  # PENDING/REPLAYED/DISCARDED
+    created_at: Mapped[datetime] = mapped_column(default=utcnow)
+    replayed_at: Mapped[datetime | None] = mapped_column()
