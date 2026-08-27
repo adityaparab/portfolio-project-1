@@ -2,7 +2,7 @@
 
 **An agentic, human-in-the-loop invoice processing system for Source-to-Pay — built as a production-honest, scaled-down version of what an enterprise GenAI platform team ships at a bank.**
 
-> Portfolio Project 1 of 3 · Target roles: Citi Lead Python AI Principal Engineer / Gen AI Transformation Lead (Source-to-Pay) · Status: Design + working mocks (this repo) → build
+> Portfolio Project 1 of 3 · Target roles: Citi Lead Python AI Principal Engineer / Gen AI Transformation Lead (Source-to-Pay) · Status: **Building** — platform skeleton + ingestion/extraction/eval baseline shipped (Phases 0–1 of [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md), 27/57 tracker issues closed)
 
 ---
 
@@ -204,8 +204,8 @@ invoiceops-agent/
 
 | Phase | Duration | Exit criteria |
 |---|---|---|
-| **P0 — Platform skeleton** | Week 1 | FastAPI + Postgres + LangGraph hello-path in Docker Compose; CI green |
-| **P1 — Extraction & validation** | Weeks 2–3 | Voxel51 subset processed; extraction field F1 measured; ledger records every step |
+| **P0 — Platform skeleton** ✅ | Week 1 | FastAPI + Postgres + LangGraph hello-path in Docker Compose; CI green |
+| **P1 — Extraction & validation** ✅ | Weeks 2–3 | Voxel51 subset processed; extraction field F1 measured; ledger records every step |
 | **P2 — 3-way match + policy** | Week 4 | Synthetic ERP; deterministic checks; exception taxonomy implemented |
 | **P3 — HITL + triage agent** | Week 5 | Review queue UI; decisions written to ledger; confidence gate tuned via eval |
 | **P4 — Observability + gateway integration** | Week 6 | OTel traces per node; cost/latency dashboards; routed through LLM Gateway |
