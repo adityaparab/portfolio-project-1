@@ -70,7 +70,7 @@
 - [x] 1.6 Extraction agent: doc → typed `InvoiceExtraction` (Pydantic) with per-field confidence, via `extract-vision` alias
 - [x] 1.7 Validate node: schema checks, line-math, tax checks (deterministic)
 - [x] 1.8 Download + preprocess Voxel51 subset (incl. quality-tier labeling A/B/C)
-- [ ] 1.9 Baseline extraction field F1 report (per-field, per-tier) — no targets yet
+- [x] 1.9 Baseline extraction field F1 report (per-field, per-tier) — no targets yet
 
 ## Phase 2 — 3-Way Match + Policy Engine (Week 4)
 
@@ -175,7 +175,7 @@ All steps are tracked as GitHub issues in `adityaparab/portfolio-project-1`, one
 |---|---|---|---|
 | P0 — Platform skeleton | In progress | — | 10/10 — COMPLETE (#8 PR #67) |
 | P1 — Extraction & validation | Not started | — | |
-| P2 — Match + policy | Not started | — | |
+| P2 — Match + policy | Not started | — | Next: issues #20–#27 |
 | P3 — HITL + triage + front end | Not started | — | |
 | P4 — Observability + gateway | Not started | — | |
 | P5 — Eval harness + CI gate | Not started | — | |
