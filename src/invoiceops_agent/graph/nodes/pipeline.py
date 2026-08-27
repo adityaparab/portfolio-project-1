@@ -174,6 +174,18 @@ class PipelineNodes:
                 if gr and po
                 else None
             )
+            # Backfill the denormalized read model the queue filters/sorts on
+            # (#28). Extraction fields always; ERP refs when a PO was found.
+            invoice = await session.get(Invoice, state.invoice_id) if state.invoice_id else None
+            if invoice is not None:
+                invoice.invoice_number = extraction.invoice_number
+                invoice.currency = extraction.currency
+                invoice.amount_total = extraction.total_amount
+                invoice.issue_date = _parse_date(extraction.issue_date)
+                if po is not None:
+                    invoice.po_id = po.po_id
+                    invoice.vendor_id = po.vendor_id
+                await session.commit()
         result = matching.match3way(_invoice_for_match(extraction), po_for_match, gr_for_match)
         await self._ledger(
             state,
