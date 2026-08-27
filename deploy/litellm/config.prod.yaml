@@ -1,0 +1,42 @@
+# LiteLLM proxy routing — PRODUCTION/EVAL profile (OpenAI backends).
+#
+# Same virtual aliases as config.yaml (dev); backends are OpenAI models behind
+# OPENAI_API_KEY. Used for real-model eval runs and the published metrics —
+# targets (F1 ≥ 0.95, ≤ $0.04/invoice) are measured against this profile.
+#   extract-vision → gpt-4o          (vision extraction)
+#   triage-reasoner → gpt-4.1        (reasoning + structured output)
+#   eval-judge → gpt-4.1-mini        (grading — cheap, versioned prompt)
+#   embed → text-embedding-3-small
+model_list:
+  - model_name: extract-vision
+    litellm_params:
+      model: openai/gpt-4o
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: triage-reasoner
+    litellm_params:
+      model: openai/gpt-4.1
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: eval-judge
+    litellm_params:
+      model: openai/gpt-4.1-mini
+      api_key: os.environ/OPENAI_API_KEY
+
+  - model_name: embed
+    litellm_params:
+      model: openai/text-embedding-3-small
+      api_key: os.environ/OPENAI_API_KEY
+
+litellm_settings:
+  drop_params: true
+  num_retries: 2
+  request_timeout: 120
+
+router_settings:
+  timeout: 120
+  retries: 2
+  allowed_fails: 3
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
