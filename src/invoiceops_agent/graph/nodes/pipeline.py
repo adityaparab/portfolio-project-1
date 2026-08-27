@@ -406,6 +406,7 @@ class PipelineNodes:
                 run = await session.get(Run, state.run_db_id)
                 if run is not None:
                     run.route = Route.EXCEPTION.value
+                    run.status = "AWAITING_DECISION"  # graph pauses here (#29)
             await writer.append(
                 session,
                 LedgerAppend(
@@ -438,8 +439,22 @@ class PipelineNodes:
     # ------------------------------------------------------------ human review
 
     async def human_review(self, state: GraphState) -> NodeResult:
-        """Pass-through until the HITL service (#29): the exception queue IS
-        the human-review station; decisions land via /v1/exceptions."""
+        """Runs on the post-decision resume (#29): the decision itself is
+        recorded transactionally by the decision service; this node audits
+        the graph-side transition and closes the review bookkeeping."""
+        decision = state.human_decision or {}
+        await self._ledger(
+            state,
+            ActorType.HUMAN,
+            "human_review",
+            {
+                "event": "human_review.completed",
+                "action": decision.get("action"),
+                "actor": decision.get("actor"),
+                "reason_code": decision.get("reason_code"),
+                "decision_id": decision.get("decision_id"),
+            },
+        )
         return {"node_trace": [*state.node_trace, "human_review"]}
 
     # ----------------------------------------------------------------- archive
