@@ -49,7 +49,7 @@
 
 - [x] 0.1 Restructure to `src/` layout per README §9; remove `hello.py`; pin dev tooling (ruff, mypy strict, pytest, pytest-asyncio) as uv dev-dependencies
 - [x] 0.2 Bump Python to 3.12 in `.python-version` and `pyproject.toml`
-- [ ] 0.3 Docker Compose stack: `api`, `postgres` (pgvector), `minio`, `litellm`; one-shot `seed` service placeholder; `langfuse` + `grafana`/`prometheus` deferred to Phase 4
+- [x] 0.3 Docker Compose stack: `api`, `postgres` (pgvector), `minio`, `litellm`; one-shot `seed` service placeholder; `langfuse` + `grafana`/`prometheus` deferred to Phase 4
 - [ ] 0.4 `deploy/litellm/config.yaml` with virtual aliases (`extract-vision`, `triage-reasoner`) mapped to dev (Ollama) / prod (OpenAI) models; API key handling via env
 - [x] 0.5 FastAPI app shell: `/healthz`, `/readyz`, RFC 7807 error handler, Pydantic v2 settings, idempotency-key middleware
 - [ ] 0.6 Alembic migrations for full schema (ARCHITECTURE §6): `vendors`, `purchase_orders`, `goods_receipts`, `invoices` (unique `content_hash`), `invoice_lines`, `runs`, `checkpoints`, `ledger`, `exceptions`, `decisions`
@@ -173,7 +173,7 @@ All steps are tracked as GitHub issues in `adityaparab/portfolio-project-1`, one
 
 | Phase | Status | Completed on | Notes |
 |---|---|---|---|
-| P0 — Platform skeleton | In progress | — | 5/10 steps done (+ #5 PR #62) |
+| P0 — Platform skeleton | In progress | — | 6/10 steps done (+ #3 PR #63) |
 | P1 — Extraction & validation | Not started | — | |
 | P2 — Match + policy | Not started | — | |
 | P3 — HITL + triage + front end | Not started | — | |
