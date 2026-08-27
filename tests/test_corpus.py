@@ -26,17 +26,14 @@ from invoiceops_agent.data.voxel51 import (
         (1654, 2200, 25.0, "C"),  # softest corpus images
     ],
 )
-def test_quality_tier_heuristic(
-    width: int, height: int, std: float, expected: str
-) -> None:
+def test_quality_tier_heuristic(width: int, height: int, std: float, expected: str) -> None:
     assert classify_quality_tier(width, height, std) == expected
 
 
 @pytest.mark.unit
 def test_select_samples_deterministic_and_counted() -> None:
     samples = [
-        {"_id": {"$oid": f"{'abcd'[i] * 24}"}, "filepath": f"data/x{i}.jpg"}
-        for i in range(4)
+        {"_id": {"$oid": f"{'abcd'[i] * 24}"}, "filepath": f"data/x{i}.jpg"} for i in range(4)
     ]
     first = select_samples(samples, 2)
     second = select_samples(list(reversed(samples)), 2)
