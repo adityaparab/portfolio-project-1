@@ -2,7 +2,7 @@
 
 > **Purpose:** Single source of truth for building the system described in `README.md`, `docs/ARCHITECTURE.md`, and `docs/EVALUATION.md`. Work through phases top-to-bottom; check off steps as they complete. Update the status tables at the bottom as phases finish.
 >
-> **Last updated:** 2026-08-27
+> **Last updated:** 2026-08-27 (Phase 2 complete)
 
 ---
 
@@ -76,14 +76,14 @@
 
 **Exit criteria:** synthetic ERP live; deterministic checks; exception taxonomy implemented.
 
-- [ ] 2.1 Synthetic ERP generator (Faker, seed-pinned): vendors, POs, goods receipts with ground truth; seeds via Compose `seed` service
-- [ ] 2.2 Deterministic 3-way matcher with tolerance bands; deltas computed for evidence packages
-- [ ] 2.3 Exception taxonomy: DUP_EXACT, DUP_NEAR, PRICE_MM, QTY_MM, MISSING_PO, BANK_CHANGE, CCY_MM, TAX_ERR, MATH_ERR, STALE_PO
-- [ ] 2.4 Near-duplicate detection via pgvector embeddings
-- [ ] 2.5 Policy engine: spend limits, approval matrix, stale/closed-PO checks — deterministic, independent of LLM (ADR 0001)
-- [ ] 2.6 Full LangGraph state machine wiring: Ingest → Extract → Validate → Match3Way → Policy → Gate → (AutoApprove | ExceptionTriage) → HumanReview → Archive (+ Reject), checkpoint after every node
-- [ ] 2.7 Composite confidence gate: `w1·min(field_conf) + w2·(1−norm_match_delta) + w3·policy_severity_term` (ARCHITECTURE §3.5); τ configurable
-- [ ] 2.8 Retries/backoff for infra errors; business failures never retried; DLQ design implemented
+- [x] 2.1 Synthetic ERP generator (Faker, seed-pinned): vendors, POs, goods receipts with ground truth; seeds via Compose `seed` service
+- [x] 2.2 Deterministic 3-way matcher with tolerance bands; deltas computed for evidence packages
+- [x] 2.3 Exception taxonomy: DUP_EXACT, DUP_NEAR, PRICE_MM, QTY_MM, MISSING_PO, BANK_CHANGE, CCY_MM, TAX_ERR, MATH_ERR, STALE_PO
+- [x] 2.4 Near-duplicate detection via pgvector embeddings
+- [x] 2.5 Policy engine: spend limits, approval matrix, stale/closed-PO checks — deterministic, independent of LLM (ADR 0001)
+- [x] 2.6 Full LangGraph state machine wiring: Ingest → Extract → Validate → Match3Way → Policy → Gate → (AutoApprove | ExceptionTriage) → HumanReview → Archive (+ Reject), checkpoint after every node
+- [x] 2.7 Composite confidence gate: `w1·min(field_conf) + w2·(1−norm_match_delta) + w3·policy_severity_term` (ARCHITECTURE §3.5); τ configurable
+- [x] 2.8 Retries/backoff for infra errors; business failures never retried; DLQ design implemented
 
 ## Phase 3 — HITL + Triage Agent + Full Front End (Weeks 5–6)
 
@@ -174,9 +174,9 @@ All steps are tracked as GitHub issues in `adityaparab/portfolio-project-1`, one
 | Phase | Status | Completed on | Notes |
 |---|---|---|---|
 | P0 — Platform skeleton | In progress | — | 10/10 — COMPLETE (#8 PR #67) |
-| P1 — Extraction & validation | Not started | — | |
-| P2 — Match + policy | Not started | — | Next: issues #20–#27 |
-| P3 — HITL + triage + front end | Not started | — | |
+| P1 — Extraction & validation | Not started | — | 9/9 — COMPLETE (#11–#19 PRs #69–#77) |
+| P2 — Match + policy | Not started | — | 8/8 — COMPLETE (#20–#27 PRs #78–#85); 2.7 done before 2.6 so the wired graph used the real gate |
+| P3 — HITL + triage + front end | Not started | — | Next: issues #28–#39 |
 | P4 — Observability + gateway | Not started | — | |
 | P5 — Eval harness + CI gate | Not started | — | |
 | P6 — ADK variant + ADR | Not started | — | |
@@ -192,3 +192,4 @@ All steps are tracked as GitHub issues in `adityaparab/portfolio-project-1`, one
 | 2026-08-27 | GitHub project setup: 8 phase milestones, 10 area labels, and 57 detailed issues (one per step, with summaries, task checklists, acceptance criteria, dependencies, and suggested branch names). Step→issue map recorded above. Renumbered stray duplicate `3.5` → `3.12` (provenance endpoints). |
 | 2026-08-27 | Dev LLM backends moved to the developer's native LiteLLM proxy (glm-ocr, qwen38, compass-judger, nomic-embed); gateway base URL + key now env-driven via `.env`; compose-hosted proxy demoted to optional `--profile proxy`. |
 | 2026-08-27 | **Phase 1 complete** — issues #11–#19 via PRs #69–#77: upload + email-webhook ingestion, dedupe→Reject routing, ledger writer/reader, LiteLLM gateway client (live-verified against native proxy), extraction agent (extract@v1), deterministic validate node, Voxel51 corpus manifest, baseline F1 report. Two fixes en route: vision-aware budget estimator; `/data/` gitignore anchoring (untracked `src/invoiceops_agent/data/` broke CI). Next: Phase 2 (#20–#27). |
+| 2026-08-27 | **Phase 2 complete** — issues #20–#27 via PRs #78–#85 (2.7 gate landed before 2.6 wiring): seed-pinned synthetic ERP + Compose seed service (one clean-DB `docker compose run --rm seed`, verified live); deterministic 3-way matcher with versioned tolerance bands (hypothesis-tested boundaries); exception taxonomy (10 eval codes + internal APPROVAL_REQUIRED, total mapping, precedence); near-dup via pgvector (gateway + hashing-trick embedders, index-verified queries); policy engine (spend limits/approval matrix/stale-PO/bank-change/near-dup, rules-as-data); full graph wiring (ledger entry per node, checkpoint resume, `extract@v2` adds po_number, API background execution); composite confidence gate (w=0.4/0.4/0.2, τ=0.85 documented as untuned); INFRA-only retries + DLQ with checkpoint replay (exactly-once). Fixes en route: `uv run --no-sync` at runtime (rebuilt images broke boot on the root-owned editable install); graph no longer imports api.settings (boundary). Next: Phase 3 (#28–#39). |
