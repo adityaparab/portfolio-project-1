@@ -1,10 +1,16 @@
-"""Ingest service: upload → content hash → MinIO → invoice/run rows → ledger."""
+"""Ingest service: upload → content hash → MinIO → invoice/run rows → ledger.
+
+Duplicate content (issue #13): the duplicate upload gets its own REJECTED run
+on the ORIGINAL invoice plus a SYSTEM ledger entry referencing the original —
+the same outcome the graph's Reject terminal node produces (wired in #25).
+"""
 
 import hashlib
 from dataclasses import dataclass
 from typing import Any
 
 from fastapi import HTTPException, UploadFile, status
+from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
@@ -16,24 +22,11 @@ from invoiceops_agent.storage.minio import ObjectStore
 from invoiceops_agent.versions import CURRENT
 
 
-class DuplicateInvoiceError(HTTPException):
-    """Exact content hash already ingested (routing refined in issue #13)."""
-
-    def __init__(self, existing_invoice_id: int, content_hash: str) -> None:
-        super().__init__(
-            status_code=status.HTTP_409_CONFLICT,
-            detail={
-                "message": "Duplicate invoice content.",
-                "existing_invoice_id": existing_invoice_id,
-                "content_hash": content_hash,
-            },
-        )
-
-
 @dataclass(frozen=True)
 class IngestResult:
     accepted: InvoiceAccepted
     object_key: str
+    duplicate: bool = False
 
 
 class IngestService:
@@ -48,21 +41,32 @@ class IngestService:
         self._settings = settings
 
     async def ingest(self, upload: UploadFile) -> IngestResult:
-        data = await self._read_and_validate(upload)
-        content_hash = hashlib.sha256(data).hexdigest()
+        data, content_hash = await self._read_and_hash(upload)
         key = f"raw/{content_hash}"
 
         async with self._sessions() as session:
             try:
-                invoice, run = await self._create_rows(session, upload, content_hash, key)
-                await self._append_ledger(session, invoice, run)
+                invoice, run = await self._create_rows(session, content_hash, key)
+                await self._append_accept_ledger(session, invoice, run)
                 await session.commit()
-            except IntegrityError as exc:
+            except IntegrityError:
+                # Race-safe: unique content_hash lost the race → duplicate path.
                 await session.rollback()
                 existing = await self._find_existing(session, content_hash)
-                if existing is not None:
-                    raise DuplicateInvoiceError(existing, content_hash) from exc
-                raise
+                if existing is None:
+                    raise
+                invoice_id, run_id = await self._record_duplicate(session, existing, content_hash)
+                return IngestResult(
+                    accepted=InvoiceAccepted(
+                        invoice_id=invoice_id,
+                        run_id=run_id,
+                        content_hash=content_hash,
+                        status="REJECTED",
+                        duplicate=True,
+                    ),
+                    object_key=key,
+                    duplicate=True,
+                )
             await self._store.put(key, data, upload.content_type or "application/octet-stream")
 
         return IngestResult(
@@ -74,7 +78,7 @@ class IngestService:
             object_key=key,
         )
 
-    async def _read_and_validate(self, upload: UploadFile) -> bytes:
+    async def _read_and_hash(self, upload: UploadFile) -> tuple[bytes, str]:
         allowed = set(self._settings.allowed_content_types)
         if upload.content_type not in allowed:
             raise HTTPException(
@@ -84,15 +88,17 @@ class IngestService:
                 ),
             )
         limit = self._settings.max_upload_bytes
+        hasher = hashlib.sha256()
         chunks: list[bytes] = []
         size = 0
-        while chunk := await upload.read(1 << 20):  # 1 MiB chunks
+        while chunk := await upload.read(1 << 20):  # 1 MiB chunks, hashed streaming
             size += len(chunk)
             if size > limit:
                 raise HTTPException(
                     status_code=status.HTTP_413_REQUEST_ENTITY_TOO_LARGE,
                     detail=f"Upload exceeds {limit} bytes.",
                 )
+            hasher.update(chunk)
             chunks.append(chunk)
         data = b"".join(chunks)
         if not data:
@@ -100,20 +106,12 @@ class IngestService:
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
                 detail="Empty upload.",
             )
-        return data
+        return data, hasher.hexdigest()
 
     async def _create_rows(
-        self,
-        session: AsyncSession,
-        upload: UploadFile,
-        content_hash: str,
-        key: str,
+        self, session: AsyncSession, content_hash: str, key: str
     ) -> tuple[Invoice, Run]:
-        invoice = Invoice(
-            content_hash=content_hash,
-            doc_ref=key,
-            status="RECEIVED",
-        )
+        invoice = Invoice(content_hash=content_hash, doc_ref=key, status="RECEIVED")
         session.add(invoice)
         await session.flush()  # allocate invoice_id
 
@@ -127,7 +125,9 @@ class IngestService:
         await session.flush()
         return invoice, run
 
-    async def _append_ledger(self, session: AsyncSession, invoice: Invoice, run: Run) -> None:
+    async def _append_accept_ledger(
+        self, session: AsyncSession, invoice: Invoice, run: Run
+    ) -> None:
         await writer.append(
             session,
             LedgerAppend(
@@ -143,9 +143,38 @@ class IngestService:
             ),
         )
 
-    async def _find_existing(self, session: AsyncSession, content_hash: str) -> int | None:
-        from sqlalchemy import select
+    async def _record_duplicate(
+        self, session: AsyncSession, existing_invoice_id: int, content_hash: str
+    ) -> tuple[int, int]:
+        """Reject-run + ledger entry on the original invoice; no second copy."""
+        run = Run(
+            invoice_id=existing_invoice_id,
+            graph_version=CURRENT.graph,
+            model_versions={},
+            route="REJECT",
+            status="REJECTED",
+        )
+        session.add(run)
+        await session.flush()
+        await writer.append(
+            session,
+            LedgerAppend(
+                actor_type=ActorType.SYSTEM,
+                actor_id="ingest",
+                run_id=run.run_id,
+                invoice_id=existing_invoice_id,
+                event={
+                    "event": "ingest.duplicate",
+                    "content_hash": content_hash,
+                    "original_invoice_id": existing_invoice_id,
+                    "route": "REJECT",
+                },
+            ),
+        )
+        await session.commit()
+        return existing_invoice_id, run.run_id
 
+    async def _find_existing(self, session: AsyncSession, content_hash: str) -> int | None:
         result = await session.execute(
             select(Invoice.invoice_id).where(Invoice.content_hash == content_hash)
         )

@@ -81,8 +81,15 @@ def test_ingest_full_flow(monkeypatch: pytest.MonkeyPatch) -> None:
                     files=_pdf(b"%PDF-1.4 integration-1"),
                     headers={**TOKEN, "Idempotency-Key": "idem-1"},
                 )
-                dup = await client.post(  # same bytes, NO key → 409 duplicate
+                dup = await client.post(  # same bytes, NO key → 200 duplicate (#13)
                     "/v1/invoices", files=_pdf(b"%PDF-1.4 integration-1"), headers=TOKEN
+                )
+                # Concurrent race: same NEW content from two requests at once.
+                import asyncio as _aio
+
+                r1, r2 = await _aio.gather(
+                    client.post("/v1/invoices", files=_pdf(b"%PDF-1.4 race-A"), headers=TOKEN),
+                    client.post("/v1/invoices", files=_pdf(b"%PDF-1.4 race-A"), headers=TOKEN),
                 )
 
                 async with factory() as session:
@@ -102,9 +109,13 @@ def test_ingest_full_flow(monkeypatch: pytest.MonkeyPatch) -> None:
                     "replay_same": replay_again.json() == replay.json(),
                     "dup": dup.status_code,
                     "dup_detail": dup.json(),
+                    "race_codes": sorted([r1.status_code, r2.status_code]),
+                    "race_same_invoice": r1.json()["invoice_id"] == r2.json()["invoice_id"],
                     "invoices": len(invoices),
                     "runs": len(runs),
+                    "run_states": sorted((r.status, r.route) for r in runs),
                     "ledger": len(ledger),
+                    "ledger_events": sorted(e.event.get("event") for e in ledger),
                     "doc_ref": invoices[0].doc_ref,
                     "presigned": bool(stored),
                 },
@@ -116,12 +127,29 @@ def test_ingest_full_flow(monkeypatch: pytest.MonkeyPatch) -> None:
 
     assert result["ok"] == 201
     body = result["dup_detail"]
-    assert result["dup"] == 409
-    assert body["extra"]["existing_invoice_id"] == invoice_id
+    assert result["dup"] == 200  # duplicate: 200 + original ref, not 409 (#13)
+    assert body["invoice_id"] == invoice_id
+    assert body["duplicate"] is True
+    assert body["status"] == "REJECTED"
     assert result["replay"] == 201 and result["replay_same"] is True
-    assert result["invoices"] == 1  # one row despite 4 uploads
-    assert result["runs"] == 1  # replay short-circuits before ingest
-    assert result["ledger"] == 1
-    assert result["doc_ref"] == f"raw/{body['extra']['content_hash']}"
+    # 2 invoices: the idempotent original + the race content; race resolved safely
+    assert result["invoices"] == 2
+    assert result["race_codes"] == [200, 201]
+    assert result["race_same_invoice"] is True
+    # 4 runs: original QUEUED + duplicate REJECTED + 2 race runs (1 queued, 1 rejected)
+    assert result["runs"] == 4
+    assert result["run_states"] == [
+        ("QUEUED", None),
+        ("QUEUED", None),
+        ("REJECTED", "REJECT"),
+        ("REJECTED", "REJECT"),
+    ]
+    assert result["ledger_events"] == [
+        "ingest.accepted",
+        "ingest.accepted",
+        "ingest.duplicate",
+        "ingest.duplicate",
+    ]
+    assert result["doc_ref"] == f"raw/{body['content_hash']}"
     assert result["presigned"] is True
     assert invoice_id > 0 and entry_id > 0

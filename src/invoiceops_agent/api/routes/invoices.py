@@ -38,6 +38,7 @@ async def ingest_invoice(
 
     result = await service.ingest(upload)
     accepted = result.accepted
+    response.status_code = status.HTTP_200_OK if result.duplicate else status.HTTP_201_CREATED
 
     if idem_key is not None:
         replayable = JSONResponse(content=accepted.model_dump(), status_code=201)
