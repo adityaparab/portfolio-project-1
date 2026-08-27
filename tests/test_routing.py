@@ -4,6 +4,7 @@ import pytest
 
 from invoiceops_agent.graph import routing
 from invoiceops_agent.graph.state import GraphState, Route
+from invoiceops_agent.tools import gate_config
 
 
 def _state(**kw: object) -> GraphState:
@@ -66,8 +67,8 @@ def test_route_after_policy(state: GraphState, expected: str) -> None:
 @pytest.mark.parametrize(
     ("state", "expected"),
     [
-        (_state(confidence=routing.TAU), "auto_approve"),  # boundary: == τ is AUTO
-        (_state(confidence=routing.TAU - 0.0001), "exception_triage"),
+        (_state(confidence=gate_config.TAU), "auto_approve"),  # boundary: == τ is AUTO
+        (_state(confidence=gate_config.TAU - 0.0001), "exception_triage"),
         (_state(confidence=None), "exception_triage"),  # abstention (ADR 0003)
         (_state(confidence=1.0), "auto_approve"),
     ],
