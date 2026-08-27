@@ -1,36 +1,42 @@
-# LiteLLM proxy routing — DEVELOPMENT profile (local Ollama backends).
+# LiteLLM routing — DEVELOPMENT profile, backed by the developer's NATIVE
+# LiteLLM proxy (OpenAI-compliant API on the host).
 #
 # Application code addresses models ONLY by virtual alias (model_name below).
-# Switching dev/prod = point LITELLM_CONFIG at config.prod.yaml (see compose.yaml);
-# never a code change. Adding an alias: append a model_list entry here AND in
-# config.prod.yaml, then update the gateway client's alias type if applicable.
+# The gateway base URL and key come from the environment (.env — see
+# .env.example): INVOICEOPS_LITELLM_BASE_URL / LITELLM_API_KEY. This file only
+# matters when running the optional self-hosted proxy service
+# (`docker compose --profile proxy up`); with a native proxy present, the app
+# talks to it directly and this file is unused.
 #
-# Dev backends expect Ollama on the host, reached via host.docker.internal:11434
-# (extra_hosts in compose.yaml maps it on Linux). Model choices for dev:
-#   extract-vision → qwen2.5vl:7b   (vision-capable extraction)
-#   triage-reasoner → qwen2.5:7b    (general reasoning, structured output)
-#   eval-judge → qwen2.5:7b         (grading, versioned prompt — same class OK in dev)
-#   embed → nomic-embed-text        (embeddings for near-dup)
+# Dev backend models (native proxy):
+#   extract-vision   → openai/glm-ocr           (vision/OCR extraction)
+#   triage-reasoner  → openai/qwen38            (reasoning + structured output)
+#   eval-judge       → openai/compass-judger    (grading, versioned prompt)
+#   embed            → openai/nomic-embed       (near-duplicate embeddings)
 model_list:
   - model_name: extract-vision
     litellm_params:
-      model: ollama/qwen2.5vl:7b
-      api_base: http://host.docker.internal:11434
+      model: openai/glm-ocr
+      api_base: os.environ/NATIVE_PROXY_BASE_URL
+      api_key: os.environ/LITELLM_API_KEY
 
   - model_name: triage-reasoner
     litellm_params:
-      model: ollama/qwen2.5:7b
-      api_base: http://host.docker.internal:11434
+      model: openai/qwen38
+      api_base: os.environ/NATIVE_PROXY_BASE_URL
+      api_key: os.environ/LITELLM_API_KEY
 
   - model_name: eval-judge
     litellm_params:
-      model: ollama/qwen2.5:7b
-      api_base: http://host.docker.internal:11434
+      model: openai/compass-judger
+      api_base: os.environ/NATIVE_PROXY_BASE_URL
+      api_key: os.environ/LITELLM_API_KEY
 
   - model_name: embed
     litellm_params:
-      model: ollama/nomic-embed-text
-      api_base: http://host.docker.internal:11434
+      model: openai/nomic-embed
+      api_base: os.environ/NATIVE_PROXY_BASE_URL
+      api_key: os.environ/LITELLM_API_KEY
 
 litellm_settings:
   drop_params: true

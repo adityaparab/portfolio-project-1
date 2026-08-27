@@ -15,7 +15,7 @@
 | API | **FastAPI** (async, uvicorn), Pydantic v2 | RFC 7807 errors, idempotency-key header |
 | DB | **PostgreSQL + pgvector**, raw docs in **MinIO** | ERP sim + ledger + checkpoints |
 | LLM access | **LiteLLM proxy** (OpenAI-compliant API) for ALL traffic | App uses only the `openai` SDK + one base URL; virtual model aliases (`extract-vision`, `triage-reasoner`, …) map to backends per environment |
-| LLM backends | **Dev:** local models (Ollama) via LiteLLM · **Prod/eval:** OpenAI | Switching = config change in `deploy/litellm/config.yaml`, no code change |
+| LLM backends | **Dev:** developer's native LiteLLM proxy (`glm-ocr` extract · `qwen38` triage · `compass-judger` judge · `nomic-embed` embed), URL+key via `.env` · **Prod/eval:** OpenAI via `config.prod.yaml` | Switching = env/config change, no code change |
 | Extraction | Dev: local vision model (Ollama-backed) · Prod: hosted vision LLM (e.g. GPT-4o class) | Routed via LiteLLM alias `extract-vision` |
 | Observability | **OpenTelemetry** (span per graph node), **Langfuse** (LLM traces), **Prometheus + Grafana** | Cost telemetry reads LiteLLM spend logs too |
 | Testing | pytest, hypothesis, testcontainers, schemathesis, VCR-style cassettes | ADR 0007 |
@@ -23,7 +23,7 @@
 | Front end | **React + TypeScript (Vite)** · **Mantine** UI library | See "Front-End Stack" below |
 | Deployment | Docker Compose (api, worker, postgres, minio, litellm, langfuse, grafana+prometheus, seed) | Cloud variant documented as notes only |
 
-**Open items to decide at Phase 0 start:** concrete model names in the LiteLLM routing table (which Ollama model, which OpenAI model).
+**Resolved (2026-08-27):** dev backends run on the developer's native LiteLLM proxy (glm-ocr / qwen38 / compass-judger / nomic-embed; base URL + key in `.env`); prod/eval uses OpenAI (`config.prod.yaml`).
 
 ### Front-End Stack (locked)
 
@@ -190,3 +190,4 @@ All steps are tracked as GitHub issues in `adityaparab/portfolio-project-1`, one
 | 2026-08-27 | Added dedicated front-end scope: React + TypeScript (Vite) with Mantine; TanStack Query/Table, react-hook-form + Zod, Recharts, React Router; API client generated from FastAPI OpenAPI schema. Phase 3 expanded to full UI (six screens, weeks 5–6) with Vitest + Playwright tests. |
 | 2026-08-27 | Added `AGENTS.md` (agent coding standards: architecture boundaries, Python/TS conventions, testing rules, audit rules, definition of done) and 8 workspace skills under `.agents/skills/` (fastapi-api, langgraph-orchestration, data-layer, llm-gateway-litellm, frontend-react-mantine, testing, observability, devstack-ops) so agents get stack-specific guidance when touching each layer. |
 | 2026-08-27 | GitHub project setup: 8 phase milestones, 10 area labels, and 57 detailed issues (one per step, with summaries, task checklists, acceptance criteria, dependencies, and suggested branch names). Step→issue map recorded above. Renumbered stray duplicate `3.5` → `3.12` (provenance endpoints). |
+| 2026-08-27 | Dev LLM backends moved to the developer's native LiteLLM proxy (glm-ocr, qwen38, compass-judger, nomic-embed); gateway base URL + key now env-driven via `.env`; compose-hosted proxy demoted to optional `--profile proxy`. |
