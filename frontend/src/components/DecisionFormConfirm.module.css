@@ -1,0 +1,47 @@
+.modal {
+  min-width: 420px;
+}
+
+.fourEyes {
+  background: var(--io-warning-soft);
+}
+
+.icon {
+  font-size: 0.875rem;
+}
+
+.row {
+  justify-content: space-between;
+  padding-block: var(--io-space-1);
+}
+
+.persona {
+  gap: var(--io-space-2);
+}
+
+.badgePersona {
+  background: var(--io-primary-soft);
+  color: var(--io-primary);
+}
+
+.mono {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-font-size-s);
+}
+
+.rationaleLabel {
+  margin-top: var(--io-space-3);
+  font-weight: 600;
+}
+
+.rationale {
+  background: var(--io-bg);
+  border: 1px solid var(--io-border);
+  border-radius: var(--io-radius);
+  padding: var(--io-space-2) var(--io-space-3);
+}
+
+.buttons {
+  justify-content: flex-end;
+  margin-top: var(--io-space-4);
+}

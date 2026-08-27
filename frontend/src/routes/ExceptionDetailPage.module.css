@@ -1,0 +1,151 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-4);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headerBadges {
+  gap: var(--io-space-2);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--io-space-4);
+}
+
+.card {
+  background: var(--io-surface);
+}
+
+.cardTitle {
+  margin-bottom: var(--io-space-3);
+}
+
+.finding {
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-1);
+  padding: var(--io-space-2) 0;
+  border-bottom: 1px solid var(--io-border);
+}
+
+.finding:last-child {
+  border-bottom: none;
+}
+
+.findingDetail {
+  font-size: var(--io-font-size-s);
+}
+
+.delta {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-font-size-s);
+  color: var(--io-danger);
+  background: var(--io-danger-soft);
+  border-radius: var(--io-radius);
+  padding: var(--io-space-1) var(--io-space-2);
+  width: fit-content;
+}
+
+.fieldLabel {
+  color: var(--io-text-muted);
+}
+
+.mono {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-font-size-s);
+}
+
+.muted {
+  color: var(--io-text-muted);
+}
+
+.recommendation {
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-2);
+}
+
+.recHeader {
+  gap: var(--io-space-2);
+}
+
+.recText {
+  font-weight: 500;
+}
+
+.recRationale {
+  color: var(--io-text-muted);
+  font-size: var(--io-font-size-s);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-3);
+}
+
+.actions {
+  gap: var(--io-space-2);
+}
+
+.action {
+  background: var(--io-bg);
+  color: var(--io-text);
+  border: 1px solid var(--io-border);
+}
+
+.actionActive {
+  background: var(--io-primary);
+}
+
+.submit {
+  background: var(--io-primary);
+  align-self: flex-start;
+}
+
+.loader {
+  display: block;
+  margin: var(--io-space-8) auto;
+}
+
+.alert {
+  background: var(--io-danger-soft);
+}
+
+.badgeException {
+  background: var(--io-danger-soft);
+  color: var(--io-danger);
+}
+
+.badgeHigh {
+  background: var(--io-danger-soft);
+  color: var(--io-danger);
+}
+
+.badgePolicy {
+  background: var(--io-warning-soft);
+  color: var(--io-warning);
+}
+
+.badgeAgent {
+  background: var(--io-primary-soft);
+  color: var(--io-primary);
+}
+
+.badgeOk {
+  background: var(--io-ok-soft);
+  color: var(--io-ok);
+}
+
+.badgeWarn {
+  background: var(--io-warning-soft);
+  color: var(--io-warning);
+}

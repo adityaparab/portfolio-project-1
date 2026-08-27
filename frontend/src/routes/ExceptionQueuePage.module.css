@@ -1,0 +1,77 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-4);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sortControl {
+  background: var(--io-surface);
+  border: 1px solid var(--io-border);
+}
+
+.filters {
+  display: flex;
+  gap: var(--io-space-3);
+}
+
+.filterSelect {
+  min-width: 220px;
+}
+
+.tableCard {
+  background: var(--io-surface);
+  position: relative;
+  min-height: 160px;
+}
+
+.row {
+  cursor: pointer;
+}
+
+.mono {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-font-size-s);
+}
+
+.muted {
+  color: var(--io-text-muted);
+}
+
+.empty {
+  color: var(--io-text-muted);
+}
+
+.error {
+  color: var(--io-danger);
+}
+
+.badgeCritical {
+  background: var(--io-danger);
+  color: var(--io-surface);
+}
+
+.badgeHigh {
+  background: var(--io-danger-soft);
+  color: var(--io-danger);
+}
+
+.badgeMedium {
+  background: var(--io-warning-soft);
+  color: var(--io-warning);
+}
+
+.badgeLow {
+  background: var(--io-primary-soft);
+  color: var(--io-primary);
+}
+
+.badgeDown {
+  background: var(--io-danger-soft);
+  color: var(--io-danger);
+}
