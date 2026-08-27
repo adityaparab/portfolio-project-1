@@ -16,11 +16,23 @@ Screens of record: the six in `IMPLEMENTATION_PLAN.md` Phase 3 (Dashboard, Intak
 
 ## Component rules
 
-- UI primitives come from **Mantine** (`@mantine/core`, `@mantine/hooks`, `@mantine/notifications`, `@mantine/dates`): never hand-roll modals, toasts, selects, date pickers. App theme set once in the provider — no ad-hoc hex values in components.
+- UI primitives come from **Mantine** (`@mantine/core`, `@mantine/hooks`, `@mantine/notifications`, `@mantine/dates`): never hand-roll modals, toasts, selects, date pickers. Components are used for structure and behavior only — visual styling never passes through their style props (see Styling).
 - Feature logic lives in hooks (`useExceptionQueue`, `useDecision`); components stay presentational and small. Props fully typed; `any` only with a justification comment (target: zero).
-- Tables (exception queue, invoices): **TanStack Table** with Mantine styling; server-side pagination/sort/filter wired to query params — no client-side illusion of server data.
+- Tables (exception queue, invoices): **TanStack Table** with CSS-Module-styled markup; server-side pagination/sort/filter wired to query params — no client-side illusion of server data.
 - Charts (Dashboard, Evals): **Recharts**; metrics come from the API (`/v1/metrics` aggregates / eval reports), never recomputed from raw lists client-side.
 - Money/timestamps formatted through shared `lib/format` helpers (Decimal-safe strings from API; tz-aware display).
+
+## Styling — CSS Modules, always
+
+Styling code never lives in `.ts`/`.tsx` files. If it draws, it lives in a CSS Module.
+
+- **One module per component, colocated, same base name**: `ExceptionTable.tsx` ↔ `ExceptionTable.module.css`. Import as `import styles from "./ExceptionTable.module.css"` and apply via `className={styles.row}`. Vite compiles `.module.css` out of the box; keys are `camelCase` so `styles.someClass` stays typed.
+- **No inline `style={{ ... }}` props.** The single exception is passing **data-derived values as CSS custom properties** — `style={{ "--bar-fill": `${pct}%` }}` — with every actual style rule in the module: `<div className={styles.fillBar} style={{ "--bar-fill": fill }}>` and `.fillBar { width: var(--bar-fill); }`. Static values never take this path.
+- **No Mantine visual style props**: `mt=`, `mb=`, `p=`, `m=`, `c=`, `bg=`, `fz=`, `fw=`, `w=`, `h=`, `miw=`, `opacity=`, `radius=` etc. are styling in disguise and are forbidden in tsx. Non-visual API props (`opened`, `data`, `label`, `placeholder`, `disabled`, `position` for drawer anchor, `variant`/`size` selecting a themed variant token) are fine. Spacing around a Mantine component goes on the wrapper's module class or the component's own module class.
+- Mantine's own component classes are targeted **from the module** via `:global()` selectors when internals need nudging (e.g. `.row :global(.mantine-Table-td) { … }`) — never by patching `theme.components` ad hoc per screen.
+- **Global styles exist once**: `src/styles/global.css` (reset, CSS custom properties/design tokens) imported only in `main.tsx`, plus the Mantine theme token object in `AppProvider.tsx`. Everything else is scoped to a module. Shared cross-component styles become a shared module (`styles/shared.module.css`) imported where needed — never global class names.
+- Design tokens (colors, spacing, radii, font sizes) are CSS custom properties in `global.css` (`var(--io-space-2)`); modules reference tokens instead of raw values. The Mantine theme reads the same tokens so both systems stay in sync.
+- The frontend lint setup (added with the 3.4 scaffold) enforces this: `react/forbid-component-props` banning the style props above, and a `no-restricted-syntax` guard on object-literal `style` attributes (custom-property spreads excepted). Keep those rules green — don't disable them per-line.
 
 ## Forms (decision flows etc.)
 
@@ -38,4 +50,5 @@ Screens of record: the six in `IMPLEMENTATION_PLAN.md` Phase 3 (Dashboard, Intak
 ## Avoid
 
 - Duplicating backend business logic (match tolerance, policy) in TS — display what the API decided.
-- Inline fetching, inline styles over the Mantine theme, untyped API payloads (`as Foo` casts at the boundary instead of Zod parsing).
+- Inline fetching; untyped API payloads (`as Foo` casts at the boundary instead of Zod parsing).
+- Styling inside component code in any form: inline `style` objects (except data-driven CSS custom properties), Mantine style props (`mt=`, `c=`, `bg=`, …), global class names, or raw hex/spacing literals in tsx. When a screen "just needs a tweak," the tweak goes into its `.module.css`.

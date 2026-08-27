@@ -49,7 +49,8 @@ src/obs/           OTel setup, exporters, logging config
 - TypeScript `strict`; `any` (and `as any`) require a comment justifying survival. Zod parses every API response at the boundary — no trusting the wire.
 - Server state only through TanStack Query (no ad-hoc `useEffect` fetching). Mutations invalidate the specific query keys they affect.
 - Components: small, props typed; feature logic in hooks, not components; Mantine components for UI primitives — don't hand-roll modals/tables/notifications.
-- No business logic duplicated from the backend — the API is the source of truth; derive in React only what's presentation.
+- **Styling lives in CSS Modules only — never in component code.** Every visual style (layout, spacing, colors, typography, sizing) is defined in a colocated `*.module.css` file imported as `styles` and applied via `className`. No inline `style` props and no Mantine visual style props (`mt=`, `p=`, `c=`, `bg=`, `fz=`, `w=` …) in ts/tsx — if it draws, it belongs in the module CSS. Only exceptions: the app-level Mantine theme token object in the provider, the single global stylesheet imported once at the app entry, and data-derived values passed as CSS custom properties (`style={{ '--bar-fill': value }}`) consumed by the module CSS.
+- No business logic duplicated from the backend — the API is the source of truth; derive in React only what is presentation.
 
 ## Testing rules
 
