@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Tooling caches
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+
+# Data & artifacts (fetch scripts reproduce these)
+data/
+eval/golden/**/raw/
+eval/reports/**/artifacts/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Frontend (added in Phase 3)
+node_modules/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
