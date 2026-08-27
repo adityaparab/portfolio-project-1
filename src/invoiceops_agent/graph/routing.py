@@ -1,15 +1,14 @@
 """Pure routing functions — table-driven unit-testable (ARCHITECTURE §3).
 
 These are the only place edge decisions live; nodes never decide routes.
-The confidence threshold τ is a placeholder constant until the versioned
-gate config arrives with issue #26.
+tau comes from the versioned gate config (#26) — one source of truth,
+tunable via eval sweep in Phase 5.
 """
 
 from typing import Any
 
 from invoiceops_agent.graph.state import GraphState
-
-TAU = 0.85
+from invoiceops_agent.tools import gate_config
 
 
 def route_after_ingest(state: GraphState) -> str:
@@ -38,9 +37,9 @@ def route_after_policy(state: GraphState) -> str:
 
 
 def route_after_gate(state: GraphState) -> str:
-    """Abstention rule (ADR 0003): below τ ALWAYS triage; conf == τ is AUTO."""
+    """Abstention rule (ADR 0003): below tau ALWAYS triage; conf == tau is AUTO."""
     conf = state.confidence
-    if conf is None or conf < TAU:
+    if conf is None or conf < gate_config.TAU:
         return "exception_triage"
     return "auto_approve"
 
