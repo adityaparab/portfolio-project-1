@@ -14,7 +14,8 @@ COPY pyproject.toml uv.lock ./
 RUN uv sync --locked --no-dev --no-install-project
 
 COPY src ./src
-COPY README.md ./
+COPY migrations ./migrations
+COPY alembic.ini README.md ./
 RUN uv sync --locked --no-dev
 
 RUN useradd --create-home --uid 10001 invoiceops

@@ -25,7 +25,9 @@ def app() -> FastAPI:
 
 @pytest.fixture
 def client(app: FastAPI) -> AsyncClient:
-    return AsyncClient(transport=ASGITransport(app=app, raise_app_exceptions=False), base_url="http://test")
+    return AsyncClient(
+        transport=ASGITransport(app=app, raise_app_exceptions=False), base_url="http://test"
+    )
 
 
 @pytest.mark.asyncio

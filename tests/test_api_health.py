@@ -32,7 +32,9 @@ def client(monkeypatch: pytest.MonkeyPatch) -> AsyncClient:
     app = create_app(Settings())
     monkeypatch.setattr(health, "check_postgres", _ok_postgres)
     monkeypatch.setattr(health, "check_http", _ok_http)
-    return AsyncClient(transport=ASGITransport(app=app, raise_app_exceptions=False), base_url="http://test")
+    return AsyncClient(
+        transport=ASGITransport(app=app, raise_app_exceptions=False), base_url="http://test"
+    )
 
 
 @pytest.mark.asyncio
@@ -62,7 +64,9 @@ async def test_readyz_degraded_returns_503(monkeypatch: pytest.MonkeyPatch) -> N
     app = create_app(Settings())
     monkeypatch.setattr(health, "check_postgres", bad_postgres)
     monkeypatch.setattr(health, "check_http", _ok_http)
-    client = AsyncClient(transport=ASGITransport(app=app, raise_app_exceptions=False), base_url="http://test")
+    client = AsyncClient(
+        transport=ASGITransport(app=app, raise_app_exceptions=False), base_url="http://test"
+    )
 
     resp = await client.get("/readyz")
     assert resp.status_code == 503
