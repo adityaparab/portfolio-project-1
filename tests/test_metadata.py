@@ -18,6 +18,7 @@ def test_metadata_covers_all_spec_tables() -> None:
         "ledger",
         "exceptions",
         "decisions",
+        "dlq_entries",
     }
     assert expected == set(Base.metadata.tables.keys())
 

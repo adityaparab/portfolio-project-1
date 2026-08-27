@@ -387,8 +387,9 @@ def test_crashed_run_resumes_from_checkpoint_exactly_once(stack: dict[str, Any])
 
     out = run_case(stack, case)
     assert out["crashed"]
-    assert out["ledger_after_crash"] == ["run.started"]  # ingest ran, extract did not
+    # ingest ran, extract did not — and the crash is recorded, never silent (#27)
+    assert out["ledger_after_crash"] == ["run.started", "run.failed"]
     assert out["route"] == "AUTO"
-    # Exactly-once: ingest did not re-run; the tail ran once.
-    assert out["ledger"] == EXPECTED_LEDGER
+    # Exactly-once: ingest did not re-run; the tail ran once (run.failed aside).
+    assert out["ledger"] == [*EXPECTED_LEDGER[:1], "run.failed", *EXPECTED_LEDGER[1:]]
     assert out["ledger"].count("run.started") == 1

@@ -17,6 +17,7 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
 from invoiceops_agent.graph import routing
+from invoiceops_agent.graph.retries import RetryPolicy, retrying
 from invoiceops_agent.graph.state import GraphState
 
 
@@ -46,25 +47,34 @@ class NodeSource(Protocol):
     def reject(self, state: GraphState) -> Any: ...
 
 
-def build_graph(nodes: NodeSource | None = None) -> StateGraph[GraphState]:
+def build_graph(
+    nodes: NodeSource | None = None, retry_policy: RetryPolicy | None = None
+) -> StateGraph[GraphState]:
+    """Assemble the topology. Real node sources get per-node INFRA-only
+    retries (#27); stubs stay bare (topology tests exercise no I/O)."""
+    wrap = retry_policy
     if nodes is None:  # topology-only default (tests/demo)
         from invoiceops_agent.graph.nodes import stubs
 
         nodes = stubs
+        wrap = None
+
+    def bound(name: str, fn: Any) -> Any:
+        return retrying(name, fn, wrap) if wrap is not None else fn
 
     g = StateGraph(GraphState)
 
-    g.add_node("ingest", nodes.ingest)
-    g.add_node("extract", nodes.extract)
-    g.add_node("validate", nodes.validate)
-    g.add_node("match3way", nodes.match3way)
-    g.add_node("policy", nodes.policy)
-    g.add_node("gate", nodes.gate)
-    g.add_node("auto_approve", nodes.auto_approve)
-    g.add_node("exception_triage", nodes.exception_triage)
-    g.add_node("human_review", nodes.human_review)
-    g.add_node("archive", nodes.archive)
-    g.add_node("reject", nodes.reject)
+    g.add_node("ingest", bound("ingest", nodes.ingest))
+    g.add_node("extract", bound("extract", nodes.extract))
+    g.add_node("validate", bound("validate", nodes.validate))
+    g.add_node("match3way", bound("match3way", nodes.match3way))
+    g.add_node("policy", bound("policy", nodes.policy))
+    g.add_node("gate", bound("gate", nodes.gate))
+    g.add_node("auto_approve", bound("auto_approve", nodes.auto_approve))
+    g.add_node("exception_triage", bound("exception_triage", nodes.exception_triage))
+    g.add_node("human_review", bound("human_review", nodes.human_review))
+    g.add_node("archive", bound("archive", nodes.archive))
+    g.add_node("reject", bound("reject", nodes.reject))
 
     g.add_edge(START, "ingest")
     g.add_conditional_edges(
@@ -103,7 +113,8 @@ def build_graph(nodes: NodeSource | None = None) -> StateGraph[GraphState]:
 def compile_graph(
     checkpointer: BaseCheckpointSaver[Any] | None = None,
     nodes: NodeSource | None = None,
+    retry_policy: RetryPolicy | None = None,
 ) -> CompiledStateGraph[GraphState, Any]:
     """Compiled graph; checkpointer injected by the runtime (Postgres in prod)."""
-    g = build_graph(nodes)
+    g = build_graph(nodes, retry_policy=retry_policy)
     return g.compile(checkpointer=checkpointer)
