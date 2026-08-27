@@ -12,6 +12,7 @@ from invoiceops_agent.api.errors import register_error_handlers
 from invoiceops_agent.api.health import router as health_router
 from invoiceops_agent.api.middleware import IdempotencyMiddleware, InMemoryIdempotencyStore
 from invoiceops_agent.api.routes.invoices import router as invoices_router
+from invoiceops_agent.api.routes.webhook import router as webhook_router
 from invoiceops_agent.api.services.ingest import IngestService
 from invoiceops_agent.api.settings import Settings
 from invoiceops_agent.obs.logging import configure_logging
@@ -58,6 +59,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     register_error_handlers(app)
     app.include_router(health_router)
     app.include_router(invoices_router)
+    app.include_router(webhook_router)
     return app
 
 

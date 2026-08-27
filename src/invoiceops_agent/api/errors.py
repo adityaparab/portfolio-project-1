@@ -62,7 +62,12 @@ def register_error_handlers(app: FastAPI) -> None:
             title="Validation error",
             detail="One or more request fields failed validation.",
             instance=str(request.url.path),
-            errors=exc.errors(),
+            # ctx/input can carry exception objects or raw bytes; keep the
+            # serializable subset only
+            errors=[
+                {"type": err.get("type"), "loc": list(err.get("loc", ())), "msg": err.get("msg")}
+                for err in exc.errors()
+            ],
         )
 
     @app.exception_handler(Exception)
