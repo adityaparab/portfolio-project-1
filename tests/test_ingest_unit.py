@@ -16,6 +16,7 @@ TOKEN = {"Authorization": "Bearer dev-service-token"}
 @dataclass
 class _FakeResult:
     accepted: InvoiceAccepted
+    duplicate: bool = False
 
 
 class _FakeIngestService:
