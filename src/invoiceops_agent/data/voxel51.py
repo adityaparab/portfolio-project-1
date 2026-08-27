@@ -47,11 +47,13 @@ def classify_quality_tier(width: int, height: int, contrast_std: float) -> str:
 
 def select_samples(samples: list[dict[str, Any]], count: int) -> list[dict[str, Any]]:
     """Deterministic subset: order by sha256(sample id), take first ``count``."""
+
     def key(sample: dict[str, Any]) -> str:
         sid = str(sample.get("_id", {}).get("$oid", sample.get("filepath", "")))
         return hashlib.sha256(sid.encode()).hexdigest()
 
     return sorted(samples, key=key)[:count]
+
 
 # Dataset card states no explicit license at time of writing; recorded in the
 # manifest and README. Usage here: local portfolio evaluation only.
@@ -135,14 +137,12 @@ def _image_stats(data: bytes) -> tuple[int, int, float]:
             from PIL import ImageStat
 
             std = float(ImageStat.Stat(img.convert("L")).stddev[0])
-        except Exception:  # noqa: BLE001 — stats are best-effort for tiering
+        except Exception:
             std = 0.0
     return width, height, std
 
 
-def build_manifest(
-    entries: list[dict[str, Any]], count_requested: int
-) -> dict[str, Any]:
+def build_manifest(entries: list[dict[str, Any]], count_requested: int) -> dict[str, Any]:
     return {
         "manifest_version": MANIFEST_VERSION,
         "source_repo": REPO_ID,
