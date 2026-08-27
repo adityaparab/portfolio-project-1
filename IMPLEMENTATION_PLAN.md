@@ -47,7 +47,7 @@
 
 **Exit criteria:** FastAPI + Postgres + LangGraph hello-path in Docker Compose; CI green.
 
-- [ ] 0.1 Restructure to `src/` layout per README §9; remove `hello.py`; pin dev tooling (ruff, mypy strict, pytest, pytest-asyncio) as uv dev-dependencies
+- [x] 0.1 Restructure to `src/` layout per README §9; remove `hello.py`; pin dev tooling (ruff, mypy strict, pytest, pytest-asyncio) as uv dev-dependencies
 - [ ] 0.2 Bump Python to 3.12 in `.python-version` and `pyproject.toml`
 - [ ] 0.3 Docker Compose stack: `api`, `postgres` (pgvector), `minio`, `litellm`; one-shot `seed` service placeholder; `langfuse` + `grafana`/`prometheus` deferred to Phase 4
 - [ ] 0.4 `deploy/litellm/config.yaml` with virtual aliases (`extract-vision`, `triage-reasoner`) mapped to dev (Ollama) / prod (OpenAI) models; API key handling via env
@@ -173,7 +173,7 @@ All steps are tracked as GitHub issues in `adityaparab/portfolio-project-1`, one
 
 | Phase | Status | Completed on | Notes |
 |---|---|---|---|
-| P0 — Platform skeleton | Not started | — | |
+| P0 — Platform skeleton | In progress | — | 1/10 steps done (issue #1, PR #58) |
 | P1 — Extraction & validation | Not started | — | |
 | P2 — Match + policy | Not started | — | |
 | P3 — HITL + triage + front end | Not started | — | |
