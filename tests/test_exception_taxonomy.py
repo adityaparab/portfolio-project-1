@@ -9,6 +9,7 @@ import pytest
 from invoiceops_agent.tools import matching, validation
 from invoiceops_agent.tools.exception_taxonomy import (
     CODE_PRECEDENCE,
+    EVAL_CODES,
     TAXONOMY,
     ExceptionCode,
     ExceptionSeverity,
@@ -37,7 +38,11 @@ EVALUATION_CODES = {
 
 
 def test_codes_match_evaluation_doc_exactly() -> None:
-    assert {c.value for c in ExceptionCode} == EVALUATION_CODES
+    # The eval-label contract is exactly EVALUATION §2's ten codes...
+    assert {c.value for c in EVAL_CODES} == EVALUATION_CODES
+    # ...while the queue vocabulary carries one extra internal code (#24):
+    # approval-required is a human-approval need, not an injected anomaly.
+    assert set(ExceptionCode) - EVAL_CODES == {ExceptionCode.APPROVAL_REQUIRED}
 
 
 def test_every_code_has_metadata_and_metadata_is_consistent() -> None:
@@ -49,6 +54,8 @@ def test_every_code_has_metadata_and_metadata_is_consistent() -> None:
         assert meta.sla_hours > 0
     assert TAXONOMY[ExceptionCode.DUP_EXACT].severity is ExceptionSeverity.CRITICAL
     assert TAXONOMY[ExceptionCode.MATH_ERR].severity is ExceptionSeverity.MEDIUM
+    assert TAXONOMY[ExceptionCode.STALE_PO].severity is ExceptionSeverity.HIGH  # forces review
+    assert TAXONOMY[ExceptionCode.APPROVAL_REQUIRED].severity is ExceptionSeverity.HIGH
 
 
 def test_precedence_is_a_total_order_over_all_codes() -> None:

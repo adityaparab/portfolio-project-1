@@ -44,7 +44,10 @@ TAXONOMY_VERSION = "taxonomy@1"
 
 
 class ExceptionCode(StrEnum):
-    """EVALUATION §2 codes — names are eval labels; do not rename."""
+    """Queue vocabulary. ``EVAL_CODES`` is the eval-label contract — exactly
+    EVALUATION §2's ten anomaly codes (never rename those); APPROVAL_REQUIRED
+    is an internal queue type for spend-limit/approval-matrix breaches (#24):
+    a legitimate human-approval need, not an injected anomaly."""
 
     DUP_EXACT = "DUP_EXACT"
     DUP_NEAR = "DUP_NEAR"
@@ -56,6 +59,24 @@ class ExceptionCode(StrEnum):
     TAX_ERR = "TAX_ERR"
     MATH_ERR = "MATH_ERR"
     STALE_PO = "STALE_PO"
+    APPROVAL_REQUIRED = "APPROVAL_REQUIRED"
+
+
+#: Codes the eval harness treats as anomaly labels (EVALUATION §2 exactly).
+EVAL_CODES: frozenset[ExceptionCode] = frozenset(
+    {
+        ExceptionCode.DUP_EXACT,
+        ExceptionCode.DUP_NEAR,
+        ExceptionCode.PRICE_MM,
+        ExceptionCode.QTY_MM,
+        ExceptionCode.MISSING_PO,
+        ExceptionCode.BANK_CHANGE,
+        ExceptionCode.CCY_MM,
+        ExceptionCode.TAX_ERR,
+        ExceptionCode.MATH_ERR,
+        ExceptionCode.STALE_PO,
+    }
+)
 
 
 class ExceptionSeverity(StrEnum):
@@ -118,9 +139,15 @@ TAXONOMY: dict[ExceptionCode, TaxonomyMeta] = {
     ),
     ExceptionCode.STALE_PO: TaxonomyMeta(
         ExceptionCode.STALE_PO,
-        ExceptionSeverity.MEDIUM,
+        ExceptionSeverity.HIGH,  # paying against an expired/closed PO must force review
         "PO closed or ordered too long before the invoice",
-        48,
+        24,
+    ),
+    ExceptionCode.APPROVAL_REQUIRED: TaxonomyMeta(
+        ExceptionCode.APPROVAL_REQUIRED,
+        ExceptionSeverity.HIGH,
+        "Invoice requires human approval (spend limit / approval matrix)",
+        24,
     ),
     ExceptionCode.TAX_ERR: TaxonomyMeta(
         ExceptionCode.TAX_ERR,
@@ -145,8 +172,9 @@ CODE_PRECEDENCE: tuple[ExceptionCode, ...] = (
     ExceptionCode.MISSING_PO,
     ExceptionCode.PRICE_MM,
     ExceptionCode.QTY_MM,
-    ExceptionCode.CCY_MM,
+    ExceptionCode.APPROVAL_REQUIRED,
     ExceptionCode.STALE_PO,
+    ExceptionCode.CCY_MM,
     ExceptionCode.TAX_ERR,
     ExceptionCode.MATH_ERR,
 )
