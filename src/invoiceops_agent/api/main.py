@@ -35,8 +35,10 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     )
     from invoiceops_agent.api.services.decisions import DecisionService
     from invoiceops_agent.api.services.queue import QueueService
+    from invoiceops_agent.api.services.trace import TraceService
 
     app.state.queue_service = QueueService(app.state.session_factory)
+    app.state.trace_service = TraceService(app.state.session_factory)
     app.state.graph_runner = None
     app.state.decision_runner_provider = lambda: app.state.graph_runner
     app.state.graph_conn = None
@@ -87,8 +89,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(invoices_router)
     app.include_router(webhook_router)
     from invoiceops_agent.api.routes.exceptions import router as exceptions_router
+    from invoiceops_agent.api.routes.runs import router as runs_router
 
     app.include_router(exceptions_router)
+    app.include_router(runs_router)
     return app
 
 

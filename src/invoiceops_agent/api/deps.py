@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker, create_async
 from invoiceops_agent.api.services.decisions import DecisionService
 from invoiceops_agent.api.services.ingest import IngestService
 from invoiceops_agent.api.services.queue import QueueService
+from invoiceops_agent.api.services.trace import TraceService
 from invoiceops_agent.api.settings import Settings
 from invoiceops_agent.graph import runtime
 from invoiceops_agent.graph.checkpoint import open_saver
@@ -80,6 +81,13 @@ def get_decision_service(request: Request) -> DecisionService:
     service: DecisionService | None = getattr(request.app.state, "decision_service", None)
     if service is None:
         raise RuntimeError("decision_service not initialized on app.state")
+    return service
+
+
+def get_trace_service(request: Request) -> TraceService:
+    service: TraceService | None = getattr(request.app.state, "trace_service", None)
+    if service is None:
+        raise RuntimeError("trace_service not initialized on app.state")
     return service
 
 
