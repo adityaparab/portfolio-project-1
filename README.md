@@ -2,7 +2,7 @@
 
 **An agentic, human-in-the-loop invoice processing system for Source-to-Pay — built as a production-honest, scaled-down version of what an enterprise GenAI platform team ships at a bank.**
 
-> Portfolio Project 1 of 3 · Target roles: Citi Lead Python AI Principal Engineer / Gen AI Transformation Lead (Source-to-Pay) · Status: **Building** — platform skeleton + ingestion/extraction/eval baseline shipped (Phases 0–1 of [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md), 27/57 tracker issues closed)
+> Portfolio Project 1 of 3 · Target roles: Citi Lead Python AI Principal Engineer / Gen AI Transformation Lead (Source-to-Pay) · Status: **Building** — platform skeleton + ingestion/extraction/eval baseline shipped (Phases 0–1 of [`IMPLEMENTATION_PLAN.md`](IMPLEMENTATION_PLAN.md), 19/57 tracker issues closed)
 
 ---
 
