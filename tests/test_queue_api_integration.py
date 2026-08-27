@@ -247,6 +247,7 @@ def test_queue_and_detail_with_rbac(stack: dict[str, Any]) -> None:
     assert item["exception"]["type"] == "PRICE_MM"
     assert item["exception"]["sla_overdue_seconds"] is not None  # fixed clock vs. wall now
     assert item["run"]["route"] == "EXCEPTION"
+    assert item["run"]["status"] == "AWAITING_DECISION"  # HITL pause (#29)
 
     # server-side filters + pagination
     assert out["auto_only"]["total"] == 1
@@ -267,7 +268,7 @@ def test_queue_and_detail_with_rbac(stack: dict[str, Any]) -> None:
     assert analyst["match"]["outcome"] == "MISMATCH"
     assert any(f["code"] == "PRICE_MM" for f in analyst["match"]["findings"])
     assert analyst["gate"] is None  # mismatches route around the gate
-    assert analyst["ledger"]["entry_count"] == 6  # started..policy + exception + archive
+    assert analyst["ledger"]["entry_count"] == 5  # paused at triage: no policy/gate/archive
 
     # RBAC: analyst gets no version pins; audit does (provenance fields)
     analyst_entry = analyst["ledger"]["last_entries"][0]

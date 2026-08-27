@@ -33,10 +33,12 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         session_factory=app.state.session_factory,
         settings=settings,
     )
+    from invoiceops_agent.api.services.decisions import DecisionService
     from invoiceops_agent.api.services.queue import QueueService
 
     app.state.queue_service = QueueService(app.state.session_factory)
     app.state.graph_runner = None
+    app.state.decision_runner_provider = lambda: app.state.graph_runner
     app.state.graph_conn = None
     try:
         # Eager runner: pipeline executes right after ingest. A cold start
@@ -47,6 +49,9 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
         )
         app.state.graph_runner = runner
         app.state.graph_conn = conn
+        app.state.decision_service = DecisionService(
+            app.state.session_factory, runner_provider=app.state.decision_runner_provider
+        )
     except Exception:
         logger.exception("graph runner unavailable at startup — uploads queue without processing")
     try:
@@ -81,6 +86,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(health_router)
     app.include_router(invoices_router)
     app.include_router(webhook_router)
+    from invoiceops_agent.api.routes.exceptions import router as exceptions_router
+
+    app.include_router(exceptions_router)
     return app
 
 

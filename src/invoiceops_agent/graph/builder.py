@@ -114,7 +114,13 @@ def compile_graph(
     checkpointer: BaseCheckpointSaver[Any] | None = None,
     nodes: NodeSource | None = None,
     retry_policy: RetryPolicy | None = None,
+    interrupt_after: tuple[str, ...] = (),
 ) -> CompiledStateGraph[GraphState, Any]:
-    """Compiled graph; checkpointer injected by the runtime (Postgres in prod)."""
+    """Compiled graph; checkpointer injected by the runtime (Postgres in prod).
+
+    ``interrupt_after=("exception_triage",)`` is the HITL pause (#29): the
+    exception path stops for a human decision; the AUTO path never reaches
+    that node and runs to Archive uninterrupted.
+    """
     g = build_graph(nodes, retry_policy=retry_policy)
-    return g.compile(checkpointer=checkpointer)
+    return g.compile(checkpointer=checkpointer, interrupt_after=list(interrupt_after))

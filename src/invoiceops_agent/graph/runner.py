@@ -38,7 +38,10 @@ class GraphRunner:
         self._ctx = context
         self._dlq = DLQService()
         self._graph = compile_graph(
-            checkpointer=checkpointer, nodes=PipelineNodes(context), retry_policy=retry_policy
+            checkpointer=checkpointer,
+            nodes=PipelineNodes(context),
+            retry_policy=retry_policy,
+            interrupt_after=("exception_triage",),  # HITL pause (#29)
         )
 
     async def run_invoice(self, invoice_id: int) -> GraphState:
@@ -47,8 +50,11 @@ class GraphRunner:
 
         snapshot = await self._graph.aget_state(config)
         if snapshot.next:
-            # Unfinished business: crashed or paused mid-graph — continue
-            # from the last checkpoint; completed nodes do not re-run.
+            if self._paused_for_human(snapshot):
+                # Waiting on a HITL decision — only submit_decision() resumes.
+                return GraphState.model_validate(snapshot.values)
+            # Crashed mid-graph: continue from the last checkpoint; completed
+            # nodes do not re-run.
             logger.info(
                 "resuming invoice_id=%s from checkpoint (next=%s)", invoice_id, snapshot.next
             )
@@ -62,6 +68,17 @@ class GraphRunner:
     @staticmethod
     def thread(invoice_id: int) -> str:
         return f"invoice-{invoice_id}"
+
+    @staticmethod
+    def _paused_for_human(snapshot: Any) -> bool:
+        return any(getattr(task, "interrupts", ()) for task in getattr(snapshot, "tasks", ()))
+
+    async def submit_decision(self, invoice_id: int, decision: dict[str, Any]) -> GraphState:
+        """Record the human decision into the paused thread and resume it
+        through HumanReview -> Archive (issue #29)."""
+        config: RunnableConfig = {"configurable": {"thread_id": self.thread(invoice_id)}}
+        await self._graph.aupdate_state(config, {"human_decision": decision})
+        return await self._execute(None, config, invoice_id)
 
     async def state_for(self, invoice_id: int) -> GraphState | None:
         """Final (or last-good) checkpointed state — the read model for the
