@@ -55,8 +55,8 @@
 - [ ] 0.6 Alembic migrations for full schema (ARCHITECTURE §6): `vendors`, `purchase_orders`, `goods_receipts`, `invoices` (unique `content_hash`), `invoice_lines`, `runs`, `checkpoints`, `ledger`, `exceptions`, `decisions`
 - [ ] 0.7 Append-only enforcement on `ledger` + `decisions` (grants + triggers)
 - [ ] 0.8 LangGraph hello-path graph (stub nodes) with Postgres checkpointer, run end-to-end in Compose
-- [ ] 0.9 GitHub Actions CI: ruff → mypy → pytest, running against Compose (or testcontainers)
-- [ ] 0.10 Write ADRs 0001–0007 into `adr/` (decisions already made in docs; record them)
+- [x] 0.9 GitHub Actions CI: ruff → mypy → pytest, running against Compose (or testcontainers)
+- [x] 0.10 Write ADRs 0001–0007 into `adr/` (decisions already made in docs; record them)
 
 ## Phase 1 — Ingestion, Extraction, Validation (Weeks 2–3)
 
@@ -173,7 +173,7 @@ All steps are tracked as GitHub issues in `adityaparab/portfolio-project-1`, one
 
 | Phase | Status | Completed on | Notes |
 |---|---|---|---|
-| P0 — Platform skeleton | In progress | — | 2/10 steps done (#1 PR #58, #2 PR #59) |
+| P0 — Platform skeleton | In progress | — | 4/10 steps done (#1 #58, #2 #59, #9 #61, #10 #60) |
 | P1 — Extraction & validation | Not started | — | |
 | P2 — Match + policy | Not started | — | |
 | P3 — HITL + triage + front end | Not started | — | |
