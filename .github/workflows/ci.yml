@@ -1,0 +1,69 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    name: ruff (lint + format)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+
+  typecheck:
+    name: mypy --strict
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run mypy
+
+  unit:
+    name: pytest (unit)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - run: uv run pytest -m unit -v
+
+  # Integration (testcontainers) and eval-gate stages land with issues #25→#27
+  # and #50; kept here as a wired-but-empty scaffold. Exit code 5 = "no tests
+  # collected" and is treated as pass until the first integration test arrives.
+  integration:
+    name: pytest (integration — scaffold)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - run: uv sync --locked
+      - name: Run integration tests
+        run: |
+          set +e
+          uv run pytest -m integration -v
+          status=$?
+          if [ "$status" -eq 5 ]; then
+            echo "No integration tests collected yet — scaffold passes."
+            exit 0
+          fi
+          exit "$status"
