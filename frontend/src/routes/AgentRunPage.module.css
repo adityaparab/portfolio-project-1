@@ -16,75 +16,87 @@
   gap: var(--io-space-2);
 }
 
-.card {
+/* Master/detail: vertical stepper left, step output right. */
+.layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: var(--io-space-4);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.masterCard {
   background: var(--io-surface);
+  position: sticky;
+  top: var(--io-space-4);
+}
+
+.detailCard {
+  background: var(--io-surface);
+  min-height: 320px;
 }
 
 .cardTitle {
   margin-bottom: var(--io-space-3);
 }
 
-.steps {
-  display: flex;
-  flex-direction: column;
-  gap: var(--io-space-2);
+/* Mantine Stepper internals, themed through module classes only. */
+.stepper {
+  gap: var(--io-space-1);
 }
 
 .step {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--io-space-3);
-  padding: var(--io-space-2) var(--io-space-3);
-  border: 1px solid var(--io-border);
+  padding: var(--io-space-1) var(--io-space-2);
   border-radius: var(--io-radius);
-  background: var(--io-bg);
-  cursor: pointer;
-  font: inherit;
-  text-align: left;
-  color: inherit;
 }
 
 .step:hover {
-  border-color: var(--io-primary);
+  background: var(--io-bg);
 }
 
-.stepSelected {
-  border-color: var(--io-primary);
-  box-shadow: 0 0 0 2px var(--io-primary-soft);
-}
-
-.stepDone {
+.step[data-progress] {
   background: var(--io-ok-soft);
-  border-color: var(--io-ok);
-  border-style: solid;
 }
 
-.stepActive {
-  background: var(--io-ok-soft);
-  border-color: var(--io-ok);
+.stepIcon {
+  font-size: var(--io-font-size-s);
+  border-width: 1px;
 }
 
-.stepPending {
-  border-style: dashed;
-  color: var(--io-text-muted);
+/* Live indicator: the active step's icon pulses green. */
+.step[data-progress] .stepIcon {
+  animation: io-icon-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes io-icon-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--io-ok-soft);
+  }
+  50% {
+    box-shadow: 0 0 0 0.3rem var(--io-ok-soft);
+  }
 }
 
 .stepLabel {
-  display: flex;
+  font-weight: 600;
+}
+
+.stepLabelText {
+  display: inline-flex;
   align-items: center;
   gap: var(--io-space-2);
-  font-weight: 600;
-  font-size: var(--io-font-size-s);
 }
 
-.stepState {
-  font-family: var(--io-font-mono);
-  font-size: var(--io-font-size-s);
-  color: var(--io-text-muted);
+.separator {
+  background: var(--io-border);
 }
 
-/* Live indicator: a soft green pulse on the running stage. */
 .blinkDot {
   display: inline-block;
   width: 0.5rem;
