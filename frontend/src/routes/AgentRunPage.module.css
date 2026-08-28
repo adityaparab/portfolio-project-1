@@ -1,0 +1,138 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-4);
+}
+
+.controls {
+  gap: var(--io-space-3);
+}
+
+.runInput {
+  max-width: 180px;
+}
+
+.meta {
+  gap: var(--io-space-2);
+}
+
+.card {
+  background: var(--io-surface);
+}
+
+.cardTitle {
+  margin-bottom: var(--io-space-3);
+}
+
+.pipeline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--io-space-2);
+}
+
+.nodeCell {
+  display: inline-flex;
+}
+
+.nodeDone {
+  background: var(--io-primary);
+  color: var(--io-surface);
+  border-radius: var(--io-radius);
+  padding: var(--io-space-1) var(--io-space-3);
+  font-size: var(--io-font-size-s);
+  font-weight: 600;
+}
+
+.nodePending {
+  background: var(--io-bg);
+  color: var(--io-text-muted);
+  border: 1px dashed var(--io-border);
+  border-radius: var(--io-radius);
+  padding: var(--io-space-1) var(--io-space-3);
+  font-size: var(--io-font-size-s);
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-1);
+}
+
+.timelineRow {
+  display: flex;
+  align-items: center;
+  gap: var(--io-space-3);
+  padding: var(--io-space-1) var(--io-space-2);
+  border-bottom: 1px solid var(--io-border);
+}
+
+.timelineRow:last-child {
+  border-bottom: none;
+}
+
+.seq {
+  color: var(--io-text-muted);
+  font-family: var(--io-font-mono);
+  font-size: var(--io-font-size-s);
+  min-width: 3rem;
+}
+
+.eventName {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-font-size-s);
+}
+
+.timestamp {
+  margin-left: auto;
+  color: var(--io-text-muted);
+  font-family: var(--io-font-mono);
+  font-size: var(--io-font-size-s);
+}
+
+.muted {
+  color: var(--io-text-muted);
+}
+
+.error {
+  color: var(--io-danger);
+}
+
+.badgeOk {
+  background: var(--io-ok-soft);
+  color: var(--io-ok);
+}
+
+.badgeWarn {
+  background: var(--io-warning-soft);
+  color: var(--io-warning);
+}
+
+.badgeDown {
+  background: var(--io-danger-soft);
+  color: var(--io-danger);
+}
+
+.badgeRun {
+  background: var(--io-primary-soft);
+  color: var(--io-primary);
+}
+
+.badgeAgent {
+  background: var(--io-primary-soft);
+  color: var(--io-primary);
+}
+
+.badgeHuman {
+  background: var(--io-accent-soft);
+  color: var(--io-accent);
+}
+
+.badgePolicy {
+  background: var(--io-warning-soft);
+  color: var(--io-warning);
+}
+
+.badgeSystem {
+  background: var(--io-bg);
+  color: var(--io-text-muted);
+}

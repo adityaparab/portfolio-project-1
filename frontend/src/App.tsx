@@ -6,6 +6,7 @@ import { ExceptionQueuePage } from "~/routes/ExceptionQueuePage";
 import { ExceptionDetailPage } from "~/routes/ExceptionDetailPage";
 import { DashboardPage } from "~/routes/DashboardPage";
 import { IntakePage } from "~/routes/IntakePage";
+import { AgentRunPage } from "~/routes/AgentRunPage";
 
 export default function App() {
   return (
@@ -15,10 +16,7 @@ export default function App() {
         <Route path="queue" element={<ExceptionQueuePage />} />
         <Route path="queue/:invoiceId" element={<ExceptionDetailPage />} />
         <Route path="intake" element={<IntakePage />} />
-        <Route
-          path="runs"
-          element={<ScreenPlaceholder title="Agent Run" issue="#36 (3.8)" />}
-        />
+        <Route path="runs" element={<AgentRunPage />} />
         <Route
           path="audit"
           element={<ScreenPlaceholder title="Audit & Trace" issue="#37 (3.9)" />}
