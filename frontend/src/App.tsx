@@ -4,15 +4,13 @@ import { ScreenPlaceholder } from "~/components/ScreenPlaceholder";
 import { StatusPage } from "~/routes/StatusPage";
 import { ExceptionQueuePage } from "~/routes/ExceptionQueuePage";
 import { ExceptionDetailPage } from "~/routes/ExceptionDetailPage";
+import { DashboardPage } from "~/routes/DashboardPage";
 
 export default function App() {
   return (
     <Routes>
       <Route element={<AppShell />}>
-        <Route
-          index
-          element={<ScreenPlaceholder title="Dashboard" issue="#33 (3.6)" />}
-        />
+        <Route index element={<DashboardPage />} />
         <Route path="queue" element={<ExceptionQueuePage />} />
         <Route path="queue/:invoiceId" element={<ExceptionDetailPage />} />
         <Route

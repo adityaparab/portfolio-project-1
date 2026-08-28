@@ -139,3 +139,34 @@ export const DecisionResponseSchema = z.object({
 });
 
 export type DecisionResponse = z.infer<typeof DecisionResponseSchema>;
+
+export const DayVolumeSchema = z.object({
+  day: z.string(),
+  total: z.number().int(),
+  auto_approved: z.number().int(),
+});
+
+export const ExceptionTypeCountSchema = z.object({
+  type: z.string(),
+  severity: z.string(),
+  open_count: z.number().int(),
+});
+
+export const DashboardSummarySchema = z.object({
+  generated_at: z.string(),
+  stp_rate: z.number().nullable(),
+  invoices_processed: z.number().int(),
+  invoices_auto_approved: z.number().int(),
+  exceptions_open: z.number().int(),
+  aging: z.object({
+    on_track: z.number().int(),
+    over_4h: z.number().int(),
+    over_24h: z.number().int(),
+  }),
+  volume_by_day: z.array(DayVolumeSchema),
+  exception_types: z.array(ExceptionTypeCountSchema),
+  cost_per_invoice: z.number().nullable(),
+  p95_latency_seconds: z.number().nullable(),
+});
+
+export type DashboardSummary = z.infer<typeof DashboardSummarySchema>;
