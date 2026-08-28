@@ -29,7 +29,7 @@ test("ingest a document through the UI and watch the pipeline audit it", async (
   await page.getByTestId("intake-submit").click();
 
   // Accepted: receipt row appears
-  await expect(page.getByText("ACCEPTED")).toBeVisible({ timeout: 20_000 });
+  await expect(page.getByText("ACCEPTED").first()).toBeVisible({ timeout: 20_000 });
   await expect(page.getByText(/invoice #\d+/).first()).toBeVisible();
 
   // Pipeline runs in the background; without a model backend the run lands
