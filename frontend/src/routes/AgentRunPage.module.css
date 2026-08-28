@@ -24,67 +24,158 @@
   margin-bottom: var(--io-space-3);
 }
 
-.pipeline {
+.steps {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: var(--io-space-2);
 }
 
-.nodeCell {
-  display: inline-flex;
-}
-
-.nodeDone {
-  background: var(--io-primary);
-  color: var(--io-surface);
-  border-radius: var(--io-radius);
-  padding: var(--io-space-1) var(--io-space-3);
-  font-size: var(--io-font-size-s);
-  font-weight: 600;
-}
-
-.nodePending {
-  background: var(--io-bg);
-  color: var(--io-text-muted);
-  border: 1px dashed var(--io-border);
-  border-radius: var(--io-radius);
-  padding: var(--io-space-1) var(--io-space-3);
-  font-size: var(--io-font-size-s);
-}
-
-.timeline {
-  display: flex;
-  flex-direction: column;
-  gap: var(--io-space-1);
-}
-
-.timelineRow {
+.step {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   gap: var(--io-space-3);
-  padding: var(--io-space-1) var(--io-space-2);
-  border-bottom: 1px solid var(--io-border);
+  padding: var(--io-space-2) var(--io-space-3);
+  border: 1px solid var(--io-border);
+  border-radius: var(--io-radius);
+  background: var(--io-bg);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  color: inherit;
 }
 
-.timelineRow:last-child {
-  border-bottom: none;
+.step:hover {
+  border-color: var(--io-primary);
 }
 
-.seq {
+.stepSelected {
+  border-color: var(--io-primary);
+  box-shadow: 0 0 0 2px var(--io-primary-soft);
+}
+
+.stepDone {
+  background: var(--io-ok-soft);
+  border-color: var(--io-ok);
+  border-style: solid;
+}
+
+.stepActive {
+  background: var(--io-ok-soft);
+  border-color: var(--io-ok);
+}
+
+.stepPending {
+  border-style: dashed;
   color: var(--io-text-muted);
+}
+
+.stepLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--io-space-2);
+  font-weight: 600;
+  font-size: var(--io-font-size-s);
+}
+
+.stepState {
   font-family: var(--io-font-mono);
   font-size: var(--io-font-size-s);
-  min-width: 3rem;
+  color: var(--io-text-muted);
 }
 
-.eventName {
+/* Live indicator: a soft green pulse on the running stage. */
+.blinkDot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--io-ok);
+  animation: io-blink 1.2s ease-in-out infinite;
+}
+
+@keyframes io-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.badgeLive {
+  background: var(--io-ok-soft);
+  color: var(--io-ok);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--io-space-2);
+}
+
+.detailHeader {
+  gap: var(--io-space-3);
+  margin-bottom: var(--io-space-3);
+}
+
+.running {
+  color: var(--io-ok);
+  font-weight: 500;
+}
+
+.modelCall {
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-2);
+  padding: var(--io-space-3);
+  border: 1px solid var(--io-border);
+  border-radius: var(--io-radius);
+  margin-bottom: var(--io-space-3);
+}
+
+.callMeta {
+  gap: var(--io-space-2);
+}
+
+.badgeModel {
+  background: var(--io-primary-soft);
+  color: var(--io-primary);
+}
+
+.reasoning {
+  border: 1px dashed var(--io-border);
+  border-radius: var(--io-radius);
+  padding: var(--io-space-2);
+}
+
+.reasoningSummary {
+  cursor: pointer;
+  color: var(--io-text-muted);
+  font-size: var(--io-font-size-s);
+  margin-bottom: var(--io-space-1);
+}
+
+.outputLabel {
+  font-weight: 600;
+  font-size: var(--io-font-size-s);
+  margin-top: var(--io-space-1);
+}
+
+.callText {
+  display: block;
   font-family: var(--io-font-mono);
   font-size: var(--io-font-size-s);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--io-bg);
 }
 
-.timestamp {
-  margin-left: auto;
-  color: var(--io-text-muted);
+.ledgerBlock {
+  margin-top: var(--io-space-2);
+}
+
+.mono {
   font-family: var(--io-font-mono);
   font-size: var(--io-font-size-s);
 }
@@ -115,24 +206,4 @@
 .badgeRun {
   background: var(--io-primary-soft);
   color: var(--io-primary);
-}
-
-.badgeAgent {
-  background: var(--io-primary-soft);
-  color: var(--io-primary);
-}
-
-.badgeHuman {
-  background: var(--io-accent-soft);
-  color: var(--io-accent);
-}
-
-.badgePolicy {
-  background: var(--io-warning-soft);
-  color: var(--io-warning);
-}
-
-.badgeSystem {
-  background: var(--io-bg);
-  color: var(--io-text-muted);
 }

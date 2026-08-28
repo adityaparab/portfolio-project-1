@@ -174,6 +174,31 @@ class Decision(Base):
     created_at: Mapped[datetime] = mapped_column(default=utcnow)
 
 
+class ModelCall(Base):
+    """Audit trail of every LLM call: reasoning + output persisted for
+    revisit (issue: live model-output audit on the Agent Run screen).
+
+    APPEND-ONLY like ledger/decisions — an audit record of what a model
+    actually said, never edited after the fact. ``stage`` is the pipeline
+    node that triggered the call (extract / triage / policy-embed).
+    """
+
+    __tablename__ = "model_calls"
+
+    call_id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    run_id: Mapped[int | None] = mapped_column(ForeignKey("runs.run_id"), index=True)
+    invoice_id: Mapped[int | None] = mapped_column(ForeignKey("invoices.invoice_id"), index=True)
+    stage: Mapped[str] = mapped_column(String(32))
+    alias: Mapped[str] = mapped_column(String(64))
+    wire_model: Mapped[str] = mapped_column(String(128))
+    prompt_version: Mapped[str | None] = mapped_column(String(32))
+    status: Mapped[str] = mapped_column(String(16), default="COMPLETED")
+    reasoning_text: Mapped[str | None] = mapped_column(Text)  # thinking/reasoning_content
+    output_text: Mapped[str] = mapped_column(Text)  # final content
+    latency_ms: Mapped[int | None] = mapped_column()
+    created_at: Mapped[datetime] = mapped_column(default=utcnow)
+
+
 class DLQEntry(Base):
     """Dead-letter queue for failed runs (issue #27).
 

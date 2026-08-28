@@ -14,8 +14,9 @@ from datetime import UTC, datetime
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from invoiceops_agent.agents.extraction import ExtractionAgent
+from invoiceops_agent.agents.prompts import extract_invoice_v3, triage_exception_v2
 from invoiceops_agent.agents.triage import TriageAgent
-from invoiceops_agent.gateway_client import GatewayClient
+from invoiceops_agent.gateway_client.client import CallObserver, GatewayClient
 from invoiceops_agent.storage.minio import ObjectStore
 from invoiceops_agent.tools.near_dup import Embedder, GatewayEmbedder, NearDupService
 
@@ -46,6 +47,7 @@ def build_gateway(
     timeout_seconds: float = 120.0,
     infra_retries: int = 2,
     alias_model_map: dict[str, str] | None = None,
+    call_observer: CallObserver | None = None,
 ) -> GatewayClient:
     return GatewayClient(
         base_url=base_url,
@@ -54,6 +56,7 @@ def build_gateway(
         timeout_seconds=timeout_seconds,
         infra_retries=infra_retries,
         alias_model_map=alias_model_map or {},
+        call_observer=call_observer,
     )
 
 
@@ -71,6 +74,7 @@ def build_context(
     the deterministic :class:`~invoiceops_agent.tools.near_dup.HashEmbedder`.
     """
     near_dup = NearDupService(embedder or GatewayEmbedder(gateway))
+    gateway.attach_call_observer(build_model_call_observer(sessions))
     return NodeContext(
         sessions=sessions,
         store=store,
@@ -80,3 +84,17 @@ def build_context(
         near_dup=near_dup,
         clock=clock,
     )
+
+
+#: stage -> prompt version pinned on recorded model calls (agents own these).
+STAGE_PROMPT_VERSIONS = {
+    "extract": extract_invoice_v3.PROMPT_VERSION,
+    "triage": triage_exception_v2.PROMPT_VERSION,
+}
+
+
+def build_model_call_observer(sessions: async_sessionmaker[AsyncSession]) -> CallObserver:
+    """DB writer for the gateway audit hook (reasoning + output per call)."""
+    from invoiceops_agent.ledger.model_calls import build_observer
+
+    return build_observer(sessions, STAGE_PROMPT_VERSIONS)

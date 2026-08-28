@@ -17,7 +17,7 @@ import httpx
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
-from invoiceops_agent.agents.prompts import extract_invoice_v2 as extract_invoice
+from invoiceops_agent.agents.prompts import extract_invoice_v3 as extract_invoice
 from invoiceops_agent.gateway_client import GatewayClient
 from invoiceops_agent.ledger.api import ActorType, LedgerAppend, writer
 from invoiceops_agent.storage.content_type import sniff_content_type
@@ -60,11 +60,27 @@ class InvoiceExtraction(BaseModel):
     @field_validator("issue_date", "due_date")
     @classmethod
     def _iso_date(cls, value: str | None) -> str | None:
-        if value is None:
-            return value
+        if value is None or not value.strip():
+            return None  # models emit "" for absent dates
         from datetime import date
 
-        date.fromisoformat(value)  # raises on non-ISO
+        date.fromisoformat(value.strip())  # raises on non-ISO
+        return value.strip()
+
+    @field_validator(
+        "vendor_name",
+        "vendor_tax_id",
+        "invoice_number",
+        "po_number",
+        "currency",
+        "iban",
+        mode="before",
+    )
+    @classmethod
+    def _blank_to_none(cls, value: object) -> object:
+        # Vision models return "" (not null) for fields absent on the page.
+        if isinstance(value, str) and not value.strip():
+            return None
         return value
 
     def min_confidence(self) -> float:

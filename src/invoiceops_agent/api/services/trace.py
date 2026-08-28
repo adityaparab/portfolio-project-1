@@ -26,7 +26,12 @@ class TraceService:
     def __init__(self, sessions: async_sessionmaker[AsyncSession]) -> None:
         self._sessions = sessions
 
-    async def run_trace(self, run_id: int, node_trace_provider: Any = None) -> RunTrace | None:
+    async def run_trace(
+        self,
+        run_id: int,
+        node_trace_provider: Any = None,
+        stage_models: dict[str, Any] | None = None,
+    ) -> RunTrace | None:
         async with self._sessions() as session:
             run = await session.get(Run, run_id)
             if run is None:
@@ -44,9 +49,13 @@ class TraceService:
             )
 
         node_trace: list[str] = []
+        active_node: str | None = None
         if node_trace_provider is not None:
-            state = await node_trace_provider(run.invoice_id)
+            state, active = await node_trace_provider(run.invoice_id)
             node_trace = list(state.node_trace) if state else []
+            # Blink only while the run is truly executing — a paused
+            # (AWAITING_DECISION) or settled run has no live stage.
+            active_node = active if run.status == "RUNNING" else None
 
         return RunTrace(
             run_id=run.run_id,
@@ -56,6 +65,8 @@ class TraceService:
             confidence=float(run.confidence) if run.confidence is not None else None,
             graph_version=run.graph_version,
             node_trace=node_trace,
+            active_node=active_node,
+            stage_models=dict(stage_models) if stage_models else {},
             timeline=[_trace_event(e) for e in entries],
         )
 

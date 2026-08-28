@@ -2,6 +2,7 @@
 
 from typing import Any
 
+# stage -> {alias, wire_model}; prompt_versions carries stage -> prompt pin
 from pydantic import BaseModel, ConfigDict, Field
 
 
@@ -31,6 +32,8 @@ class RunTrace(BaseModel):
     confidence: float | None
     graph_version: str
     node_trace: list[str] = Field(default_factory=list)  # checkpointed node order
+    active_node: str | None = None  # executing / paused-before node (live)
+    stage_models: dict[str, Any] = Field(default_factory=dict)  # stage -> alias/wire_model
     timeline: list[TraceEvent] = Field(default_factory=list)
 
 

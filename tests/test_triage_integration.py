@@ -209,13 +209,13 @@ def test_triage_recommendation_persisted_with_version_pins(stack: dict[str, Any]
     assert rec["classification"] == "PRICE_MM"  # agrees with the deterministic code
     assert rec["abstained"] is False
     assert "10%" in rec["recommendation"]
-    assert rec["prompt_version"] == "triage@v1"
+    assert rec["prompt_version"] == "triage@v2"
 
     events = out["events"]
     triage_entries = [e for e in events if e[0] == "triage.completed"]
     assert len(triage_entries) == 1
     assert triage_entries[0][1] == "AGENT"  # actor type
-    assert triage_entries[0][2] == "triage@v1"  # prompt version pinned
+    assert triage_entries[0][2] == "triage@v2"  # prompt version pinned
     assert out["invoice_status"] == "EXCEPTION"
 
 

@@ -20,6 +20,8 @@ export const RunTraceSchema = z.object({
   confidence: z.number().nullable(),
   graph_version: z.string(),
   node_trace: z.array(z.string()),
+  active_node: z.string().nullable(),
+  stage_models: z.record(z.string(), z.unknown()),
   timeline: z.array(TraceEventSchema),
 });
 
@@ -43,4 +45,38 @@ export function useRunTrace(runId: number | null) {
       return RunTraceSchema.parse(data);
     },
   });
+}
+
+
+export const ModelCallSchema = z.object({
+  call_id: z.number().int(),
+  run_id: z.number().int().nullable(),
+  invoice_id: z.number().int().nullable(),
+  stage: z.string(),
+  alias: z.string(),
+  wire_model: z.string(),
+  prompt_version: z.string().nullable(),
+  status: z.string(),
+  reasoning_text: z.string().nullable(),
+  output_text: z.string(),
+  latency_ms: z.number().int().nullable(),
+  created_at: z.string(),
+});
+
+export type ModelCall = z.infer<typeof ModelCallSchema>;
+
+export function useModelCalls(runId: number | null, settled: boolean) {
+  return useQuery({
+    queryKey: ["runs", "model-calls", runId],
+    enabled: runId !== null,
+    refetchInterval: settled ? false : 2000,
+    queryFn: async (): Promise<ModelCall[]> => {
+      if (runId === null) throw new Error("no run");
+      const { data, response } = await api.GET("/v1/runs/{run_id}/model-calls", {
+        params: { path: { run_id: runId } },
+      });
+      if (!response.ok || !data) throw new Error(`model-calls HTTP ${response.status}`);
+      return z.array(ModelCallSchema).parse(data);
+    },
+  }).data;
 }

@@ -157,6 +157,27 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/runs/{run_id}/model-calls": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Run Model Calls
+         * @description Recorded LLM calls for a run — reasoning + output + model + versions
+         *     (the Agent Run step view's detail panel; append-only audit trail).
+         */
+        get: operations["run_model_calls_v1_runs__run_id__model_calls_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/v1/invoices/{invoice_id}/provenance": {
         parameters: {
             query?: never;
@@ -657,6 +678,12 @@ export interface components {
             graph_version: string;
             /** Node Trace */
             node_trace?: string[];
+            /** Active Node */
+            active_node?: string | null;
+            /** Stage Models */
+            stage_models?: {
+                [key: string]: unknown;
+            };
             /** Timeline */
             timeline?: components["schemas"]["TraceEvent"][];
         };
@@ -939,6 +966,39 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["RunTrace"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    run_model_calls_v1_runs__run_id__model_calls_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                run_id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        [key: string]: unknown;
+                    }[];
                 };
             };
             /** @description Validation Error */

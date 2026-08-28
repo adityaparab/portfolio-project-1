@@ -33,6 +33,7 @@ from invoiceops_agent.db.models import (
 from invoiceops_agent.graph.runtime import NodeContext
 from invoiceops_agent.graph.state import GraphState, Route
 from invoiceops_agent.ledger.api import ActorType, LedgerAppend, writer
+from invoiceops_agent.ledger.model_calls import ModelCallRef, model_call_context
 from invoiceops_agent.tools import (
     exception_taxonomy,
     matching,
@@ -115,13 +116,19 @@ class PipelineNodes:
 
     async def extract(self, state: GraphState) -> NodeResult:
         assert state.invoice_id is not None and state.run_db_id is not None
-        extraction = await self._ctx.extraction_agent.extract(
-            state.doc_ref or "",
-            None,  # sniff content type from the stored bytes
-            run_id=state.run_db_id,
-            invoice_id=state.invoice_id,
-            scenario=self._ctx.gateway_scenario,
+        token = model_call_context.set(
+            ModelCallRef(run_id=state.run_db_id, invoice_id=state.invoice_id, stage="extract")
         )
+        try:
+            extraction = await self._ctx.extraction_agent.extract(
+                state.doc_ref or "",
+                None,  # sniff content type from the stored bytes
+                run_id=state.run_db_id,
+                invoice_id=state.invoice_id,
+                scenario=self._ctx.gateway_scenario,
+            )
+        finally:
+            model_call_context.reset(token)
         return {
             "extraction": extraction.model_dump(mode="json"),
             "node_trace": [*state.node_trace, "extract"],
@@ -200,45 +207,51 @@ class PipelineNodes:
 
     async def policy(self, state: GraphState) -> NodeResult:
         extraction = _extraction(state)
-        async with self._ctx.sessions() as session:
-            po, _gr, vendor = await _load_po_triple(session, extraction.po_number)
-            near_dup_outcome = await self._ctx.near_dup.check_and_store(
-                session,
-                state.invoice_id or 0,
-                salient_text(extraction.model_dump(mode="json")),
-            )
-            report = policy.evaluate(
-                policy.PolicyContext(
-                    invoice=policy.InvoiceFacts(
-                        invoice_number=extraction.invoice_number,
-                        vendor_name=extraction.vendor_name,
-                        po_number=extraction.po_number,
-                        currency=extraction.currency,
-                        total_amount=extraction.total_amount,
-                        iban=extraction.iban,
-                        issue_date=_parse_date(extraction.issue_date),
-                    ),
-                    po=(
-                        policy.PoFacts(
-                            po_number=po.po_number, status=po.status, ordered_at=po.ordered_at
-                        )
-                        if po
-                        else None
-                    ),
-                    vendor=(
-                        policy.VendorFacts(
-                            name=vendor.name,
-                            iban=(vendor.bank_details or {}).get("iban"),
-                            is_active=vendor.is_active,
-                            risk_flags=tuple(vendor.risk_flags or ()),
-                        )
-                        if vendor
-                        else None
-                    ),
-                    near_dup_hits=tuple(near_dup_outcome.hits),
+        token = model_call_context.set(
+            ModelCallRef(run_id=state.run_db_id, invoice_id=state.invoice_id, stage="policy")
+        )
+        try:
+            async with self._ctx.sessions() as session:
+                po, _gr, vendor = await _load_po_triple(session, extraction.po_number)
+                near_dup_outcome = await self._ctx.near_dup.check_and_store(
+                    session,
+                    state.invoice_id or 0,
+                    salient_text(extraction.model_dump(mode="json")),
                 )
-            )
-            await session.commit()
+                report = policy.evaluate(
+                    policy.PolicyContext(
+                        invoice=policy.InvoiceFacts(
+                            invoice_number=extraction.invoice_number,
+                            vendor_name=extraction.vendor_name,
+                            po_number=extraction.po_number,
+                            currency=extraction.currency,
+                            total_amount=extraction.total_amount,
+                            iban=extraction.iban,
+                            issue_date=_parse_date(extraction.issue_date),
+                        ),
+                        po=(
+                            policy.PoFacts(
+                                po_number=po.po_number, status=po.status, ordered_at=po.ordered_at
+                            )
+                            if po
+                            else None
+                        ),
+                        vendor=(
+                            policy.VendorFacts(
+                                name=vendor.name,
+                                iban=(vendor.bank_details or {}).get("iban"),
+                                is_active=vendor.is_active,
+                                risk_flags=tuple(vendor.risk_flags or ()),
+                            )
+                            if vendor
+                            else None
+                        ),
+                        near_dup_hits=tuple(near_dup_outcome.hits),
+                    )
+                )
+                await session.commit()
+        finally:
+            model_call_context.reset(token)
         await self._ledger(
             state,
             ActorType.POLICY,
@@ -548,6 +561,9 @@ class PipelineNodes:
             match=state.match,
             exception_code=draft.code.value,
         )
+        token = model_call_context.set(
+            ModelCallRef(run_id=state.run_db_id, invoice_id=state.invoice_id, stage="triage")
+        )
         try:
             output = await agent.triage(evidence, scenario=self._ctx.gateway_scenario)
         except Exception:
@@ -555,6 +571,8 @@ class PipelineNodes:
                 "triage agent failed — basic package without recommendation", exc_info=True
             )
             return None, {"classification": None, "reason": "triage agent unavailable"}
+        finally:
+            model_call_context.reset(token)
         return output.as_exception_recommendation(), {
             "classification": output.classification,
             "confidence": output.confidence,

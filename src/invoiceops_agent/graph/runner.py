@@ -80,6 +80,27 @@ class GraphRunner:
         await self._graph.aupdate_state(config, {"human_decision": decision})
         return await self._execute(None, config, invoice_id)
 
+    async def activity(self, invoice_id: int) -> tuple[GraphState | None, str | None]:
+        """(last-good state, node currently executing or paused-before)."""
+        config: RunnableConfig = {"configurable": {"thread_id": self.thread(invoice_id)}}
+        try:
+            snapshot = await self._graph.aget_state(config)
+        except Exception:
+            logger.warning("activity unavailable for invoice_id=%s", invoice_id, exc_info=True)
+            return None, None
+        state = None
+        if snapshot.values:
+            try:
+                state = GraphState.model_validate(snapshot.values)
+            except Exception:
+                state = None
+        active = next(iter(snapshot.next), None) if snapshot.next else None
+        if active is not None and self._paused_for_human(snapshot):
+            # Paused at the HITL interrupt: nothing is executing — the run
+            # status (AWAITING_DECISION) says why. Blinking means RUNNING.
+            active = None
+        return state, active
+
     async def state_for(self, invoice_id: int) -> GraphState | None:
         """Final (or last-good) checkpointed state — the read model for the
         detail aggregate (#28). None when the thread has no checkpoints."""
