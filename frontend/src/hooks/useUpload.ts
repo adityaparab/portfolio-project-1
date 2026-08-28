@@ -3,6 +3,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { notifications } from "@mantine/notifications";
 import { z } from "zod";
+import { apiBaseUrl } from "~/api/client";
 
 export const UploadReceiptSchema = z.object({
   invoice_id: z.number().int(),
@@ -21,7 +22,7 @@ export function useUpload() {
     mutationFn: async (file: File): Promise<UploadReceipt> => {
       const body = new FormData();
       body.append("upload", file, file.name);
-      const response = await fetch("/api/v1/invoices", {
+      const response = await fetch(`${apiBaseUrl}/v1/invoices`, {
         method: "POST",
         headers: { Authorization: `Bearer ${SERVICE_TOKEN}` },
         body,

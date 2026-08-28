@@ -1,0 +1,15 @@
+# Keep the image build context lean — the UI stage npm-cis its own deps
+# and the python stage only needs the package sources.
+.git
+.venv
+**/__pycache__
+*.pyc
+.pytest_cache
+.ruff_cache
+.mypy_cache
+data
+frontend/node_modules
+frontend/dist
+frontend/playwright-report
+frontend/test-results
+frontend/scripts/openapi.json

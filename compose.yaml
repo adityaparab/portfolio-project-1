@@ -80,8 +80,9 @@ services:
   # e.g. one hosted on another machine on the LAN. deploy/litellm/ keeps the
   # alias configs if you ever need to run a proxy yourself (Phase 5 prod/eval).
 
-  # Front-end dev server (issue #31): Vite with the /api dev proxy aimed at
-  # the api service; source mounted, hot reload.
+  # OPTIONAL dev-only front end: Vite dev server with the /api proxy and
+  # hot reload. Production shape = the api image builds and serves the SPA
+  # itself on :8000 — `docker compose up -d --build api` is the full app.
   ui:
     image: node:24-alpine
     profiles: ["ui"]
