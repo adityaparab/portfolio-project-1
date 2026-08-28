@@ -19,6 +19,9 @@ services:
       # the host.docker.internal fallback covers a proxy on the docker host.
       INVOICEOPS_LITELLM_BASE_URL: ${INVOICEOPS_LITELLM_BASE_URL:-http://host.docker.internal:4000}
       INVOICEOPS_LITELLM_API_KEY: ${INVOICEOPS_LITELLM_API_KEY:-sk-local-dev}
+      # Alias -> wire-model map for proxies that do not define our virtual
+      # aliases (LAN/native setups); pass-through from .env.
+      INVOICEOPS_GATEWAY_MODEL_MAP_JSON: ${INVOICEOPS_GATEWAY_MODEL_MAP_JSON:-{}}
       INVOICEOPS_LOG_LEVEL: ${LOG_LEVEL:-INFO}
     extra_hosts:
       - "host.docker.internal:host-gateway"   # reach the native proxy on the host
