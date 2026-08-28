@@ -3,6 +3,7 @@
  * + output) or the pending status. Transport-mocked; no network. */
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { TestProviders } from "~/test/providers";
 import { AgentRunPage } from "./AgentRunPage";
 
@@ -63,14 +64,21 @@ function stub() {
   );
 }
 
-async function loadRun() {
+async function loadRun(initialEntry = "/runs") {
   render(
-    <TestProviders>
-      <AgentRunPage />
-    </TestProviders>,
+    <MemoryRouter initialEntries={[initialEntry]}>
+      <TestProviders>
+        <Routes>
+          <Route path="/runs" element={<AgentRunPage />} />
+          <Route path="/runs/:runId" element={<AgentRunPage />} />
+        </Routes>
+      </TestProviders>
+    </MemoryRouter>,
   );
   const user = userEvent.setup();
-  await user.type(screen.getByRole("textbox"), "5");
+  if (initialEntry === "/runs") {
+    await user.type(screen.getByRole("textbox"), "5");
+  }
   return user;
 }
 
@@ -105,6 +113,13 @@ describe("AgentRunPage (master/detail stepper)", () => {
     await user.click(screen.getByTestId("step-human_review"));
     expect(screen.getByTestId("detail-human_review")).toBeInTheDocument();
     expect(screen.getByText(/Not started on this run/)).toBeInTheDocument();
+  });
+
+  it("deep-links: /runs/5 seeds the run without manual input", async () => {
+    stub();
+    await loadRun("/runs/5");
+    expect(await screen.findByText("run #5")).toBeInTheDocument();
+    expect(screen.getByTestId("step-ingest")).toBeInTheDocument();
   });
 
   it("shows the run meta without a live badge when paused", async () => {

@@ -29,12 +29,11 @@ test("ingest a document through the UI and watch the pipeline audit it", async (
   });
   await page.getByTestId("intake-submit").click();
 
-  // Accepted: receipt row appears (unique bytes per run — exact-duplicate
-  // content is rejected by the content-hash dedupe)
-  await expect(page.getByText("ACCEPTED").first()).toBeVisible({ timeout: 20_000 });
-  const receipt = page.getByText(/invoice #\d+/).first();
-  await expect(receipt).toBeVisible();
-  const invoiceId = (await receipt.textContent())!.match(/#(\d+)/)![1];
+  // Accepted uploads navigate straight to the live run (unique bytes per
+  // run — exact-duplicate content would be rejected and stay on intake).
+  await page.waitForURL(/\/runs\/\d+/, { timeout: 20_000 });
+  expect(page.getByRole("heading", { name: "Agent Run" })).toBeVisible();
+  const runId = page.url().match(/\/runs\/(\d+)/)![1];
 
   // Regression (background-runner bug): the background graph MUST start —
   // run.started hits the ledger within seconds of upload, whatever the
@@ -42,19 +41,11 @@ test("ingest a document through the UI and watch the pipeline audit it", async (
   // Stuck at ingest.accepted only = broken wiring.
   const deadline = Date.now() + 60_000;
   let started = false;
-  let runId: string | null = null;
   while (Date.now() < deadline && !started) {
-    const detail = await page.request.get(`/v1/invoices/${invoiceId}`);
-    if (detail.ok()) {
-      const body = (await detail.json()) as { invoice?: { run?: { run_id?: number } | null } };
-      runId = body.invoice?.run?.run_id ? String(body.invoice.run.run_id) : null;
-      if (runId) {
-        const trace = await page.request.get(`/v1/runs/${runId}/trace`);
-        if (trace.ok()) {
-          const events = ((await trace.json()) as { timeline?: { event: string }[] }).timeline ?? [];
-          started = events.some((entry) => entry.event === "run.started");
-        }
-      }
+    const trace = await page.request.get(`/v1/runs/${runId}/trace`);
+    if (trace.ok()) {
+      const events = ((await trace.json()) as { timeline?: { event: string }[] }).timeline ?? [];
+      started = events.some((entry) => entry.event === "run.started");
     }
     if (!started) await page.waitForTimeout(2_000);
   }

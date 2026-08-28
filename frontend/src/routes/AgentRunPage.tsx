@@ -5,7 +5,8 @@
  * steps show the recorded reasoning + output from the model_calls audit
  * trail, non-LLM steps show their ledger payload; pending steps show status. */
 import { Badge, Card, Code, Group, NumberInput, Stepper, Text, Title } from "@mantine/core";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 import { useModelCalls, useRunTrace } from "~/hooks/useRunTrace";
 import type { ModelCall, RunTrace } from "~/hooks/useRunTrace";
 import classes from "./AgentRunPage.module.css";
@@ -34,8 +35,17 @@ const ALL_STEPS: StepDef[] = [
 type StepState = "done" | "active" | "pending";
 
 export function AgentRunPage() {
-  const [runIdInput, setRunIdInput] = useState<number | null>(null);
+  // Deep-linkable: /runs/:runId seeds the input (intake navigates here on
+  // upload); manual typing still works on the bare /runs route.
+  const { runId } = useParams();
+  const [runIdInput, setRunIdInput] = useState<number | null>(
+    runId ? Number(runId) : null,
+  );
   const [selected, setSelected] = useState<string | null>(null);
+  useEffect(() => {
+    setRunIdInput(runId ? Number(runId) : null);
+    setSelected(null);
+  }, [runId]);
   const trace = useRunTrace(runIdInput);
   const data = trace.data;
   const settled = Boolean(
