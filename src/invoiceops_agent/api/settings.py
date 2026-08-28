@@ -61,6 +61,10 @@ class Settings(BaseSettings):
         "image/webp",
     ]
 
+    # Built UI (SPA) directory served at / by the api when present (#deploy):
+    # set by the Docker image; None disables serving (dev uses the ui service).
+    ui_dist: str | None = None
+
     # Graph node retries (issue #27): INFRA-only, exponential backoff + jitter
     graph_retry_attempts: int = 3
     graph_retry_base_delay_seconds: float = 0.5

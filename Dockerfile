@@ -1,4 +1,15 @@
-# InvoiceOps API service — dev/production-shaped image.
+# InvoiceOps — single-image deploy: API + built SPA served on :8000.
+
+# UI build (issue: single-command deploy). VITE_API_BASE_URL="" bakes
+# same-origin calls (/v1/*) — the runtime api serves this SPA at /.
+FROM node:24-alpine AS ui
+WORKDIR /ui
+COPY frontend/package.json frontend/package-lock.json ./
+RUN npm ci
+COPY frontend ./
+ENV VITE_API_BASE_URL=""
+RUN npm run build
+
 FROM python:3.12-slim AS runtime
 
 COPY --from=ghcr.io/astral-sh/uv:0.5.9 /uv /uvx /bin/
@@ -18,6 +29,9 @@ COPY migrations ./migrations
 COPY eval ./eval
 COPY alembic.ini README.md ./
 RUN uv sync --locked --no-dev
+
+COPY --from=ui /ui/dist ./ui_dist
+ENV INVOICEOPS_UI_DIST=/app/ui_dist
 
 RUN useradd --create-home --uid 10001 invoiceops
 USER invoiceops

@@ -3,9 +3,11 @@
 import logging
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
+from pathlib import Path
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from sqlalchemy.ext.asyncio import async_sessionmaker
 
 from invoiceops_agent.api import deps
@@ -99,7 +101,45 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(runs_router)
     app.include_router(metrics_router)
     app.include_router(evals_router)
+
+    _mount_spa(app, Path(app.state.settings.ui_dist) if app.state.settings.ui_dist else None)
     return app
+
+
+def _mount_spa(app: FastAPI, dist: Path | None) -> None:
+    """Serve the built SPA at / with client-route fallback (single-port deploy).
+
+    Registered last: every API route (including /docs) keeps precedence.
+    Unknown non-API paths return index.html so React Router owns deep links;
+    hashed /assets get immutable caching, index.html stays no-cache so
+    deploys propagate. No directory when the UI isn't built (dev profile).
+    """
+    if dist is None or not (dist / "index.html").is_file():
+        return
+    root = dist.resolve()
+
+    @app.get("/{full_path:path}", include_in_schema=False)
+    async def spa(full_path: str) -> FileResponse:
+        if full_path.startswith("api/"):
+            # The SPA calls same-origin /v1/* in this mode; /api/* is the dev
+            # proxy prefix — surface a real 404 instead of HTML.
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Not an API path")
+        candidate = (root / full_path).resolve() if full_path else root / "index.html"
+        try:
+            candidate.relative_to(root)
+        except ValueError:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND) from None
+        if full_path and candidate.is_file():
+            immutable = full_path.startswith("assets/")
+            return FileResponse(
+                candidate,
+                headers={
+                    "Cache-Control": (
+                        "public, max-age=31536000, immutable" if immutable else "no-cache"
+                    )
+                },
+            )
+        return FileResponse(root / "index.html", headers={"Cache-Control": "no-cache"})
 
 
 app = create_app()

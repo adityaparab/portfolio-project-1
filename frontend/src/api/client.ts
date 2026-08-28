@@ -15,15 +15,19 @@ export function setApiIdentityHeaders(headers: Record<string, string>): void {
   identityHeaders = headers;
 }
 
-// Absolute base keeps the polyfilled Request happy under jsdom while the
-// same-origin path still flows through the dev proxy in browsers.
-const API_BASE =
-  typeof window !== "undefined" && window.location
-    ? new URL("/api", window.location.origin).href
-    : "/api";
+// API base: "/api" by default (the Vite dev proxy / compose ui service
+// proxy -> FastAPI). The Docker UI build sets VITE_API_BASE_URL="" so the
+// built app calls /v1/* same-origin on :8000 — the api serves the SPA.
+const RAW_BASE = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? "/api";
+export const apiBaseUrl =
+  RAW_BASE === ""
+    ? ""
+    : typeof window !== "undefined" && window.location
+      ? new URL(RAW_BASE, window.location.origin).href
+      : RAW_BASE;
 
 export const api = createClient<paths>({
-  baseUrl: API_BASE, // vite dev proxy / compose ui service proxy -> FastAPI
+  baseUrl: apiBaseUrl,
   fetch: (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
     const headers: Record<string, string> = {};
     if (input instanceof Request) {
