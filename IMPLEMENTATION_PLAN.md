@@ -173,10 +173,10 @@ All steps are tracked as GitHub issues in `adityaparab/portfolio-project-1`, one
 
 | Phase | Status | Completed on | Notes |
 |---|---|---|---|
-| P0 — Platform skeleton | In progress | — | 10/10 — COMPLETE (#8 PR #67) |
-| P1 — Extraction & validation | Not started | — | 9/9 — COMPLETE (#11–#19 PRs #69–#77) |
-| P2 — Match + policy | Not started | — | 8/8 — COMPLETE (#20–#27 PRs #78–#85); 2.7 done before 2.6 so the wired graph used the real gate |
-| P3 — HITL + triage + front end | Not started | — | Next: issues #28–#39 |
+| P0 — Platform skeleton | Complete | 2026-08-27 | 10/10 — COMPLETE (#8 PR #67) |
+| P1 — Extraction & validation | Complete | 2026-08-27 | 9/9 — COMPLETE (#11–#19 PRs #69–#77) |
+| P2 — Match + policy | Complete | 2026-08-27 | 8/8 — COMPLETE (#20–#27 PRs #78–#85); 2.7 done before 2.6 so the wired graph used the real gate |
+| P3 — HITL + triage + front end | Complete | 2026-08-28 | 12/12 — COMPLETE (#28–#39 PRs #86–#97 + LAN-proxy fix #98); API groundwork first (3.12 before screens), CSS-Modules standard locked before UI work |
 | P4 — Observability + gateway | Not started | — | Next: issues #40–#44 |
 | P5 — Eval harness + CI gate | Not started | — | |
 | P6 — ADK variant + ADR | Not started | — | |
