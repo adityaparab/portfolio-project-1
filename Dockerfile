@@ -15,6 +15,7 @@ RUN uv sync --locked --no-dev --no-install-project
 
 COPY src ./src
 COPY migrations ./migrations
+COPY eval ./eval
 COPY alembic.ini README.md ./
 RUN uv sync --locked --no-dev
 

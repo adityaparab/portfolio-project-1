@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
 import { AppShell } from "~/components/AppShell";
-import { ScreenPlaceholder } from "~/components/ScreenPlaceholder";
 import { StatusPage } from "~/routes/StatusPage";
 import { ExceptionQueuePage } from "~/routes/ExceptionQueuePage";
 import { ExceptionDetailPage } from "~/routes/ExceptionDetailPage";
@@ -8,6 +7,7 @@ import { DashboardPage } from "~/routes/DashboardPage";
 import { IntakePage } from "~/routes/IntakePage";
 import { AgentRunPage } from "~/routes/AgentRunPage";
 import { AuditPage } from "~/routes/AuditPage";
+import { EvalsPage } from "~/routes/EvalsPage";
 
 export default function App() {
   return (
@@ -19,10 +19,7 @@ export default function App() {
         <Route path="intake" element={<IntakePage />} />
         <Route path="runs" element={<AgentRunPage />} />
         <Route path="audit" element={<AuditPage />} />
-        <Route
-          path="evals"
-          element={<ScreenPlaceholder title="Evals" issue="#38 (3.10)" />}
-        />
+        <Route path="evals" element={<EvalsPage />} />
         <Route path="status" element={<StatusPage />} />
       </Route>
     </Routes>
