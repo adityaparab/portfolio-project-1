@@ -178,6 +178,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/v1/metrics/summary": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Metrics Summary
+         * @description Dashboard aggregates, computed server-side (display-only upstream).
+         */
+        get: operations["metrics_summary_v1_metrics_summary_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -186,6 +206,40 @@ export interface components {
         Body_ingest_invoice_v1_invoices_post: {
             /** Upload */
             upload: string;
+        };
+        /** DashboardSummary */
+        DashboardSummary: {
+            /** Generated At */
+            generated_at: string;
+            /** Stp Rate */
+            stp_rate: number | null;
+            /** Invoices Processed */
+            invoices_processed: number;
+            /** Invoices Auto Approved */
+            invoices_auto_approved: number;
+            /** Exceptions Open */
+            exceptions_open: number;
+            /** Aging */
+            aging?: {
+                [key: string]: number;
+            };
+            /** Volume By Day */
+            volume_by_day?: components["schemas"]["DayVolume"][];
+            /** Exception Types */
+            exception_types?: components["schemas"]["ExceptionTypeCount"][];
+            /** Cost Per Invoice */
+            cost_per_invoice?: number | null;
+            /** P95 Latency Seconds */
+            p95_latency_seconds?: number | null;
+        };
+        /** DayVolume */
+        DayVolume: {
+            /** Day */
+            day: string;
+            /** Total */
+            total: number;
+            /** Auto Approved */
+            auto_approved: number;
         };
         /**
          * DecisionAction
@@ -243,6 +297,15 @@ export interface components {
             /** Received At */
             received_at: string;
             attachment: components["schemas"]["EmailAttachment"];
+        };
+        /** ExceptionTypeCount */
+        ExceptionTypeCount: {
+            /** Type */
+            type: string;
+            /** Severity */
+            severity: string;
+            /** Open Count */
+            open_count: number;
         };
         /** ExtractionLineView */
         ExtractionLineView: {
@@ -857,6 +920,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["ProvenancePackage"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    metrics_summary_v1_metrics_summary_get: {
+        parameters: {
+            query?: {
+                days?: number;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DashboardSummary"];
                 };
             };
             /** @description Validation Error */

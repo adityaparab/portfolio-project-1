@@ -7,6 +7,7 @@ import psycopg
 from fastapi import Request
 from sqlalchemy.ext.asyncio import AsyncEngine, async_sessionmaker, create_async_engine
 
+from invoiceops_agent.api.services.dashboard import DashboardService
 from invoiceops_agent.api.services.decisions import DecisionService
 from invoiceops_agent.api.services.ingest import IngestService
 from invoiceops_agent.api.services.queue import QueueService
@@ -81,6 +82,13 @@ def get_decision_service(request: Request) -> DecisionService:
     service: DecisionService | None = getattr(request.app.state, "decision_service", None)
     if service is None:
         raise RuntimeError("decision_service not initialized on app.state")
+    return service
+
+
+def get_dashboard_service(request: Request) -> DashboardService:
+    service: DashboardService | None = getattr(request.app.state, "dashboard_service", None)
+    if service is None:
+        raise RuntimeError("dashboard_service not initialized on app.state")
     return service
 
 
