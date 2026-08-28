@@ -23,5 +23,6 @@ export default defineConfig({
     globals: true,
     setupFiles: ["./src/test/setup.ts"],
     css: false, // modules are about class names, not computed styles, in tests
+    exclude: ["e2e/**", "node_modules/**", "dist/**"], // e2e belongs to Playwright
   },
 });

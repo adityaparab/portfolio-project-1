@@ -12,9 +12,12 @@ import type { Ready } from "~/api/schemas";
 import classes from "./StatusPage.module.css";
 
 async function fetchReady(): Promise<Ready> {
-  const { data, response } = await api.GET("/readyz");
-  if (!response.ok || !data) throw new Error(`readyz HTTP ${response.status}`);
-  return ReadySchema.parse(data);
+  const { data, error, response } = await api.GET("/readyz");
+  // 503 = degraded readiness: the checks ride in the body (openapi-fetch
+  // surfaces non-2xx bodies on `error`) — render them, don't fail the page.
+  const body: unknown = data ?? (response.status === 503 ? error : null);
+  if (!body) throw new Error(`readyz HTTP ${response.status}`);
+  return ReadySchema.parse(body);
 }
 
 export function StatusPage() {
