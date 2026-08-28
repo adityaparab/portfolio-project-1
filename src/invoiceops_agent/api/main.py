@@ -90,6 +90,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(health_router)
     app.include_router(invoices_router)
     app.include_router(webhook_router)
+    from invoiceops_agent.api.routes.evals import router as evals_router
     from invoiceops_agent.api.routes.exceptions import router as exceptions_router
     from invoiceops_agent.api.routes.metrics import router as metrics_router
     from invoiceops_agent.api.routes.runs import router as runs_router
@@ -97,6 +98,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(exceptions_router)
     app.include_router(runs_router)
     app.include_router(metrics_router)
+    app.include_router(evals_router)
     return app
 
 

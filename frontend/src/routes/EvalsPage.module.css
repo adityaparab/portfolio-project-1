@@ -1,0 +1,53 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-4);
+}
+
+.select {
+  max-width: 320px;
+}
+
+.meta {
+  gap: var(--io-space-2);
+}
+
+.card {
+  background: var(--io-surface);
+}
+
+.cardTitle {
+  margin-bottom: var(--io-space-3);
+}
+
+.mono {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-font-size-s);
+}
+
+.muted {
+  color: var(--io-text-muted);
+}
+
+.error {
+  color: var(--io-danger);
+}
+
+.chart {
+  width: 100%;
+}
+
+.badgeMeta {
+  background: var(--io-primary-soft);
+  color: var(--io-primary);
+}
+
+.badgeOk {
+  background: var(--io-ok-soft);
+  color: var(--io-ok);
+}
+
+.badgeDown {
+  background: var(--io-danger-soft);
+  color: var(--io-danger);
+}
