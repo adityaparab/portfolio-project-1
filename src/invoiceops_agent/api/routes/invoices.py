@@ -8,6 +8,7 @@ from fastapi import (
     APIRouter,
     BackgroundTasks,
     Depends,
+    FastAPI,
     Query,
     Request,
     Response,
@@ -33,13 +34,15 @@ Auth = Annotated[None, Depends(verify_service_token)]
 Queue = Annotated[QueueService, Depends(get_queue_service)]
 
 
-async def _run_pipeline(app: object, invoice_id: int) -> None:
+async def _run_pipeline(app: FastAPI, invoice_id: int) -> None:
     """Background execution of the graph for a freshly accepted invoice.
 
     Failures are logged, never propagated (the run stays resumable — DLQ and
-    replay semantics land with #27).
+    replay semantics land with #27). The runner hangs off ``app.state``
+    (set by the lifespan; None means the eager build failed and uploads
+    queue until a restart — visible as the ``pipeline`` readiness check).
     """
-    runner = getattr(app, "graph_runner", None)
+    runner: GraphRunner | None = getattr(app.state, "graph_runner", None)
     if runner is None:
         logger.warning("no graph runner — invoice %s queued unprocessed", invoice_id)
         return
