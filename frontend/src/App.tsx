@@ -7,6 +7,7 @@ import { ExceptionDetailPage } from "~/routes/ExceptionDetailPage";
 import { DashboardPage } from "~/routes/DashboardPage";
 import { IntakePage } from "~/routes/IntakePage";
 import { AgentRunPage } from "~/routes/AgentRunPage";
+import { AuditPage } from "~/routes/AuditPage";
 
 export default function App() {
   return (
@@ -17,10 +18,7 @@ export default function App() {
         <Route path="queue/:invoiceId" element={<ExceptionDetailPage />} />
         <Route path="intake" element={<IntakePage />} />
         <Route path="runs" element={<AgentRunPage />} />
-        <Route
-          path="audit"
-          element={<ScreenPlaceholder title="Audit & Trace" issue="#37 (3.9)" />}
-        />
+        <Route path="audit" element={<AuditPage />} />
         <Route
           path="evals"
           element={<ScreenPlaceholder title="Evals" issue="#38 (3.10)" />}
