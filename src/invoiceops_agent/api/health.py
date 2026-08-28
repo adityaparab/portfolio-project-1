@@ -74,10 +74,24 @@ async def healthz() -> dict[str, Any]:
     return {"status": "ok"}
 
 
+def check_pipeline(state: Any) -> DependencyCheck:
+    """The background graph runner must exist or uploads queue unprocessed
+    (eager build failure at startup) — readiness must say so."""
+    runner = getattr(state, "graph_runner", None)
+    if runner is None:
+        return DependencyCheck(
+            name="pipeline", ok=False, detail="graph runner not built — uploads queue unprocessed"
+        )
+    return DependencyCheck(name="pipeline", ok=True)
+
+
 @router.get("/readyz", tags=["ops"])
 async def readyz(request: Request) -> Any:
     """Readiness: dependencies reachable. 503 (with body) when degraded."""
     readiness = await _readiness(request.app.state.settings)
+    readiness.checks.append(check_pipeline(request.app.state))
+    if readiness.status == "ok" and any(not c.ok for c in readiness.checks):
+        readiness.status = "degraded"
     if readiness.status != "ok":
         logger.warning("readiness degraded: %s", readiness.model_dump())
         return _degraded_response(readiness)
