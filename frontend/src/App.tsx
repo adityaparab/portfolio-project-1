@@ -18,6 +18,7 @@ export default function App() {
         <Route path="queue/:invoiceId" element={<ExceptionDetailPage />} />
         <Route path="intake" element={<IntakePage />} />
         <Route path="runs" element={<AgentRunPage />} />
+        <Route path="runs/:runId" element={<AgentRunPage />} />
         <Route path="audit" element={<AuditPage />} />
         <Route path="evals" element={<EvalsPage />} />
         <Route path="status" element={<StatusPage />} />

@@ -2,7 +2,7 @@
  * last uploads, tracked through the queue detail endpoint. */
 import { Alert, Badge, FileInput, Button, Card, Group, Progress, Text, Title } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "~/api/client";
 import { QueueItemSchema } from "~/api/schemas";
@@ -27,6 +27,7 @@ function loadReceipts(): Receipt[] {
 
 export function IntakePage() {
   const upload = useUpload();
+  const navigate = useNavigate();
   const [file, setFile] = useState<File | null>(null);
   const [receipts, setReceipts] = useState<Receipt[]>(loadReceipts);
 
@@ -37,7 +38,16 @@ export function IntakePage() {
   const submit = async () => {
     if (!file) return;
     const receipt = await upload.mutateAsync(file).catch(() => null);
-    if (receipt) setReceipts((prev) => [{ ...receipt, filename: file.name }, ...prev].slice(0, 8));
+    if (receipt) {
+      setReceipts((prev) => [{ ...receipt, filename: file.name }, ...prev].slice(0, 8));
+      if (!receipt.duplicate) {
+        // Straight to the live run — the pipeline is already executing.
+        setFile(null);
+        navigate(`/runs/${receipt.run_id}`);
+        return;
+      }
+      // Duplicates stay here: the REJECTED badge + toast explain why.
+    }
     setFile(null);
   };
 
