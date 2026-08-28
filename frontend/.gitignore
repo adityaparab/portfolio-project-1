@@ -2,3 +2,5 @@ node_modules/
 dist/
 scripts/openapi.json
 coverage/
+playwright-report/
+test-results/
