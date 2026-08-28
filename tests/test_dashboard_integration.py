@@ -149,7 +149,7 @@ def test_summary_reflects_processed_invoices(stack: dict[str, Any]) -> None:
                 app.router.lifespan_context(app),
                 httpx.AsyncClient(transport=transport, base_url="http://t") as client,
             ):
-                summary = (await client.get("/v1/metrics/summary")).json()
+                summary: dict[str, Any] = (await client.get("/v1/metrics/summary")).json()
             return summary
         finally:
             for conn in conns:
