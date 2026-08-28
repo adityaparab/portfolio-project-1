@@ -1,0 +1,71 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--io-space-4);
+  max-width: 720px;
+}
+
+.card {
+  background: var(--io-surface);
+}
+
+.cardTitle {
+  margin-bottom: var(--io-space-2);
+}
+
+.hint {
+  color: var(--io-text-muted);
+  font-size: var(--io-font-size-s);
+  margin-bottom: var(--io-space-3);
+}
+
+.uploadRow {
+  gap: var(--io-space-3);
+  align-items: flex-start;
+}
+
+.fileInput {
+  flex: 1;
+}
+
+.submit {
+  background: var(--io-primary);
+}
+
+.progress {
+  margin-top: var(--io-space-3);
+}
+
+.receiptRow {
+  justify-content: space-between;
+  gap: var(--io-space-3);
+  padding-block: var(--io-space-2);
+  border-bottom: 1px solid var(--io-border);
+}
+
+.receiptRow:last-child {
+  border-bottom: none;
+}
+
+.mono {
+  font-family: var(--io-font-mono);
+  font-size: var(--io-font-size-s);
+}
+
+.link {
+  color: var(--io-accent);
+}
+
+.badgeAccepted {
+  background: var(--io-ok-soft);
+  color: var(--io-ok);
+}
+
+.badgeRejected {
+  background: var(--io-danger-soft);
+  color: var(--io-danger);
+}
+
+.alert {
+  background: var(--io-danger-soft);
+}
