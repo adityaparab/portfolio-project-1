@@ -2,7 +2,7 @@
 
 > **Purpose:** Single source of truth for building the system described in `README.md`, `docs/ARCHITECTURE.md`, and `docs/EVALUATION.md`. Work through phases top-to-bottom; check off steps as they complete. Update the status tables at the bottom as phases finish.
 >
-> **Last updated:** 2026-08-27 (Phase 2 complete)
+> **Last updated:** 2026-08-28 (Phase 3 complete)
 
 ---
 
@@ -89,18 +89,18 @@
 
 **Exit criteria:** full-fledged React UI for all six screens; decisions in ledger; confidence gate tuned via eval.
 
-- [ ] 3.1 `GET /v1/invoices` queue listing with filters; `GET /v1/invoices/{id}` aggregate view (RBAC)
-- [ ] 3.2 `POST /v1/exceptions/{id}/decision` with four-eyes check
-- [ ] 3.3 Triage agent (via `triage-reasoner` alias): evidence gathering, exception classification, recommendation draft
-- [ ] 3.4 Front-end scaffold: Vite + React + TS app in `frontend/` with Mantine provider, TanStack Query, React Router, generated API client from FastAPI OpenAPI schema, persona switcher (RBAC), wired to Compose (`ui` service, dev proxy to API)
-- [ ] 3.5 **Screen — Exception Review (Maria):** queue (TanStack Table: filter/sort/priority/SLA aging), detail view with side-by-side 3-way match comparison (invoice ↔ PO ↔ GR), extracted-fields panel with per-field confidence, agent findings & recommendation, decision form (approve / return to vendor / escalate) with rationale + reason code and four-eyes flow via react-hook-form + Zod
-- [ ] 3.6 **Screen — Dashboard (Dan):** STP rate, volumes, aging exceptions, cost per invoice, exception-type breakdown (Recharts); drill-through to queue
-- [ ] 3.7 **Screen — Intake:** invoice upload with progress, ingestion status, duplicate/reject feedback
-- [ ] 3.8 **Screen — Agent Run:** live LangGraph progress per node (polling or SSE), state inspection
-- [ ] 3.9 **Screen — Audit/Trace & Provenance (Priya):** run trace (Mantine Timeline), full ledger view with actor/version pins, provenance export
-- [ ] 3.10 **Screen — Evals:** experiment-log view — versioned metric tables, per-anomaly confusion, τ sweep chart; reads `eval/reports/`
-- [ ] 3.11 Front-end testing: Vitest + React Testing Library on decision form and queue; Playwright smoke of the happy path in CI
-- [ ] 3.12 Provenance endpoints: `GET /v1/runs/{run_id}/trace`, `GET /v1/invoices/{id}/provenance`
+- [x] 3.1 `GET /v1/invoices` queue listing with filters; `GET /v1/invoices/{id}` aggregate view (RBAC)
+- [x] 3.2 `POST /v1/exceptions/{id}/decision` with four-eyes check
+- [x] 3.3 Triage agent (via `triage-reasoner` alias): evidence gathering, exception classification, recommendation draft
+- [x] 3.4 Front-end scaffold: Vite + React + TS app in `frontend/` with Mantine provider, TanStack Query, React Router, generated API client from FastAPI OpenAPI schema, persona switcher (RBAC), wired to Compose (`ui` service, dev proxy to API)
+- [x] 3.5 **Screen — Exception Review (Maria):** queue (TanStack Table: filter/sort/priority/SLA aging), detail view with side-by-side 3-way match comparison (invoice ↔ PO ↔ GR), extracted-fields panel with per-field confidence, agent findings & recommendation, decision form (approve / return to vendor / escalate) with rationale + reason code and four-eyes flow via react-hook-form + Zod
+- [x] 3.6 **Screen — Dashboard (Dan):** STP rate, volumes, aging exceptions, cost per invoice, exception-type breakdown (Recharts); drill-through to queue
+- [x] 3.7 **Screen — Intake:** invoice upload with progress, ingestion status, duplicate/reject feedback
+- [x] 3.8 **Screen — Agent Run:** live LangGraph progress per node (polling or SSE), state inspection
+- [x] 3.9 **Screen — Audit/Trace & Provenance (Priya):** run trace (Mantine Timeline), full ledger view with actor/version pins, provenance export
+- [x] 3.10 **Screen — Evals:** experiment-log view — versioned metric tables, per-anomaly confusion, τ sweep chart; reads `eval/reports/`
+- [x] 3.11 Front-end testing: Vitest + React Testing Library on decision form and queue; Playwright smoke of the happy path in CI
+- [x] 3.12 Provenance endpoints: `GET /v1/runs/{run_id}/trace`, `GET /v1/invoices/{id}/provenance`
 
 ## Phase 4 — Observability + Gateway Hardening (Week 6)
 
@@ -177,7 +177,7 @@ All steps are tracked as GitHub issues in `adityaparab/portfolio-project-1`, one
 | P1 — Extraction & validation | Not started | — | 9/9 — COMPLETE (#11–#19 PRs #69–#77) |
 | P2 — Match + policy | Not started | — | 8/8 — COMPLETE (#20–#27 PRs #78–#85); 2.7 done before 2.6 so the wired graph used the real gate |
 | P3 — HITL + triage + front end | Not started | — | Next: issues #28–#39 |
-| P4 — Observability + gateway | Not started | — | |
+| P4 — Observability + gateway | Not started | — | Next: issues #40–#44 |
 | P5 — Eval harness + CI gate | Not started | — | |
 | P6 — ADK variant + ADR | Not started | — | |
 | P7 — Polish | Not started | — | |
@@ -193,4 +193,5 @@ All steps are tracked as GitHub issues in `adityaparab/portfolio-project-1`, one
 | 2026-08-27 | Dev LLM backends moved to the developer's native LiteLLM proxy (glm-ocr, qwen38, compass-judger, nomic-embed); gateway base URL + key now env-driven via `.env`; compose-hosted proxy demoted to optional `--profile proxy`. |
 | 2026-08-27 | **Phase 1 complete** — issues #11–#19 via PRs #69–#77: upload + email-webhook ingestion, dedupe→Reject routing, ledger writer/reader, LiteLLM gateway client (live-verified against native proxy), extraction agent (extract@v1), deterministic validate node, Voxel51 corpus manifest, baseline F1 report. Two fixes en route: vision-aware budget estimator; `/data/` gitignore anchoring (untracked `src/invoiceops_agent/data/` broke CI). Next: Phase 2 (#20–#27). |
 | 2026-08-27 | **Phase 2 complete** — issues #20–#27 via PRs #78–#85 (2.7 gate landed before 2.6 wiring): seed-pinned synthetic ERP + Compose seed service (one clean-DB `docker compose run --rm seed`, verified live); deterministic 3-way matcher with versioned tolerance bands (hypothesis-tested boundaries); exception taxonomy (10 eval codes + internal APPROVAL_REQUIRED, total mapping, precedence); near-dup via pgvector (gateway + hashing-trick embedders, index-verified queries); policy engine (spend limits/approval matrix/stale-PO/bank-change/near-dup, rules-as-data); full graph wiring (ledger entry per node, checkpoint resume, `extract@v2` adds po_number, API background execution); composite confidence gate (w=0.4/0.4/0.2, τ=0.85 documented as untuned); INFRA-only retries + DLQ with checkpoint replay (exactly-once). Fixes en route: `uv run --no-sync` at runtime (rebuilt images broke boot on the root-owned editable install); graph no longer imports api.settings (boundary). Next: Phase 3 (#28–#39). |
+| 2026-08-28 | **Phase 3 complete** — issues #28–#39 via PRs #86–#97. API: queue + aggregate with persona RBAC (provenance pins audit-only); decision endpoint with four-eyes (claim-on-touch) + idempotent replay + graph pause/resume (interrupt after exception_triage, submit_decision resumes through HumanReview→Archive); triage agent (evidence package, taxonomy-restricted classification, dual abstention discipline, degraded basic package); trace + provenance endpoints (full history from two calls); dashboard aggregates endpoint. UI: Vite+React+TS-strict scaffold (generated OpenAPI client, persona headers, CSS Modules enforced by ESLint guards), six screens (Exception Review queue+workspace+four-eyes form, Dashboard KPIs+charts+drill-through, Intake upload+live status, Agent Run progress+ledger, Audit timeline+pins+export, Evals experiment log), 7 RTL tests + Playwright Compose smoke in CI (e2e job). Fixes en route: 503-degraded readyz rendering; claim persistence through refused decisions; match3way backfills the invoices read model. Next: Phase 4 (#40–#44).
 | 2026-08-28 | Frontend styling standard locked before UI work starts: **CSS Modules only** — no styling in component ts/tsx (no inline `style` props, no Mantine visual style props); one colocated `*.module.css` per component; global styles once at the app entry + Mantine theme tokens; data-driven values only via CSS custom properties. Recorded in `AGENTS.md` (Frontend standards) and `.agents/skills/frontend-react-mantine/SKILL.md` (Styling section + lint guards to land with the 3.4 scaffold). |
