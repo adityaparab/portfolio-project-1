@@ -100,12 +100,20 @@ services:
     build: .
     image: invoiceops-api:local
     profiles: ["seed"]
-    command:
+    # One-shot synthetic-ERP seeder (issue #20): migrate, then generate +
+    # load vendors/POs/GRs. Deterministic per seed; clean DB required.
+    # Volumes via appended args (last occurrence wins):
+    #   docker compose run --rm seed --pos 300
+    # or via env in .env: ERP_SEED / ERP_VENDORS / ERP_POS.
+    # ("$$@" renders as "$@" in the container — compose $ escaping.)
+    entrypoint:
       [
         "sh",
         "-c",
-        "uv run --no-sync --no-dev alembic upgrade head && uv run --no-sync --no-dev python -m invoiceops_agent.data.seed_erp --seed ${ERP_SEED:-42} --vendors ${ERP_VENDORS:-25} --pos ${ERP_POS:-75}",
+        "uv run --no-sync --no-dev alembic upgrade head && exec uv run --no-sync --no-dev python -m invoiceops_agent.data.seed_erp \"$$@\"",
+        "seed-cli",
       ]
+    command: ["--seed", "${ERP_SEED:-42}", "--vendors", "${ERP_VENDORS:-25}", "--pos", "${ERP_POS:-75}"]
     environment:
       INVOICEOPS_DATABASE_DSN: postgresql://invoiceops_app:invoiceops-app@postgres:5432/invoiceops
       INVOICEOPS_ALEMBIC_DSN: postgresql://invoiceops:invoiceops@postgres:5432/invoiceops
