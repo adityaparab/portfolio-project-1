@@ -1,9 +1,11 @@
-/** Agent Run (issue #36 + model-call audit): clickable step view — each
- * pipeline stage lights up as it completes, the ACTIVE stage blinks green,
- * and clicking a step shows its ledger payload plus the recorded LLM call
- * (model, prompt version, reasoning, output) or its pending/running state. */
-import { Badge, Card, Code, Group, NumberInput, Text, Title } from "@mantine/core";
-import { useState } from "react";
+/** Agent Run — master/detail: vertical Mantine Stepper (left) + step detail
+ * (right). The Stepper is CONTROLLED: progress derives from the run's
+ * checkpoint state (never from clicks); clicking a step only selects it for
+ * inspection. The active stage pulses green and names its wire model; LLM
+ * steps show the recorded reasoning + output from the model_calls audit
+ * trail, non-LLM steps show their ledger payload; pending steps show status. */
+import { Badge, Card, Code, Group, NumberInput, Stepper, Text, Title } from "@mantine/core";
+import { useMemo, useState } from "react";
 import { useModelCalls, useRunTrace } from "~/hooks/useRunTrace";
 import type { ModelCall, RunTrace } from "~/hooks/useRunTrace";
 import classes from "./AgentRunPage.module.css";
@@ -15,7 +17,7 @@ interface StepDef {
   llm: string | null; // stage key in model_calls / stage_models
 }
 
-const STEPS: StepDef[] = [
+const ALL_STEPS: StepDef[] = [
   { node: "ingest", label: "Ingest", event: "run.started", llm: null },
   { node: "extract", label: "Extract", event: "extract.completed", llm: "extract" },
   { node: "validate", label: "Validate", event: "validate.completed", llm: null },
@@ -40,8 +42,9 @@ export function AgentRunPage() {
     data && (data.status === "COMPLETED" || data.status === "REJECTED" || data.status === "FAILED"),
   );
   const modelCalls = useModelCalls(runIdInput, settled);
-  const reached = new Set(data?.node_trace ?? []);
+  const reached = useMemo(() => new Set(data?.node_trace ?? []), [data]);
   const activeNode = data?.active_node ?? null;
+  const running = data?.status === "RUNNING";
 
   const stepState = (node: string): StepState => {
     if (reached.has(node)) return "done";
@@ -49,17 +52,47 @@ export function AgentRunPage() {
     return "pending";
   };
 
-  // only show steps reachable on this run's path once we know where it's going
-  const visibleSteps = STEPS.filter(
-    (step) =>
-      stepState(step.node) !== "pending" ||
-      step.node === activeNode ||
-      step.node === "reject" ||
-      step.node === "archive" ||
-      step.node === "human_review" ||
-      (data?.route === "EXCEPTION" && step.node === "exception_triage") ||
-      reached.size < 3, // early run: show the standard chain
-  );
+  // Steps on this run's path, in canonical order — Mantine renders every
+  // step before `active` as completed, so the list must contain only steps
+  // this run actually executes (the branch resolves once the trace shows it).
+  const steps = useMemo<StepDef[]>(() => {
+    const hit = (node: string) => reached.has(node) || activeNode === node;
+    if (hit("reject")) return ALL_STEPS.filter((s) => s.node === "ingest" || s.node === "reject");
+    const prefix = ["ingest", "extract", "validate", "match3way", "policy", "gate"].filter(hit);
+    let tail: string[];
+    if (hit("exception_triage") || data?.route === "EXCEPTION") {
+      tail = ["exception_triage", "human_review", "archive"];
+    } else if (hit("auto_approve") || data?.route === "AUTO") {
+      tail = ["auto_approve", "archive"];
+    } else {
+      // pre-branch: both continuations stay pending (nothing after the
+      // branch point is completed yet, so Mantine's rendering stays true)
+      tail = ["exception_triage", "auto_approve", "human_review", "archive"];
+    }
+    const keep = new Set([...prefix, ...tail]);
+    return ALL_STEPS.filter((s) => keep.has(s.node));
+  }, [reached, activeNode, data?.route]);
+
+  // Controlled progress: the executing node while RUNNING; otherwise the
+  // last completed step on the path.
+  const progressIndex = useMemo(() => {
+    if (steps.length === 0) return 0;
+    if (running && activeNode) {
+      const i = steps.findIndex((s) => s.node === activeNode);
+      if (i >= 0) return i;
+    }
+    let last = 0;
+    steps.forEach((s, i) => {
+      if (reached.has(s.node)) last = i;
+    });
+    return last;
+  }, [steps, running, activeNode, reached]);
+
+  const stageModels = (data?.stage_models ?? {}) as Record<
+    string,
+    { alias?: string; wire_model?: string }
+  >;
+  const selectedStep = selected ? ALL_STEPS.find((s) => s.node === selected) : null;
 
   return (
     <div className={classes.page}>
@@ -78,14 +111,14 @@ export function AgentRunPage() {
         {data && (
           <Group className={classes.meta}>
             <Badge variant="outline">run #{data.run_id}</Badge>
-            <Badge variant="light" className={statusClass(data.status, classes)}>
+            <Badge variant="light" className={stateClass(data.status)}>
               {data.status}
             </Badge>
             {data.route && <Badge variant="light">{data.route}</Badge>}
             {data.confidence != null && (
               <Badge variant="outline">conf {data.confidence.toFixed(3)}</Badge>
             )}
-            {activeNode && (
+            {running && activeNode && (
               <Badge variant="light" className={classes.badgeLive} data-testid="active-badge">
                 <span className={classes.blinkDot} />
                 {activeNode}
@@ -101,47 +134,62 @@ export function AgentRunPage() {
       )}
 
       {data && (
-        <>
-          <Card className={classes.card} withBorder>
+        <div className={classes.layout}>
+          <Card className={classes.masterCard} withBorder>
             <Title order={4} className={classes.cardTitle}>
-              Pipeline steps — click for details
+              Pipeline
             </Title>
-            <div className={classes.steps} role="list">
-              {visibleSteps.map((step) => {
+            <Stepper
+              active={progressIndex}
+              onStepClick={(index) => setSelected(steps[index]?.node ?? null)}
+              orientation="vertical"
+              size="sm"
+              classNames={{
+                root: classes.stepper,
+                step: classes.step,
+                stepIcon: classes.stepIcon,
+                stepLabel: classes.stepLabel,
+                separator: classes.separator,
+              }}
+            >
+              {steps.map((step) => {
                 const state = stepState(step.node);
-                const calls = modelCallsFor(modelCalls, step.llm);
+                const model = step.llm ? stageModels[step.llm] : undefined;
                 return (
-                  <button
+                  <Stepper.Step
                     key={step.node}
-                    type="button"
-                    className={stepClass(state, selected === step.node, classes)}
-                    onClick={() => setSelected(step.node)}
+                    loading={state === "active"}
+                    label={
+                      <span className={classes.stepLabelText}>
+                        {state === "active" && <span className={classes.blinkDot} />}
+                        {step.label}
+                      </span>
+                    }
+                    description={
+                      state === "active"
+                        ? `running${model?.wire_model ? ` · ${model.wire_model}` : ""}`
+                        : (model?.wire_model ?? undefined)
+                    }
                     data-testid={`step-${step.node}`}
-                  >
-                    <span className={classes.stepLabel}>
-                      {state === "active" && <span className={classes.blinkDot} />}
-                      {step.label}
-                    </span>
-                    <span className={classes.stepState}>
-                      {state === "done" && (calls.length > 0 ? "✓ LLM" : "✓")}
-                      {state === "active" && "running"}
-                      {state === "pending" && "—"}
-                    </span>
-                  </button>
+                  />
                 );
               })}
-            </div>
+            </Stepper>
           </Card>
 
-          {selected && (
-            <StepDetail
-              step={STEPS.find((s) => s.node === selected)!}
-              state={stepState(selected)}
-              trace={data}
-              calls={modelCallsFor(modelCalls, STEPS.find((s) => s.node === selected)?.llm ?? null)}
-            />
-          )}
-        </>
+          <Card className={classes.detailCard} withBorder>
+            {selectedStep ? (
+              <StepDetail
+                step={selectedStep}
+                state={stepState(selectedStep.node)}
+                trace={data}
+                calls={(modelCalls ?? []).filter((c) => c.stage === selectedStep.llm)}
+              />
+            ) : (
+              <Text className={classes.muted}>Select a step to inspect its output.</Text>
+            )}
+          </Card>
+        </div>
       )}
     </div>
   );
@@ -159,17 +207,20 @@ function StepDetail({
   calls: ModelCall[];
 }) {
   const event = [...trace.timeline].reverse().find((e) => e.event === step.event);
-  const stageInfo = (trace.stage_models as Record<string, unknown> | undefined)?.[step.llm ?? ""];
-  const model = stageInfo as { alias?: string; wire_model?: string } | undefined;
+  const model = step.llm
+    ? ((trace.stage_models as Record<string, unknown>)[step.llm] as
+        | { alias?: string; wire_model?: string }
+        | undefined)
+    : undefined;
 
   return (
-    <Card className={classes.card} withBorder data-testid={`detail-${step.node}`}>
+    <div data-testid={`detail-${step.node}`}>
       <Group className={classes.detailHeader}>
         <Title order={4}>{step.label}</Title>
-        <Badge variant="light" className={stateClass(state === "done" ? "done" : state, classes)}>
+        <Badge variant="light" className={stateClass(state)}>
           {state === "done" ? "completed" : state}
         </Badge>
-        {state === "active" && step.llm && model?.wire_model && (
+        {state === "active" && model?.wire_model && (
           <Badge variant="light" className={classes.badgeLive}>
             <span className={classes.blinkDot} />
             {model.wire_model}
@@ -197,12 +248,8 @@ function StepDetail({
               {call.wire_model}
             </Badge>
             <Text className={classes.mono}>{call.alias}</Text>
-            {call.prompt_version && (
-              <Text className={classes.mono}>{call.prompt_version}</Text>
-            )}
-            {call.latency_ms != null && (
-              <Text className={classes.mono}>{call.latency_ms} ms</Text>
-            )}
+            {call.prompt_version && <Text className={classes.mono}>{call.prompt_version}</Text>}
+            {call.latency_ms != null && <Text className={classes.mono}>{call.latency_ms} ms</Text>}
           </Group>
           {call.reasoning_text && (
             <details className={classes.reasoning}>
@@ -227,48 +274,23 @@ function StepDetail({
           </Code>
         </div>
       )}
-    </Card>
+    </div>
   );
 }
 
-function modelCallsFor(calls: ModelCall[] | undefined, stage: string | null): ModelCall[] {
-  if (!calls || stage === null) return [];
-  return calls.filter((call) => call.stage === stage);
-}
-
-function stateClass(state: string, c: typeof classes): string {
+function stateClass(state: string): string {
   switch (state) {
-    case 'done':
-    case 'COMPLETED':
-      return c.badgeOk;
-    case 'active':
-    case 'RUNNING':
-      return c.badgeRun;
-    case 'AWAITING_DECISION':
-      return c.badgeWarn;
-    case 'FAILED':
-      return c.badgeDown;
-    default:
-      return c.badgeRun;
-  }
-}
-
-function statusClass(status: string, c: typeof classes): string {
-  switch (status) {
+    case "done":
     case "COMPLETED":
-      return c.badgeOk;
-    case "FAILED":
-      return c.badgeDown;
+      return classes.badgeOk;
+    case "active":
+    case "RUNNING":
+      return classes.badgeRun;
     case "AWAITING_DECISION":
-      return c.badgeWarn;
+      return classes.badgeWarn;
+    case "FAILED":
+      return classes.badgeDown;
     default:
-      return c.badgeRun;
+      return classes.badgeRun;
   }
-}
-
-function stepClass(state: StepState, selected: boolean, c: typeof classes): string {
-  const base = selected ? c.stepSelected : c.step;
-  const stateClass =
-    state === "done" ? c.stepDone : state === "active" ? c.stepActive : c.stepPending;
-  return `${base} ${stateClass}`;
 }
