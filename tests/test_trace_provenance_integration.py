@@ -229,7 +229,7 @@ def test_full_history_reconstructible_from_two_endpoints(stack: dict[str, Any]) 
     ]
     # version pins ride on the timeline
     triage_entry = next(e for e in trace["timeline"] if e["event"] == "triage.completed")
-    assert triage_entry["prompt_template_version"] == "triage@v1"
+    assert triage_entry["prompt_template_version"] == "triage@v2"
     assert triage_entry["actor_type"] == "AGENT"
 
     # --- provenance before the decision

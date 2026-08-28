@@ -130,3 +130,26 @@ def test_prompt_version_is_pinned_artifact() -> None:
     assert extract_invoice.PROMPT_VERSION == "extract@v1"
     assert "{filename}" in extract_invoice.USER_TEMPLATE
     assert "confidences" in extract_invoice.SYSTEM
+
+
+@pytest.mark.unit
+def test_blank_optional_fields_coerce_to_none() -> None:
+    """Vision models emit "" for absent fields — those must parse as None,
+    not fail date/schema validation (found live against glm-ocr)."""
+    parsed = InvoiceExtraction.model_validate(
+        {
+            "vendor_name": "Arnold Ltd",
+            "invoice_number": "INV-1",
+            "po_number": "",
+            "issue_date": "2026-09-01",
+            "due_date": "",
+            "currency": "EUR",
+            "total_amount": 10.0,
+            "iban": "",
+            "lines": [],
+        }
+    )
+    assert parsed.po_number is None
+    assert parsed.due_date is None
+    assert parsed.iban is None
+    assert parsed.issue_date == "2026-09-01"

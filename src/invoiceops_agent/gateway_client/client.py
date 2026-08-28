@@ -12,6 +12,7 @@ import json
 import logging
 import time
 from collections.abc import Awaitable, Callable
+from dataclasses import dataclass
 from typing import Any, TypeVar
 
 from openai import APIConnectionError, APIStatusError, APITimeoutError, AsyncOpenAI
@@ -32,6 +33,23 @@ logger = logging.getLogger(__name__)
 T = TypeVar("T", bound=BaseModel)
 
 TelemetryHook = Callable[[dict[str, Any]], Awaitable[None]]
+
+
+@dataclass(frozen=True)
+class ModelCallObservation:
+    """One completed model round-trip — the raw audit material (reasoning
+    + output + resolved model), handed to the observer without any DB
+    coupling. The observer owns persistence and must never raise into the
+    call path."""
+
+    alias: str
+    wire_model: str
+    content: str
+    reasoning: str | None
+    latency_ms: int
+
+
+CallObserver = Callable[[ModelCallObservation], Awaitable[None]]
 
 KNOWN_ALIASES = frozenset({"extract-vision", "triage-reasoner", "eval-judge", "embed"})
 
@@ -71,6 +89,7 @@ class GatewayClient:
         cassette_store: CassetteStore | None = None,
         cassette_mode: str = "off",  # off | record | replay
         telemetry_hook: TelemetryHook | None = None,
+        call_observer: CallObserver | None = None,
         alias_model_map: dict[str, str] | None = None,
     ) -> None:
         self._client = AsyncOpenAI(base_url=base_url, api_key=api_key, timeout=timeout_seconds)
@@ -81,6 +100,12 @@ class GatewayClient:
         self._cassettes = cassette_store
         self._cassette_mode = cassette_mode
         self._telemetry = telemetry_hook
+        self._observer = call_observer
+
+    def attach_call_observer(self, observer: CallObserver) -> None:
+        """Post-construction wiring (runtime owns DB sessions; the gateway
+        is built before them in some paths)."""
+        self._observer = observer
 
     async def complete(
         self,
@@ -157,6 +182,7 @@ class GatewayClient:
             values: list[float] = json.loads(raw)
             return values
         try:
+            started = time.perf_counter()
             response = await self._client.embeddings.create(
                 model=self._resolve(alias), input=guardrail.redacted_messages[0]["content"]
             )
@@ -167,6 +193,15 @@ class GatewayClient:
         vector = list(response.data[0].embedding)
         if self._cassette_mode == "record" and self._cassettes is not None:
             self._cassettes.save(alias, "embed-default", "n/a", json.dumps(vector))
+        await self._observe(
+            ModelCallObservation(
+                alias=alias,
+                wire_model=self._resolve(alias),
+                content=text,
+                reasoning=None,
+                latency_ms=int((time.perf_counter() - started) * 1000),
+            )
+        )
         await self._emit(alias, len(text) // 4, "embed")
         return vector
 
@@ -193,20 +228,40 @@ class GatewayClient:
                             alias,
                             scenario,
                         )
+                await self._observe(
+                    ModelCallObservation(
+                        alias=alias,
+                        wire_model=self._resolve(alias),
+                        content=content,
+                        reasoning=None,  # cassettes carry final content only
+                        latency_ms=0,
+                    )
+                )
                 return content
 
         last_exc: Exception | None = None
         for attempt in range(self._infra_retries + 1):
             try:
+                started = time.perf_counter()
                 response = await self._client.chat.completions.create(
                     model=self._resolve(alias),
                     messages=messages,  # type: ignore[arg-type]
                 )
-                raw = response.choices[0].message.content
+                message = response.choices[0].message
+                raw = message.content
                 if raw is None:
                     raise GatewayResponseError("model returned empty content", alias=alias)
                 if self._cassette_mode == "record" and self._cassettes is not None:
                     self._cassettes.save(alias, scenario or "default", request_hash, raw)
+                await self._observe(
+                    ModelCallObservation(
+                        alias=alias,
+                        wire_model=self._resolve(alias),
+                        content=raw,
+                        reasoning=_reasoning_of(message),
+                        latency_ms=int((time.perf_counter() - started) * 1000),
+                    )
+                )
                 return raw
             except (APIConnectionError, APITimeoutError) as exc:
                 last_exc = exc
@@ -254,6 +309,16 @@ class GatewayClient:
                 detail={"estimated": estimated, "budget": budget},
             )
 
+    async def _observe(self, observation: ModelCallObservation) -> None:
+        """Audit hook — persistence problems are logged, never propagated:
+        recording must not be able to fail a model call."""
+        if self._observer is None:
+            return
+        try:
+            await self._observer(observation)
+        except Exception:
+            logger.warning("model-call observer failed", exc_info=True)
+
     async def _emit(self, alias: str, tokens: int, kind: str) -> None:
         if self._telemetry is None:
             return
@@ -281,3 +346,14 @@ def _extract_json(content: str) -> str:
     if start != -1 and end > start:
         return text[start : end + 1]
     return text
+
+
+def _reasoning_of(message: Any) -> str | None:
+    """Reasoning/thinking content from OpenAI-compatible responses. Most
+    thinking models expose ``reasoning_content`` (DeepSeek/Qwen style);
+    some use ``reasoning``. Absent -> None."""
+    for attr in ("reasoning_content", "reasoning"):
+        value = getattr(message, attr, None)
+        if isinstance(value, str) and value.strip():
+            return value
+    return None

@@ -18,7 +18,7 @@ from typing import Any
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
-from invoiceops_agent.agents.prompts import triage_exception
+from invoiceops_agent.agents.prompts import triage_exception_v2 as triage_exception
 from invoiceops_agent.gateway_client import GatewayClient
 from invoiceops_agent.tools.exception_taxonomy import EVAL_CODES, TAXONOMY, ExceptionCode
 

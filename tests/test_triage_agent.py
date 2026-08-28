@@ -72,7 +72,7 @@ def test_price_mismatch_classifies_with_recommendation(tmp_path: Path) -> None:
     assert result.abstained is False
     assert "100.00" in result.recommendation
     rec = result.as_exception_recommendation()
-    assert rec["prompt_version"] == "triage@v1"
+    assert rec["prompt_version"] == "triage@v2"
     assert rec["suggested_action"] == "ESCALATE"
     assert rec["evidence_cited"] == ["PRICE_MM"]
 
