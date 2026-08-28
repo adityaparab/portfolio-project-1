@@ -14,10 +14,11 @@ services:
       INVOICEOPS_DATABASE_DSN: postgresql://invoiceops_app:invoiceops-app@postgres:5432/invoiceops
       INVOICEOPS_ALEMBIC_DSN: postgresql://invoiceops:invoiceops@postgres:5432/invoiceops
       INVOICEOPS_MINIO_BASE_URL: http://minio:9000
-      # Container context resolves the host's native proxy via host-gateway;
-      # host-run scripts use localhost (.env INVOICEOPS_LITELLM_BASE_URL).
-      INVOICEOPS_LITELLM_BASE_URL: ${API_LITELLM_BASE_URL:-http://host.docker.internal:4000}
-      INVOICEOPS_LITELLM_API_KEY: ${LITELLM_API_KEY:-sk-local-dev}
+      # LiteLLM proxy location comes straight from .env — one variable name
+      # for containers and host-run scripts. LAN example in .env.example;
+      # the host.docker.internal fallback covers a proxy on the docker host.
+      INVOICEOPS_LITELLM_BASE_URL: ${INVOICEOPS_LITELLM_BASE_URL:-http://host.docker.internal:4000}
+      INVOICEOPS_LITELLM_API_KEY: ${INVOICEOPS_LITELLM_API_KEY:-sk-local-dev}
       INVOICEOPS_LOG_LEVEL: ${LOG_LEVEL:-INFO}
     extra_hosts:
       - "host.docker.internal:host-gateway"   # reach the native proxy on the host
@@ -71,31 +72,10 @@ services:
       timeout: 3s
       retries: 5
 
-  # OPTIONAL self-hosted proxy — only needed without a native LiteLLM proxy.
-  # Dev default: the app talks to the native proxy directly (.env URL).
-  # Prod/eval: LITELLM_CONFIG=/etc/litellm/config.prod.yaml
-  litellm:
-    image: ghcr.io/berriai/litellm:main-stable
-    restart: unless-stopped
-    profiles: ["proxy"]
-    command: ["--config", "${LITELLM_CONFIG:-/etc/litellm/config.yaml}", "--port", "4000"]
-    environment:
-      LITELLM_MASTER_KEY: ${LITELLM_MASTER_KEY:-sk-local-dev}
-      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
-      NATIVE_PROXY_BASE_URL: ${NATIVE_PROXY_BASE_URL:-http://host.docker.internal:4000/v1}
-      LITELLM_API_KEY: ${LITELLM_API_KEY:-sk-local-dev}
-    extra_hosts:
-      - "host.docker.internal:host-gateway"   # dev Ollama on the host (Linux)
-    volumes:
-      - ./deploy/litellm:/etc/litellm:ro
-    ports:
-      - "4400:4000"   # host 4000 already in use (native LiteLLM); internal port unchanged
-    healthcheck:
-      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:4000/health/liveliness', timeout=2)"]
-      interval: 10s
-      timeout: 3s
-      retries: 10
-      start_period: 15s
+  # NOTE: no proxy service ships here — all model traffic goes to the
+  # external LiteLLM proxy configured via .env (INVOICEOPS_LITELLM_BASE_URL),
+  # e.g. one hosted on another machine on the LAN. deploy/litellm/ keeps the
+  # alias configs if you ever need to run a proxy yourself (Phase 5 prod/eval).
 
   # Front-end dev server (issue #31): Vite with the /api dev proxy aimed at
   # the api service; source mounted, hot reload.
