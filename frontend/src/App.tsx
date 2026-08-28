@@ -2,6 +2,8 @@ import { Route, Routes } from "react-router-dom";
 import { AppShell } from "~/components/AppShell";
 import { ScreenPlaceholder } from "~/components/ScreenPlaceholder";
 import { StatusPage } from "~/routes/StatusPage";
+import { ExceptionQueuePage } from "~/routes/ExceptionQueuePage";
+import { ExceptionDetailPage } from "~/routes/ExceptionDetailPage";
 
 export default function App() {
   return (
@@ -11,10 +13,8 @@ export default function App() {
           index
           element={<ScreenPlaceholder title="Dashboard" issue="#33 (3.6)" />}
         />
-        <Route
-          path="queue"
-          element={<ScreenPlaceholder title="Exception Review" issue="#32 (3.5)" />}
-        />
+        <Route path="queue" element={<ExceptionQueuePage />} />
+        <Route path="queue/:invoiceId" element={<ExceptionDetailPage />} />
         <Route
           path="intake"
           element={<ScreenPlaceholder title="Intake" issue="#34 (3.7)" />}
